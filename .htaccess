@@ -1,0 +1,7 @@
+RewriteEngine on
+
+RewriteRule ^aforgot-password/(.*)/(.*)$ admin/forgot-password.php?t=$1&it=$2 [NC,L,QSA]
+
+
+RewriteRule ^email/confirm/([a-zA-Z0-9_-]+)$ index.php?code=$1
+RewriteRule ^email/confirm/([a-zA-Z0-9_-]+)/$ index.php?code=$1

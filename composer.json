@@ -1,0 +1,13 @@
+{
+    "autoload":{
+        "psr-4":{
+         "App\\":"app/"   
+        
+        }
+    },
+    "require": {
+        "illuminate/database": "^5.4",
+        "mailgun/mailgun-php": "~1.7.1",
+        "illuminate/pagination": "^5.4"
+    }
+}

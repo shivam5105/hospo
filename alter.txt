@@ -1,0 +1,59 @@
+-- ----------------- 5th Sep, 2017 --------------------------
+ALTER TABLE  `pages` ADD  `template` VARCHAR( 255 ) NOT NULL AFTER  `status` ;
+
+-- ----------------- 7th Sep, 2017 ---------------------------
+
+CREATE TABLE IF NOT EXISTS `media` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) NOT NULL,
+  `createdon` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 ;
+
+
+CREATE TABLE IF NOT EXISTS `home_page` (
+  `title` varchar(255) NOT NULL,
+  `background_image_id` bigint(20) NOT NULL,
+  `updatedon` bigint(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT INTO `home_page` (`title`, `background_image_id`, `updatedon`) VALUES
+('Say hello to Hospo.', 1, 1504857099);
+
+CREATE TABLE IF NOT EXISTS `menus` (
+  `menu_location` varchar(255) NOT NULL,
+  `menu_heading` varchar(255) NOT NULL,
+  `menu_type` varchar(255) NOT NULL,
+  `menu_name` varchar(255) NOT NULL,
+  `menu_classes` varchar(255) NOT NULL,
+  `menu_target` int(1) NOT NULL,
+  `menu_url` varchar(255) NOT NULL,
+  `menu_page_id` bigint(20) NOT NULL,
+  `menu_table_name` varchar(255) NOT NULL,
+  `order_by` int(3) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `tab_details` (
+  `content_type` varchar(255) NOT NULL,
+  `heading` varchar(255) NOT NULL,
+  `sub_heading` varchar(255) NOT NULL,
+  `price` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `button_text` varchar(255) NOT NULL,
+  `button_link` varchar(255) NOT NULL,
+  `button_target` int(1) NOT NULL,
+  `updatedon` bigint(20) NOT NULL,
+  `createdon` bigint(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tab_details`
+--
+
+INSERT INTO `tab_details` (`content_type`, `heading`, `sub_heading`, `price`, `description`, `button_text`, `button_link`, `button_target`, `updatedon`, `createdon`) VALUES
+('Home Tab 1', 'Recruit', 'Hospitality recruitment made easy for Managers and Employees.', '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.', 'Launch Recruitment', 'http://www.google.com', 1, 1504857099, 1504790220),
+('Home Tab 2', 'Recruit', 'Hospitality recruitment made easy for Managers and Employees.', '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.', 'Launch Recruitment', 'http://www.google.com', 0, 1504857099, 1504790220),
+('Home Tab 3', 'Recruit', 'Hospitality recruitment made easy for Managers and Employees.', '', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.', 'Launch Recruitment', 'http://www.google.com', 0, 1504857099, 1504790220),
+('Home Tab 4', 'Manager', 'Free for employees. Sign up for free and create your profile so managers can search for people with your skills', '$ 280/yr', '', 'Launch Recruitment', 'http://www.google.com', 0, 1504857099, 1504790220),
+('Home Tab 5', 'Employee1', 'Free for employees. Sign up for free and create your profile so managers can search for people with your skills', 'free !', '', 'Launch Recruitment', 'http://www.google.com', 0, 1504857099, 1504790220),
+('Home Tab 6', 'Super Employee', 'Free for employees. Sign up for free and create your profile so managers can search for people with your skills', '$ 15/mo', '', 'Launch Recruitment', 'http://www.google.com', 0, 1504857099, 1504790220);
