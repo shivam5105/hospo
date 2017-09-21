@@ -8,7 +8,7 @@ if(strtolower(trim($_SERVER['SERVER_NAME'])) == 'localhost')
 else
 {
 	define("BASEURL", "http://".DOMAIN."/hospo");
-	define("BASEPATH", getenv("DOCUMENT_ROOT")."/hospo");
+	define("BASEPATH", "/home1/thelabel/public_html/hospo");
 }
 require_once("functions.php");
 

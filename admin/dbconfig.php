@@ -12,8 +12,8 @@ if(strtolower(trim($_SERVER['SERVER_NAME'])) == 'localhost')
 else
 {
 	define("BASEURL", "http://".DOMAIN."/hospo/admin");
-	define("BASEPATH", getenv("DOCUMENT_ROOT")."/hospo/admin");
-	define("SITEBASEPATH", getenv("DOCUMENT_ROOT")."/hospo");
+	define("BASEPATH", "/home1/thelabel/public_html/hospo/admin");
+	define("SITEBASEPATH", "/home1/thelabel/public_html/hospo");
 	define("SITEBASEURL", "http://".DOMAIN."/hospo");
 }
 $menu_locations = array(
@@ -26,8 +26,6 @@ $menu_locations = array(
 require_once("Zebra_Pagination.php");
 require_once("functions.php");
 require_once("editor/fckeditor.php");
-
-
 
 require_once SITEBASEPATH."/vendor/autoload.php";
 
