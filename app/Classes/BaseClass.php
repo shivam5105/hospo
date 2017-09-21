@@ -125,7 +125,7 @@ abstract class BaseClass {
     		$TotalRecords =$currentmodel->count();
 			$pagination->records($TotalRecords);
 			$pagination->records_per_page($records_per_page);
-			$modeldata=$currentmodel->limit($records_per_page)->offset(($pagination->get_page() - 1) * $records_per_page)->get();
+			$modeldata=$currentmodel->limit($records_per_page)->offset(($pagination->get_page() - 1) * $records_per_page)->orderBy('id', 'desc')->get();
 			$obj=new stdClass();
 			$obj->pagination=$pagination;
 			$obj->data=$modeldata;

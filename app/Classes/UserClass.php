@@ -14,6 +14,7 @@ use App\Classes\MailClass;
 use App\Models\Skills;
 use App\Models\LoginAttempts;
 use Paginator;
+use DB;
 class UserClass extends BaseClass {
 	
 	/**
@@ -1032,10 +1033,67 @@ class UserClass extends BaseClass {
 		return true;
 	}
 	public function allEmployees(){
-
 		$role=$this->roles->where('slug','=','employee')->first();
-		$usermodel=$this->model->where('role_id','=',$role->id);		
-		return $data=$this->pagination(1,$usermodel);
+
+		$usermodel=$this->model->where('role_id','=',$role->id);
+		if(isset($_GET['email']) && $_GET['email']!=''){
+			$usermode=$usermodel->where('email','LIKE','%'.$_GET['email'].'%');
+		}
+			if(isset($_GET['phone']) && $_GET['phone']!=''){
+			$usermode=$usermodel->where('phone','LIKE','%'.$_GET['phone'].'%');
+		}
+		if(isset($_GET['status']) && $_GET['status']!=''){ 
+			$usermode=$usermodel->where('status','=',$_GET['status']);
+		}	
+		if(isset($_GET['email_confirmed']) && $_GET['email_confirmed']!=''){ 
+			$usermode=$usermodel->where('email_confirmed','=',$_GET['email_confirmed']);
+		}
+		if(isset($_GET['year']) && $_GET['year']!=''){ 
+			$usermode=$usermodel->whereYear('create_date','=',$_GET['year']);
+		}	
+		if(isset($_GET['month']) && $_GET['month']!=''){ 
+			$usermode=$usermodel->whereMonth('create_date','=',$_GET['month']);
+		}	
+
+		$part_or_full=$_GET['part_or_full'];
+		$category=$_GET['category'];
+
+		$currently_looking_for_work=$_GET['currently_looking_for_work']; 
+		$current_status=$_GET['current_status'];
+
+        if(count($category)){
+			$usermodel=$usermodel->whereHas(
+			'EmployeeCategories', function($q) use($category){
+			    $q->whereIn('category_id',$category);
+			}
+			);
+
+		}
+		if($part_or_full!=''){
+		$usermodel=$usermodel->whereHas(
+		'userProfile', function($q) use($part_or_full){
+		    $q->where('part_or_full', '=',$part_or_full);
+		}
+		);
+
+		}
+		if($currently_looking_for_work!=''){
+		$usermodel=$usermodel->whereHas(
+		'userProfile', function($q) use($currently_looking_for_work){
+		    $q->where('currently_looking_for_work', '=',$currently_looking_for_work);
+		}
+		);
+
+		}
+		if($current_status!=''){
+		$usermodel=$usermodel->whereHas(
+		'userProfile', function($q) use($current_status){
+		    $q->where('current_status', '=',$current_status);
+		}
+		);
+
+		}		
+		return $data=$this->pagination(10,$usermodel);
 		
 		
 	}

@@ -3,6 +3,7 @@ include_once("dbconfig.php");
 loginCheck();
 $HighLightedTab = 3;
 $user=new App\Classes\UserClass();
+$categories=$user->categories();
 
 if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (int)$_GET['id'] > 0){
 	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) ? filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) : 0;
@@ -25,6 +26,223 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 	<?php include_once('header.php'); ?>
 	<div class="title-row">
 		<h1 class="title">Manage Employees</h1>
+	</div>
+	<div class="row fiterouter">
+		<div class="col-4"></div>
+		<div class="col-6">
+			<form action="" method="get" class="no-border filter">
+				
+					<select name="status" id="status" >
+					<option value="">Status</option>
+					<option value="1" <?php if(isset($_GET['status']) && $_GET['status']=='1'){ echo 'selected';} ?>>Active</option>
+					<option value="0" <?php if(isset($_GET['status']) && $_GET['status']=='0'){ echo 'selected';} ?>>In-Active</option>
+
+					</select>
+					<select name="email_confirmed" id="email_confirmed" >
+					<option value="">Email Verified</option>
+					<option value="1" <?php if(isset($_GET['email_confirmed']) && $_GET['email_confirmed']=='1'){ echo 'selected';} ?>>Yes</option>
+					<option value="0" <?php if(isset($_GET['email_confirmed']) && $_GET['email_confirmed']=='0'){ echo 'selected';} ?>>No</option>
+
+					</select>
+						<select class="form-control"  name="year" id="year">
+														<option value="">Select Year</option>
+
+						<?php 
+						$this_year = date("Y"); // Run this only once
+						for ($year = $this_year; $year >= $this_year - 10; $year--) {
+
+							 if(isset($_GET['year']) && $_GET['year']==$year){
+                               $select='selected';
+							 }else{
+                          $select='';
+
+							 }
+                          echo  '<option '.$select.'  value="' . $year . '">' . $year . '</option>';
+						}
+						?>
+
+					  </select>
+					  <select name="month" id="month"   class="form-control">
+							<option value="">Select month</option>
+							<?php
+							for ($m=1; $m<=12; $m++) {
+							$month = date('F', mktime(0,0,0,$m, 1, date('Y')));
+							 
+							 if(isset($_GET['month']) && $_GET['month']==$m){
+                               $select='selected';
+							 }else{
+                          $select='';
+
+							 }
+							echo "<option $select value='$m'>$month</option>";
+							}?>
+                   </select> 
+				<input type="submit" value="Search">
+			
+	</form>
+<a href="#" id="openpopup" >Advance  filters</a>
+<a href="employees.php">Reset filters</a>
+<!-- The Modal -->
+<div id="popup" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Advance Filters</h2>
+    </div>
+	<form action="" method="get" >
+    <div class="modal-body">
+		<div class="row">
+							<div class="col-6">
+							  <div class="field ">
+        <label for="title">Year</label>
+        <div class="field-element">
+    							<select class="form-control"  name="year" id="year">
+														<option value="">Select Year</option>
+
+						<?php 
+						$this_year = date("Y"); // Run this only once
+						for ($year = $this_year; $year >= $this_year - 10; $year--) {
+
+							 if(isset($_GET['year']) && $_GET['year']==$year){
+                               $select='selected';
+							 }else{
+                          $select='';
+
+							 }
+                          echo  '<option '.$select.'  value="' . $year . '">' . $year . '</option>';
+						}
+						?>
+
+					  </select>
+						</div></div>						</div>		
+							 <div class="col-6">
+							     <div class="field ">
+        <label for="email">Month</label>
+        <div class="field-element">
+    			  <select name="month" id="month"   class="form-control">
+							<option value="">Select month</option>
+							<?php
+							for ($m=1; $m<=12; $m++) {
+							$month = date('F', mktime(0,0,0,$m, 1, date('Y')));
+							 
+							 if(isset($_GET['month']) && $_GET['month']==$m){
+                               $select='selected';
+							 }else{
+                          $select='';
+
+							 }
+							echo "<option $select value='$m'>$month</option>";
+							}?>
+                   </select> 
+						</div></div>							</div>	
+</div>
+	<div class="row">
+							<div class="col-6">
+							  <div class="field ">
+        <label for="title">Status</label>
+        <div class="field-element">
+    								<select name="status" id="status" >
+					<option value="">--select--</option>
+					<option value="1" <?php if(isset($_GET['status']) && $_GET['status']=='1'){ echo 'selected';} ?>>Active</option>
+					<option value="0" <?php if(isset($_GET['status']) && $_GET['status']=='0'){ echo 'selected';} ?>>In-Active</option>
+
+					</select>
+						</div></div>						</div>		
+							 <div class="col-6">
+							     <div class="field ">
+        <label for="email">Email Verified</label>
+        <div class="field-element">
+    			<select name="email_confirmed" id="email_confirmed" >
+					<option value="">--select--</option>
+					<option value="1" <?php if(isset($_GET['email_confirmed']) && $_GET['email_confirmed']=='1'){ echo 'selected';} ?>>Yes</option>
+					<option value="0" <?php if(isset($_GET['email_confirmed']) && $_GET['email_confirmed']=='0'){ echo 'selected';} ?>>No</option>
+
+					</select>
+						</div></div>							</div>	
+</div>
+
+<div class="row">
+							<div class="col-6">
+							  <div class="field ">
+        <label for="title">Part-time or full-time?</label>
+        <div class="field-element">
+    								<select name="part_or_full" required="">
+		     				
+                                 <option  value="">--select--</option>
+                                 <option value="Part" selected="">Part-time</option>
+                                 <option value="Full">Full-time</option>
+                             </select>
+						</div></div>						</div>		
+							 <div class="col-6">
+							     <div class="field ">
+        <label for="email">CURRENTLY LOOKING FOR WORK?</label>
+        <div class="field-element">
+    			<select name="currently_looking_for_work">
+                                 <option  value="">--select--</option>
+								 								        <option value="1">Yes</option>
+
+								 								        <option value="0">No</option>
+
+								                              </select>
+						</div></div>							</div>	
+</div>
+	   <div class="row">
+							<div class="col-6">
+							  <div class="field ">
+        <label for="title">Job Categories</label>
+        <div class="field-element">
+    								<select name="category[]" class="multiple" multiple required="">
+		     				
+                                 <option selected="" disabled="" hidden="" value="">select..</option>
+								 				<?php foreach($categories as $category){ ?>
+
+                                 <option value="<?=$category->id;?>" ><?=$category->name;?></option>
+												<?php } ?>
+							 </select>
+						</div></div>						</div>		
+							 <div class="col-6">
+							     <div class="field ">
+      <label for="email">Job status</label>
+        <div class="field-element">
+    			<select name="current_status">
+                                 <option value="">--select--</option>
+								 								        <option value="Employed">Employed</option>
+
+								 								        <option value="Unemployed" >Unemployed</option>
+								 								        <option value="Studying" >Studying</option>
+
+								                              </select>
+						</div>
+	
+	</div>							</div>	
+</div>
+
+   <div class="row">
+							<div class="col-6">
+							    <div class="field ">
+        <label for="phone">Phone</label>
+        <div class="field-element">
+    							<input type="text" name="phone" id="phone"  pattern="^[0-9]{9,}" title="Invalid Input">
+						</div></div>							</div>		
+							 <div class="col-6">
+							     <div class="field ">
+        <label for="email">Email</label>
+        <div class="field-element">
+    					<input type="email" name="email" id="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+						</div></div>							</div>	
+</div>
+    </div>
+     <div class="modal-footer">
+     				<input type="submit" value="Search">
+
+    </div>
+	</form>
+  </div>
+
+</div>
+</div>
 	</div>
 	<?php
     $allemployees=$user->allEmployees();
@@ -91,3 +309,4 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 	<?php include_once('footer.php'); ?>
 </body>
 </html>
+
