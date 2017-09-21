@@ -41,7 +41,7 @@ class UserClass extends BaseClass {
 		
 	}
 	public function categories(){
-	   return $this->categories->get();
+	   return $this->categories->where('status','=','1')->get();
 	
 	}
 	public function licenseTransport(){
@@ -1055,11 +1055,11 @@ class UserClass extends BaseClass {
 			$usermode=$usermodel->whereMonth('create_date','=',$_GET['month']);
 		}	
 
-		$part_or_full=$_GET['part_or_full'];
-		$category=$_GET['category'];
+		$part_or_full=@$_GET['part_or_full'];
+		$category=@$_GET['category'];
 
-		$currently_looking_for_work=$_GET['currently_looking_for_work']; 
-		$current_status=$_GET['current_status'];
+		$currently_looking_for_work=@$_GET['currently_looking_for_work']; 
+		$current_status=@$_GET['current_status'];
 
         if(count($category)){
 			$usermodel=$usermodel->whereHas(

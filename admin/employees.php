@@ -1,7 +1,7 @@
 <?php
 include_once("dbconfig.php");
 loginCheck();
-$HighLightedTab = 3;
+$HighLightedTab = 7;
 $user=new App\Classes\UserClass();
 $categories=$user->categories();
 
@@ -309,4 +309,34 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 	<?php include_once('footer.php'); ?>
 </body>
 </html>
+<script type="text/javascript">
+	$(document).ready(function(){
+
+// Get the modal
+var modal = document.getElementById('popup');
+
+// Get the button that opens the modal
+var btn = document.getElementById("openpopup");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+});	
+</script>
 

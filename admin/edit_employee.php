@@ -1,7 +1,7 @@
 <?php
 include_once("dbconfig.php");
 loginCheck();
-$HighLightedTab = 3;
+$HighLightedTab = 7;
 $user=new App\Classes\UserClass();
 
 $categories=$user->categories();
@@ -24,57 +24,12 @@ if(isset($_GET['id']) && (int)$_GET['id'] > 0){
 }
 if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 	
-	   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) ? filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) : 0;
-		
-  $user->editEmployee($currentuser,trim_data($_POST),$_FILES);
+	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) ? filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) : 0;
+
+	$user->editEmployee($currentuser,trim_data($_POST),$_FILES);
 
 }
 
-// $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) ? filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) : 0;
-
-// if(isset($_POST) && isset($_POST['submitted']) && $_POST['submitted'] == 1)
-// {
-// 	$_POST 			= trim_data($_POST);
-// 	$ErrorMessage 	= array();
-
-// 	if(trim($_POST['title']) == "")
-// 	{
-// 		$ErrorMessage['error'][] = "Please enter 'Title'.";
-// 	}
-// 	if(trim($_POST['description']) == "")
-// 	{
-// 		$ErrorMessage['error'][] = "Please enter 'Description'.";
-// 	}
-// 	if(count($ErrorMessage) < 1)
-// 	{
-// 		$time 	= time();
-// 		$title 	= $_POST['title'];
-// 		$slug 	= createSlug($title);
-
-// 		$title 			= $mysqli->real_escape_string($title);
-// 		$description 	= $mysqli->real_escape_string($_POST['description']);
-
-// 		$sql = "UPDATE pages SET
-// 		title = '".$title."',
-// 		slug = '".$slug."',
-// 		description = '".$description."',
-// 		status = '".$_POST['status']."',
-// 		template = '".$_POST['template']."',
-// 		updatedon = '".$time."'
-// 		WHERE id = '".$id."'";
-// 		$query = $mysqli->query($sql);
-		
-// 		if($query)
-// 		{
-// 			flash('msg', 'Page updated successfully.', 'success', BASEURL.'/manage_pages.php');
-// 		}
-// 		else
-// 		{
-// 			$ErrorMessage['error'][] = "Oops! something went wrong. Please try again.";
-// 			$ErrorMessage['error'][] = $mysqli->error;
-// 		}
-// 	}
-// }
 
 ?>
 <!DOCTYPE html>
