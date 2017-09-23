@@ -1,7 +1,5 @@
 <?php
 include_once("dbconfig.php");
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

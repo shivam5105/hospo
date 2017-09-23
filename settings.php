@@ -1,6 +1,6 @@
 <?php
 session_start();
-ini_set("display_errors", 0);
+ini_set("display_errors",1);
 //error_reporting(E_ALL);
 
 if(strtolower(trim($_SERVER['SERVER_NAME'])) == 'localhost')

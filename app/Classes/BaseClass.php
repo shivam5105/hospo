@@ -116,7 +116,11 @@ abstract class BaseClass {
 		}
 		}
 		
+		public function AjaxPagination($page=1,$records_per_page=10,$currentmodel){
 		
+		return $currentmodel->with('userProfile', 'EmployeeCategories')->limit($records_per_page)->offset(($page - 1) * $records_per_page)->orderBy('id', 'desc')->get();
+			
+		}
 		public function pagination($records_per_page=10,$currentmodel){
 			if(empty($page)){
 				$page=0;

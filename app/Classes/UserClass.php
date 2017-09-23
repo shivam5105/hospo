@@ -100,7 +100,8 @@ class UserClass extends BaseClass {
 	}
 	
 	public function isEmployee(){
-		if(isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='employee'){
+	
+		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='employee'){
 			
 		}else{
 				header('Location: '.BASEURL .'/index.php');
@@ -109,7 +110,7 @@ class UserClass extends BaseClass {
 		
 	}
     public function isManager(){
-		if(isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='manager'){
+		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='manager'){
 			
 		}else{
 				header('Location: '.BASEURL .'/index.php');
@@ -630,8 +631,16 @@ class UserClass extends BaseClass {
 	public function employees()	{		
 		$role=$this->roles->where('slug','=','employee')->first();
 		//filter or pagination here
-		return $user = $this->model->where('email_confirmed','=',1)->where('status','=',1)->where('role_id','=',$role->id)->get();
-
+		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1);
+		
+		return $this->AjaxPagination(1,9,$user);
+	}
+	public function employeePagination($page){		
+		$role=$this->roles->where('slug','=','employee')->first();
+		//filter or pagination here
+		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1);
+		
+		echo  $this->AjaxPagination($page,9,$user)->toJson();
 	}
 	
 	public function editEmployee($currentuser,$data,$file){
