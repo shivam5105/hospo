@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
 	$(".select-op span").click(function(){
 
 	$(".select-op span:after").css("display","none");
@@ -45,7 +44,7 @@ $(".product-info").fadeOut(500);
 
 $(document).ready(function(){
 $(".add-rs .view-more").click(function(){
-$(".product-info.d-pop").css({"display": "table"});
+$(this).parents('.myshortlist').next(".product-info.d-pop").css({"display": "table"});
 
 });
  $(".cl-ose").click(function(){
@@ -71,18 +70,18 @@ $(this).next(".tooltips").toggle();
 });
 
 $(document).ready(function(){
-$('body').click(function(){
-$(".tooltips").hide();
-});
-/*
-$('#f-option').click(function(){
-$(".uploading").show();
-});
+		$('body').click(function(){
+		$(".tooltips").hide();
+		});
+		/*
+		$('#f-option').click(function(){
+		$(".uploading").show();
+		});
 
-$('#s-option').click(function(){
-$(".uploading").hide();
-});
-*/
+		$('#s-option').click(function(){
+		$(".uploading").hide();
+		});
+		*/
 
 
     $('#account').change(function(){
@@ -194,7 +193,7 @@ $(".uploading").hide();
 				if(email!='' && password!=''){
 				$.ajax({
 				type: "POST",
-				url: 'login.php',
+				url: 'ajaxrequest.php?action=login',
 				data: {email:email,password:password},
 				success: function(data){
 					var data=JSON.parse(data);
@@ -240,10 +239,201 @@ $(".uploading").hide();
 			});
 
 	
+ var page=2;
+ $(document).on('click','.loadseekers',function () {
+   $(this).find('p').text('Loading...');
+   var loader= $(this).find('p');
+		 $.ajax({
+	   url: 'ajaxrequest.php?action=get_employees&page='+page,
+	   type: 'GET',
+			success: function(response){
+				page++;
+				response=JSON.parse(response)
+			  if(response.length){
+				loader.text('Load More..');
+	  var str='<div class="job-third"><div class="container w-con"><div class="row">';
+	  var j=1;
+	 $.each(response, function (i) { 
+	  var cats=response[i].employee_categories;
+		 var strcat='';
+		     $.each(cats, function (j) { 
+			   strcat+=cats[j].category.name+',';
+			 });
+			 var cats=strcat.trim(',');
+		 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].user_profile.first_name+' '+ response[i].user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more"><a href="">view more</a></div><div class="sec-btn-pos pro-btn"><a onclick="addShortlist($(this),'+response[i].id+')">shortlist</a></div></div></div></div>'; 
+		 if (j % 3 == 0 ) {  str+='</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
+		j++;
+	 });
+	 
+	  
+	 str+='</div></div></div>';
+	 $('.jobs:last').after(str);
+	 				$(".two-btn div").click(function(e){
+				$(this).next(".tooltips").toggle();
+				event.stopPropagation();
+				});
+
+			   }else{
+				  loader.hide(); 
+				   
+			   }
+			 }
+	});
+ });
+
+
+ var shortpage=2;
+ $(document).on('click','.loadshorted',function () {
+   $(this).find('p').text('Loading...');
+   var loader= $(this).find('p');
+		 $.ajax({
+	   url: 'ajaxrequest.php?action=get_shorlists&page='+shortpage,
+	   type: 'GET',
+			success: function(response){
+				shortpage++;
+				response=JSON.parse(response)
+			  if(response.length){
+				loader.text('Load More..');
+	  var str='<div class="job-third"><div class="container w-con"><div class="row">';
+	  var j=1;
+	 $.each(response, function (i) { 
+		 var cats=response[i].touser.employee_categories;
+		 var strcat='';
+		     $.each(cats, function (j) { 
+			   strcat+=cats[j].category.name+',';
+			 });
+			 var cats=strcat.trim(',');
+			 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].touser.user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].touser.user_profile.first_name+' '+ response[i].touser.user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].touser.user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more"><a href="">view more</a></div><div class="two-btn"><div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div><div class="tooltips"><p>Phone</p> <span>'+response[i].touser.phone+'</span> <p>Email</p> <span>'+response[i].touser.email+'</span><div class="nip"></div></div><div class="sec-btn-pos pro-btn disabled-btn"><a onclick="removeShortlist($(this),'+response[i].touser.id+')">remove</a></div></div></div></div></div>'; 
+			 if (j % 3 == 0 ) {  str+='</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
+			j++;
+		 });
+	 
+	  
+	 str+='</div></div></div>';
+	 $('.shortlisted:last').after(str);
+				$(".two-btn div").click(function(e){
+				$(this).next(".tooltips").toggle();
+				event.stopPropagation();
+				});
+			   }else{
+				  loader.hide(); 
+				   
+			   }
+			 }
+	});
+ });
+ 
+ 
+
+ 
 });
 
+function logout(){
+		 $.ajax({
+	   url: 'ajaxrequest.php?action=logout',
+	   type: 'GET',
+	   success: function(response){
+		   
+	   }
+	   
+	});
+}
+ function addShortlist(current,touser){
+	 swal({
+  title: 'Shortlist this user ?',
+  text: "",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then(function () {
+	
+	 $.ajax({
+	   url: 'ajaxrequest.php?action=shortlist_user&touser='+touser,
+	   type: 'GET',
+	   success: function(response){
+		    
+		   
+		   if(response==true){
+			   if(current.parents('.jobs').find('.col-sm-4').length<2){
+			      window.location.reload();
+		        }else{
+				current.parents('.col-sm-4').empty();
+		       current.parents('.col-sm-4').remove();
+				}
+		
+			 swal(
+							'Shorted!',
+							'Employee shorted',
+							'success'
+							)	
+           							
+		   }else{
+			   
+			    swal(
+					'Oops...',
+					'Something went wrong!',
+					'error'
+							)
+		   }
+							
+	   }
 
+	 });	   
+				
+				
+ 
+})
+ }
+ function removeShortlist(current,touser){
+	 swal({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then(function () {
+	
+	 $.ajax({
+	   url: 'ajaxrequest.php?action=remove_shortlist&touser='+touser,
+	   type: 'GET',
+	   success: function(response){
+		    
+		   
+		   if(response==true){
+			   if(current.parents('.shortlisted').find('.col-sm-4').length<2){
+			      window.location.reload();
+		        }else{
+				current.parents('.col-sm-4').empty();
+		       current.parents('.col-sm-4').remove();
+				}
+		
+			 swal(
+							'Deleted!',
+							'Your Shortlisted removed',
+							'success'
+							)	
+           							
+		   }else{
+			   
+			    swal(
+					'Oops...',
+					'Something went wrong!',
+					'error'
+							)
+		   }
+							
+	   }
 
+	 });	   
+				
+				
+ 
+})
+ }
 
 
 

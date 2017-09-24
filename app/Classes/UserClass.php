@@ -70,7 +70,19 @@ class UserClass extends BaseClass {
 		
 	}
 
+   public function logout(){
 
+	$_SESSION = array();
+	$params = session_get_cookie_params();
+	setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+	
+	session_unset();
+	session_destroy();
+	//flash( 'msg', 'You have successfully logged out', 'success' );
+	header('Location: '. BASEURL .'/index.php');
+	die;
+
+   }
 	public function login_check(){
 		// Check if all session variables are set 
 		if(isset($_SESSION['logged_in_user']))
@@ -98,7 +110,12 @@ class UserClass extends BaseClass {
 		}
 		return false;
 	}
-	
+	public function loginUserId(){
+
+		if($this->login_check()){
+		   return 	$_SESSION['logged_in_user']['user_id'];
+		}
+	}
 	public function isEmployee(){
 	
 		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='employee'){
@@ -631,14 +648,14 @@ class UserClass extends BaseClass {
 	public function employees()	{		
 		$role=$this->roles->where('slug','=','employee')->first();
 		//filter or pagination here
-		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1);
+		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1)->with('userProfile', 'EmployeeCategories');
 		
 		return $this->AjaxPagination(1,9,$user);
 	}
 	public function employeePagination($page){		
 		$role=$this->roles->where('slug','=','employee')->first();
 		//filter or pagination here
-		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1);
+		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1)->with('userProfile', 'EmployeeCategories');
 		
 		echo  $this->AjaxPagination($page,9,$user)->toJson();
 	}

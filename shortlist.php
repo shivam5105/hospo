@@ -1,5 +1,10 @@
 <?php
 include_once("dbconfig.php");
+$user=new App\Classes\UserClass();
+//$user->isManager();
+$shortobj=new App\Classes\ShortlistedClass();
+
+$shortlisted=$shortobj->whomIshortlisted();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,9 +17,7 @@ include_once("dbconfig.php");
 
 <body class="jobseeker">
 <?php include_once("header.php"); 
-$user=new App\Classes\UserClass();
 
-$jobseekers=$user->employees();
 
 
 ?>
@@ -24,8 +27,8 @@ $jobseekers=$user->employees();
 <div class="container">
 <div class="row">
         <div class="job-menu hospo-cus-pad">
-        	<a  href="#">Browse Jobseekers</a>
-        	<a class="mnu-active" href="#">My Shortlist</a>
+        <a class="mnu-active" href="jobseekers.php">Browse Jobseekers</a>
+        	<a href="shortlist.php">My Shortlist</a>
         	<a href="#">Account</a>
         </div>
 </div>
@@ -120,36 +123,47 @@ $jobseekers=$user->employees();
 
 </section>
 
-
+<?php if(count($shortlisted)){ ?>
 <!--job-section-->
 
-<div class="job-third top-minus">
+<div class="shortlisted job-third <?php $i=0; if($i==0){ echo 'top-minus';} ?>">
 	
 	<div class="container w-con">
 
 		<div class="row">
-
+<?php 
+$i=1;
+foreach($shortlisted as $shorted){
+	
+?>
 			<div class="col-sm-4 hospo-cus-pad b-s">
 			<div class="job-tab">
 
 				<div class="job-cover">
 
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
+					<div class="profile-pic" style="background-image: url(<?php echo BASEURL.'/uploads/profile/'.$shorted->touser->userProfile->profile; ?>);">
 
 						 <img class="pro-sts" src="images/crown.png" alt="">
 						
 					</div>
+					<?php if(!empty($shorted->is_interested)){ ?>
 					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
+                       <?php } ?>
+					<h2 class="pro-name"><?php echo $shorted->touser->userProfile->first_name.''.$shorted->touser->userProfile->last_name; ?></h2>
 					<div class="work">
 
-						<p>Barista, Waiter, Bar staff</p>
+						<p><?php 
+						$str='';
+						foreach($shorted->touser->EmployeeCategories as $cat){
+						$str.=$cat->category->name.',';
+						}
+						echo trim($str,',')
+						?></p>
 						
 					</div>
 
 					<div class="info">
-					<p class="location">	Auckland</p>
+					<p class="location">	<?php echo $shorted->touser->userProfile->location; ?></p>
                       <span>2+ Years Experience<br>
                       Shaky Isles, McDonalds</span>
 					</div>
@@ -162,108 +176,24 @@ $jobseekers=$user->employees();
 					<div class="tooltips">
 
 						<p>Phone</p>
-                        <span>021 1234 5678</span>
+                        <span><?php echo $shorted->touser->phone; ?></span>
 
                         <p>Email</p>
-                        <span>george@clooney.co.nz</span>
+                        <span><?php echo $shorted->touser->email; ?></span>
 						<div class="nip"></div>
 					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="#">remove</a></div>
+					<div class="sec-btn-pos pro-btn disabled-btn"><a  onclick="removeShortlist($(this),<?php echo $shorted->touser->id;?>)">remove</a></div>
 					</div>
 				</div>
 				</div>
 			</div>
 
+<?php 
+if ( $i % 3 == 0 ) {  echo '</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
 
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-
-					<div class="two-btn">
-					<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-			
+$i++ ;
+}
+?>
 		</div>
 		
 	</div>
@@ -272,423 +202,24 @@ $jobseekers=$user->employees();
 </div>
 <!--job sec row-->
 
+<?php }else{ ?>
+<div class="container w-con noresult">
+ No Shortlist
+</div>
+<?php } ?>
 
 
-<div class="job-third">
+
+<?php if(count($shortlisted)==9){ ?>
+
+<div class="load loadshorted">
 	
-	<div class="container w-con">
 
-		<div class="row">
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-
-					<div class="two-btn">
-					<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-			
-		</div>
-		
-	</div>
+	<p>Load More..</p>
 
 
 </div>
-
-<!--third row-->
-
-
-
-<div class="job-third">
-	
-	<div class="container w-con">
-
-		<div class="row">
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab no-border">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab no-border">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab no-border">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-			
-		</div>
-		
-	</div>
-
-
-</div>
-
-<!--job fourth row-->
-
-
-
-
-<div class="job-third">
-	
-	<div class="container w-con">
-
-		<div class="row">
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab no-border">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-
-
-			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab no-border a-color">
-
-				<div class="job-cover">
-
-					<div class="profile-pic" style="background-image: url(images/profile.jpg);">
-
-						 <img class="pro-sts" src="images/crown.png" alt="">
-						
-					</div>
-					<div class="active-status"><h2>Interested</h2></div>
-
-					<h2 class="pro-name">george</h2>
-					<div class="work">
-
-						<p>Barista, Waiter, Bar staff</p>
-						
-					</div>
-
-					<div class="info">
-					<p class="location">	Auckland</p>
-                      <span>2+ Years Experience<br>
-                      Shaky Isles, McDonalds</span>
-					</div>
-					<div class="view-more">view more</div>
-
-					<div class="two-btn">
-										<div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div>
-					<div class="tooltips">
-
-						<p>Phone</p>
-                        <span>021 1234 5678</span>
-
-                        <p>Email</p>
-                        <span>george@clooney.co.nz</span>
-						<div class="nip"></div>
-					</div>
-					<div class="sec-btn-pos pro-btn disabled-btn"><a href="">remove</a></div>
-					</div>
-				</div>
-				</div>
-			</div>
-			
-		</div>
-		
-	</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="load">
-	
-<!--
-	<p>Loading More..</p>
-
--->
-</div>
-
+<?php } ?>
 
 
 
@@ -903,39 +434,6 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
 
 
 
-<script type="text/javascript">
-var page=2;
-$(document).on('click','.load',function () {
-  $(this).find('p').text('Loading...');
-  var loader= $(this).find('p');
-        $.ajax({
-      url: 'ajaxrequest.php?action=get_employees&page='+page,
-      type: 'GET',
-           success: function(response){
-			   page++;
-			   response=JSON.parse(response)
-             if(response.length){
-               loader.text('Load More..');
-     var str='<div class="job-third"><div class="container w-con"><div class="row">';
-	 var j=1;
-	$.each(response, function (i) { 
-        str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url(<?php echo BASEURL;?>'+'/uploads/profile/'+response[i].user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].user_profile.first_name+' '+ response[i].user_profile.last_name+'</h2><div class="work"><p>Bar &amp; Beverage Service,Hotel Guest Services,Waiter</p></div><div class="info"><p class="location">mumbai</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more"><a href="">view more</a></div><div class="sec-btn-pos pro-btn"><a href="">shortlist</a></div></div></div></div>'; 
-		if (j % 3 == 0 ) {  str+='</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
-       j++;
-    });
-	
-	 
-	str+='</div></div></div>';
-	$('.jobs:last').after(str);
-	
-              }else{
-				 loader.hide(); 
-				  
-			  }
-            }
-   });
-});
-</script>
 
 
 

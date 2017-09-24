@@ -109,7 +109,7 @@
 				</div>
 				<div class="head-right-prt">
 					<ul class="list-inline text-right">
-						<li> <button class="top-btn" type="submit">log out</button></li>
+						<li> <button class="top-btn" type="submit" onclick="logout()">log out</button></li>
 						<li>
 							<div class="dropdown">
 								<div class="select-op">

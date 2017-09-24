@@ -2028,3 +2028,30 @@ select.multiple {
     background: white!important;
     color: black!important;
 }
+.noresult{
+	
+	    text-align: center;
+    padding: 57px;
+    margin-bottom: 9px;
+    font-size: 22px;
+}
+
+
+.sec-btn-pos.dash-btn button {
+    margin: 0;
+    color: #fff;
+}
+.sec-btn-pos button {
+    padding: 15px 18px;
+    background: #fcc062;
+    color: #fff;
+    border-radius: 3px;
+    box-shadow: 2px 2px 14px -3px #888888;
+    display: block;
+    width: 199px;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 17px;
+    color: #474440;
+    text-transform: capitalize;
+}
