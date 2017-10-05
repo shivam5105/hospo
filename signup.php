@@ -1,6 +1,8 @@
 <?php
 include_once("dbconfig.php");
 $user=new App\Classes\UserClass();
+
+$user->withoutLoginOnly();
 $roles=$user->roles();
 $categories=$user->categories();
 $licensetransport=$user->licenseTransport();
@@ -259,7 +261,6 @@ $days=$user->weekDays();
 		     			<li>
 		     			<div class="sin-d-h"> <p>License & Transport</p> </div>
 		     				<select name="license_transport[]" class="multiple" multiple required>
-                                 <option selected disabled hidden>select..</option>
 								 <?php foreach($licensetransport as $obj){ ?>
 								        <option value="<?=$obj->id;?>"><?=$obj->name;?></option>
 

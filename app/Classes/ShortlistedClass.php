@@ -17,7 +17,7 @@ class ShortlistedClass extends BaseClass {
 	}
 	public function interest($data){
 		if($loggedInUserId=$this->userobj->loginUserId()){	
-
+             
 			foreach($data as $key=>$val){
 		      $this->model->where('to_id','=',$loggedInUserId)->where('id','=',$key)->update(['is_interested' => $val,'status' =>$val]);;
 		
@@ -25,16 +25,17 @@ class ShortlistedClass extends BaseClass {
 	
 			
 	   }
-	   $this->flashFancy('Success' , 'Data Saved', 'success');
+	  $this->flashFancy('Success' , 'Data Saved', 'success','dashboard.php');
 	}
 
 	public function whoShortlistedMe(){
 		//filter or pagination here
 		if($loggedInUserId=$this->userobj->loginUserId()){	
-		return $this->model->where('to_id','=',$loggedinuser)->where('is_interested','==',NULL)->where('status','=',1)->groupBy('by_id')->get();
+
+	  return  $data= $this->model->where('to_id','=',$loggedInUserId)->WhereNull('is_interested')->where('status','=',1)->groupBy('by_id')->get();
 
 		}
-		return $this->model->get();
+		//return $this->model->get();
 	}
 
 

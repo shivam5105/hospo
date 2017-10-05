@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2017 at 01:28 AM
+-- Generation Time: Oct 03, 2017 at 05:37 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -62,6 +62,7 @@ CREATE TABLE `categories` (
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `description` text NOT NULL,
   `image` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -70,13 +71,13 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `parent_id`, `description`, `image`, `created_at`, `updated_at`) VALUES
-(1, 'Bar & Beverage Service', 0, '', '', '2017-09-13 05:12:25', '0000-00-00 00:00:00'),
-(2, 'Hotel Guest Services', 0, '', '', '2017-09-13 05:12:59', '0000-00-00 00:00:00'),
-(3, 'Waiter', 0, '', '', '2017-09-13 05:13:09', '0000-00-00 00:00:00'),
-(4, 'Barista', 0, '', '', '2017-09-13 05:13:22', '0000-00-00 00:00:00'),
-(5, 'Chef', 0, '', '', '2017-09-13 05:13:33', '0000-00-00 00:00:00'),
-(6, 'Kitchen Hand', 0, '', '', '2017-09-13 05:13:54', '0000-00-00 00:00:00');
+INSERT INTO `categories` (`id`, `name`, `parent_id`, `description`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Bar & Beverage Service', 0, '', '', 1, '2017-09-13 05:12:25', '0000-00-00 00:00:00'),
+(2, 'Hotel Guest Services', 0, '', '', 1, '2017-09-13 05:12:59', '0000-00-00 00:00:00'),
+(3, 'Waiter', 0, '', '', 1, '2017-09-13 05:13:09', '0000-00-00 00:00:00'),
+(4, 'Barista', 0, '', '', 1, '2017-09-13 05:13:22', '0000-00-00 00:00:00'),
+(5, 'Chef', 0, '', '', 1, '2017-09-13 05:13:33', '0000-00-00 00:00:00'),
+(6, 'Kitchen Hand', 0, 'Kitchen Hand', '', 1, '2017-09-13 05:13:54', '2017-09-21 10:42:11');
 
 -- --------------------------------------------------------
 
@@ -266,7 +267,7 @@ CREATE TABLE `license_transport` (
 --
 
 INSERT INTO `license_transport` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'demo', '2017-09-20 12:38:08', '0000-00-00 00:00:00'),
+(1, 'demoa', '2017-09-20 12:38:08', '2017-09-21 10:58:42'),
 (2, 'demo', '2017-09-20 12:38:13', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
@@ -399,11 +400,20 @@ CREATE TABLE `shortlisted` (
   `id` int(11) NOT NULL,
   `to_id` int(11) NOT NULL,
   `by_id` int(11) NOT NULL,
+  `status` tinyint(1) DEFAULT '1',
   `is_interested` tinyint(1) DEFAULT NULL,
   `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `shortlisted`
+--
+
+INSERT INTO `shortlisted` (`id`, `to_id`, `by_id`, `status`, `is_interested`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 13, 14, 1, NULL, '2017-09-24 17:53:29', '2017-09-24 17:53:29', '0000-00-00 00:00:00'),
+(2, 13, 15, 1, NULL, '2017-09-24 18:54:52', '2017-09-24 18:54:52', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -730,7 +740,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `shortlisted`
 --
 ALTER TABLE `shortlisted`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `skills`
 --

@@ -1,5 +1,7 @@
 <?php
 include_once("dbconfig.php");
+$user=new App\Classes\UserClass();
+
 $faq=new App\Classes\FaqsClass();
 $faqs=$faq->index();
 

@@ -25,7 +25,16 @@ abstract class BaseClass {
 	{
 		$this->getById($id)->delete();
 	}
+    public function isAuthMenu(){
+       if(isset($_SESSION['logged_in_user'])){
+               return true;
 
+       }else {
+
+       	return false;
+       }
+		
+	}
 	public function getById($id)
 	{
 		return $this->model->findOrFail($id);

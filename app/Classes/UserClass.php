@@ -69,7 +69,14 @@ class UserClass extends BaseClass {
 		
 		
 	}
+  public function setJobHuntStatus($status){
 
+  	if($loggedInUserId=$this->loginUserId()){	
+
+	  return  $data= $this->userprofile->where('user_id','=',$loggedInUserId)->update(['currently_looking_for_work' => $status]);;
+
+		}
+  }
    public function logout(){
 
 	$_SESSION = array();
@@ -78,8 +85,8 @@ class UserClass extends BaseClass {
 	
 	session_unset();
 	session_destroy();
-	//flash( 'msg', 'You have successfully logged out', 'success' );
-	header('Location: '. BASEURL .'/index.php');
+    echo 1;
+
 	die;
 
    }
@@ -94,7 +101,7 @@ class UserClass extends BaseClass {
 			$user_browser = $_SERVER['HTTP_USER_AGENT'];
 	 	   $role_user = $this->roles->where('slug','admin')->first();
 
-    		$user = $this->model->where('user_id','=',$user_id)->where('role_id','!=',$role_user->id)->first();
+    		$user = $this->model->where('id','=',$user_id)->where('role_id','!=',$role_user->id)->first();
         
 				if(!empty($user)){
 					
@@ -110,11 +117,26 @@ class UserClass extends BaseClass {
 		}
 		return false;
 	}
+	
 	public function loginUserId(){
 
 		if($this->login_check()){
 		   return 	$_SESSION['logged_in_user']['user_id'];
 		}
+	}
+
+	public function getloginProfile(){
+
+		$userid=$this->loginUserId();
+		return $this->userprofile->where('user_id','=',$userid)->first();
+	}
+	public function withoutLoginOnly(){
+      if($this->login_check()){
+		   				header('Location: '.BASEURL .'/index.php');
+           
+		}
+
+
 	}
 	public function isEmployee(){
 	
@@ -262,7 +284,7 @@ class UserClass extends BaseClass {
 										}else{
 											$user_browser = $_SERVER['HTTP_USER_AGENT'];
 								   $_SESSION['logged_in_user'] =array('email'=>$user->email,'user_id'=>$user->id,'role'=>$user->role->slug,'login_string'=>hash('sha512',$user->password.$user_browser));
-											   echo json_encode(["status"=>true,"message"=>"Successfully logged in !"]);	
+											   echo json_encode(["status"=>true,'role'=>$user->role->slug,"message"=>"Successfully logged in !"]);	
 
 										}
 							} else {
@@ -470,7 +492,7 @@ class UserClass extends BaseClass {
 						$this->flashFancy('Required', 'Availability sunday is required', 'error');
 						
 					}
-					else if(count($data['employer'])==0){
+					else if(empty($data['employer'])){
 						$this->flashFancy('Required', 'Experience employer is required', 'error');
 						
 						
@@ -501,6 +523,8 @@ class UserClass extends BaseClass {
 						
 					}
 					else{
+                      
+
 					////profile pic validatio nwith multipart form data	   
 						$user = $this->model->where('email','=',$data['email'])->first();
 							if(empty($user)){
@@ -519,6 +543,34 @@ class UserClass extends BaseClass {
 										'status' => 1,
 
 										]);
+
+                               	
+									$mon= implode(",",$data['mon']);
+									$tue=implode(",",$data['tue']);
+									$wed=implode(",",$data['wed']);
+									$thu= implode(",",$data['thu']);
+									$fri=implode(",",$data['fri']);
+									$sat=implode(",",$data['sat']);
+									$sun=implode(",",$data['sun']);
+
+									$experiencearray=[];
+									
+									foreach($data['employer'] as $key=>$emp){
+										array_push($experiencearray,[ //multidimensional array
+										'user_id' => $userobj->id,
+										'employer' => $emp,
+										'location' =>$data['job_location'][$key],
+										'job_title' =>$data['job_title'][$key],
+										'job_description' => $data['job_description'][$key],
+										'start_date' =>$data['start_date'][$key],
+										'end_date' =>$data['end_date'][$key],
+
+										]);
+									}
+
+
+
+
 
 									$extension = pathinfo($file["profile"]["name"],PATHINFO_EXTENSION);
 
@@ -575,29 +627,9 @@ class UserClass extends BaseClass {
 									 EmployeeLicenceTransport::insert($license);									
 
 
-									$experiencearray=[];
 									
-									foreach($data['employer'] as $key=>$emp){
-										array_push($experiencearray,[ //multidimensional array
-										'user_id' => $userobj->id,
-										'employer' => $emp,
-										'location' =>$data['job_location'][$key],
-										'job_title' =>$data['job_title'][$key],
-										'job_description' => $data['job_description'][$key],
-										'start_date' =>$data['start_date'][$key],
-										'end_date' =>$data['end_date'][$key],
-
-										]);
-									}
 									Experiences::insert($experiencearray);									
-									
-									$mon= implode(",",$data['mon']);
-									$tue=implode(",",$data['tue']);
-									$wed=implode(",",$data['wed']);
-									$thu= implode(",",$data['thu']);
-									$fri=implode(",",$data['fri']);
-									$sat=implode(",",$data['sat']);
-									$sun=implode(",",$data['sun']);
+								
 									 Availability::create([
 											'user_id' =>  $userobj->id,
 											'mon' =>"$mon",

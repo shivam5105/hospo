@@ -1608,6 +1608,7 @@ display: none;
     z-index: 9;
     display: table;
     display: none;
+	    left: 0;
 }
 .flot-product {
     display: table-cell;
@@ -2054,4 +2055,21 @@ select.multiple {
     font-size: 17px;
     color: #474440;
     text-transform: capitalize;
+}
+
+.head-logo {
+    text-align: center;
+    width: 75%;
+    padding-left: 25%;
+	
+	
+}
+.dropdown-menu {
+    float: right;
+    position: absolute!important;
+    top: 100%;
+   right: 45px;
+    left: initial;
+	
+	
 }

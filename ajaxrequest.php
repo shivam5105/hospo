@@ -8,6 +8,14 @@ if(!empty($_GET) && $_GET['action']=='get_employees'){
 	
 }
 
+if(!empty($_GET) && $_GET['action']=='update_jobhunt_status'){
+	$user=new App\Classes\UserClass();
+    //$user->isEmployee();
+   $user->setJobHuntStatus($_GET['status']);
+	
+}
+
+
 if(!empty($_GET) && $_GET['action']=='get_shorlists'){
 	$user=new App\Classes\UserClass();
 	//$user->isEmployee();
@@ -42,4 +50,9 @@ if(!empty($_REQUEST)  && $_REQUEST['action']=='logout'){
 	$user=new App\Classes\UserClass();
     $user->logout();
 }
+
+
+
+
+
 

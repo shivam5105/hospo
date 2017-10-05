@@ -1,9 +1,9 @@
 <?php
 include_once("dbconfig.php");
 $user=new App\Classes\UserClass();
-   //$user->isEmployee();
+$user->isEmployee();
 $shortobj=new App\Classes\ShortlistedClass();
-
+$profile=$user->getloginProfile();
 $shortlists=$shortobj->whoShortlistedMe();
 
 if(isset($_POST) && !empty($_POST)){
@@ -53,14 +53,15 @@ if(isset($_POST) && !empty($_POST)){
  
 
  				<div class="imploye-data filter-first">
- 					
+ 					<form name="jobhuntform" class="jobhuntform" method="get">
 
 				<ul class="job-drop-up ">
 					<li>
-						<select>
-                            <option selected disabled hidden>Jobhunt Status</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
+						<select id="currently_looking_for_work" name="currently_looking_for_work" required>
+                            <option value="">--Select Jobhunt Status--</option>
+							
+                            <option value="1" <?php if($profile->currently_looking_for_work==1){ echo 'selected';} ?>>Looking </option>
+                            <option value="0" <?php if($profile->currently_looking_for_work==0){ echo 'selected';} ?>>Not Looking</option>
                         </select>
 					</li>
 					
@@ -68,8 +69,8 @@ if(isset($_POST) && !empty($_POST)){
  				</div>
 
 
-				<div class="sec-btn-pos job"><a href="">update</a></div>
-				
+				<div class="sec-btn-pos job"><button type="submit" name="submit">update</button></div>
+				</form>
 			</div>
 			
 		</div>
@@ -99,7 +100,7 @@ if(isset($_POST) && !empty($_POST)){
 			<?php 
 			if(count($shortlists)){
 				?>
-				<form method="post" action="" name="shortlistform">
+				<form method="post" action="" name="shortlistform" id="shortlistform">
 				<?php 
 			foreach($shortlists as $short){
 
@@ -117,8 +118,8 @@ if(isset($_POST) && !empty($_POST)){
 		
 					</li>
 
-					<li class="interest "><input type="radio" required name="<?php echo $short->id;?>" value="1" placeholder=""> Interested</li>
-					<li class="n-interest "><input type="radio" required name="<?php echo $short->id;?>" value="0" placeholder=""> NOT Interested</li>
+					<li class="interest "><input type="radio" class="interested"  name="<?php echo $short->id;?>" value="1" placeholder=""> Interested</li>
+					<li class="n-interest "><input type="radio" class="interested"  name="<?php echo $short->id;?>" value="0" placeholder=""> NOT Interested</li>
 				</ul>
 
 				</div>

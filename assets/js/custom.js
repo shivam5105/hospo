@@ -70,6 +70,17 @@ $(this).next(".tooltips").toggle();
 });
 
 $(document).ready(function(){
+
+
+$('#shortlistform').submit(function(e) {
+if ($(".interested:checked").length ==0){
+				swal('Required','Incomplete data','error');
+				return false;
+				e.preventDefault();
+			}
+
+});
+
 		$('body').click(function(){
 		$(".tooltips").hide();
 		});
@@ -187,8 +198,8 @@ $(document).ready(function(){
 
 			$('.loginbtn').click(function(e) {
 				e.preventDefault();
-				var email=$("#emailInput").val();
-				var password=$("#passwordInput").val();
+				var email=$(this).parents('form').find("#emailInput").val();
+				var password=$(this).parents('form').find("#passwordInput").val();
 				
 				if(email!='' && password!=''){
 				$.ajax({
@@ -211,9 +222,19 @@ $(document).ready(function(){
 						title: "Success login!",
 						text: "Your are successfully logged in !",
 						type: "success"
-						}, function() {
-                         window.location = "index.php";
 						}
+					).then(
+                        function() {
+							
+							if(data.role=='employee'){
+                              window.location.href= "dashboard.php";
+							}else{
+
+                               window.location.href= "index.php";
+							}
+                       
+						}
+
 					) 
 				  }else{
 					    	swal(
@@ -327,13 +348,46 @@ $(document).ready(function(){
 
  
 });
-
+ $(document).on('submit','.jobhuntform',function () {
+ 	
+	 $.ajax({
+	   url: 'ajaxrequest.php?action=update_jobhunt_status&status='+$("#currently_looking_for_work").val(),
+	   type: 'GET',
+	   success: function(response){
+		   	swal(
+						{
+						title: "Success",
+						text: "Job Hunt Status Updated!",
+						type: "success"
+						}
+					)
+	   }
+	   
+	});
+return false;
+ });
 function logout(){
 		 $.ajax({
 	   url: 'ajaxrequest.php?action=logout',
 	   type: 'GET',
 	   success: function(response){
-		   
+		   	swal(
+						{
+						title: "Logged Out!",
+						text: "Your are successfully logged out !",
+						type: "success"
+						}
+					).then(
+                        function() {
+							
+							if(response){
+                            
+                               window.location.href= "index.php";
+							}
+                       
+						}
+
+					) 
 	   }
 	   
 	});
