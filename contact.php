@@ -1,6 +1,3 @@
-<?php
-include_once("dbconfig.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +6,9 @@ include_once("dbconfig.php");
 </head>
 
 <body class="contact">
-<?php include_once("header.php"); 
+<?php 
+	include_once("header.php"); 
+	
 	if(isset($_POST['submit']) && $_POST['submit']=='submit'){
 		$contact=new App\Classes\ContactsClass();
 		$response=$contact->store($_POST);

@@ -1,13 +1,3 @@
-<?php
-include_once("dbconfig.php");
-$user=new App\Classes\UserClass();
-
-$user->withoutLoginOnly();
-$roles=$user->roles();
-$categories=$user->categories();
-$licensetransport=$user->licenseTransport();
-$days=$user->weekDays();
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +10,17 @@ $days=$user->weekDays();
 <?php 
 
 	include_once("header.php");
+
+
+$user->withoutLoginOnly();
+$roles=$user->roles();
+$categories=$user->categories();
+$licensetransport=$user->licenseTransport();
+$days=$user->weekDays();
+
+	
+	
+	
 	if(isset($_POST['submit']) && $_POST['submit']=='submit'){
 		$user=new App\Classes\UserClass();
 		
@@ -254,7 +255,7 @@ $days=$user->weekDays();
 
 		     		<ul>
 		     			<li class="blk">
-		     			<div class="sin-d-h"><p>Any spcial skills?</p></div>
+		     			<div class="sin-d-h"><p>Any special skills?</p></div>
 						 <input type="text" required name="skills" value=""  placeholder="Enter Skills as comma seperated" pattern="^[A-Za-z -,.]{1,}" title="Skills as comma seperated only">
 						 
 		     			</li>

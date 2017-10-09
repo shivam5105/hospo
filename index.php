@@ -1,13 +1,4 @@
-<?php
-include_once("dbconfig.php");
-$user=new App\Classes\UserClass();
 
-$faq=new App\Classes\FaqsClass();
-$faqs=$faq->index();
-
-$home_query 	= $mysqli->query("SELECT * FROM home_page");
-$home_page_row 	= $home_query->fetch_array();
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +6,14 @@ $home_page_row 	= $home_query->fetch_array();
 	<?php include_once("common-head.php"); ?>
 </head>
 <body class="home">
-	<?php include_once("header.php"); ?>
+	<?php include_once("header.php");
+
+$faq=new App\Classes\FaqsClass();
+$faqs=$faq->index();
+
+$home_query 	= $mysqli->query("SELECT * FROM home_page");
+$home_page_row 	= $home_query->fetch_array();
+?>
 	<?php
 	//$faq->flashFancy('msg', 'Page not found. Please try again.', 'success');
 

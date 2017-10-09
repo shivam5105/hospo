@@ -44,6 +44,10 @@ class UserClass extends BaseClass {
 	   return $this->categories->where('status','=','1')->get();
 	
 	}
+	public function allskills(){
+	   return $this->skills->groupBy('name')->get();
+	
+	}
 	public function licenseTransport(){
 	   return LicenceTransport::get();
 	
@@ -138,22 +142,36 @@ class UserClass extends BaseClass {
 
 
 	}
-	public function isEmployee(){
+	public function isEmployee($ajax=false){
 	
 		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='employee'){
+		     if($ajax==true){
+				return true;
+				}
 			
 		}else{
-				header('Location: '.BASEURL .'/index.php');
-		die;
+		        if($ajax==true){
+				return  false;
+				}else{
+					header('Location: '.BASEURL .'/index.php');
+		                 die;
+				}
+			
 		}	
 		
 	}
-    public function isManager(){
+    public function isManager($ajax=false){
 		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='manager'){
-			
+			  if($ajax==true){
+				return true;
+				}
 		}else{
-				header('Location: '.BASEURL .'/index.php');
-		die;
+			 if($ajax==true){
+				return  false;
+				}else{
+					header('Location: '.BASEURL .'/index.php');
+		                 die;
+				}
 		}	
 		
 	}	
@@ -677,17 +695,104 @@ class UserClass extends BaseClass {
 		return $this->roles->where('slug','!=','admin')->get();
 	}
 	
-	public function employees()	{		
+	public function employees($data=NULL)	{		
 		$role=$this->roles->where('slug','=','employee')->first();
-		//filter or pagination here
-		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1)->with('userProfile', 'EmployeeCategories');
+		$user=$this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1);
+		if($data!=NULL){
+			if(isset($data['category']) && $data['category'] !=''){
+			    $category=$data['category'];
+				$user =$user->whereHas(
+									'EmployeeCategories', function($q) use($category){
+										$q->where('category_id',$category);
+									}
+							);
+			}
+			if(isset($data['part_or_full']) && $data['part_or_full'] !=''){
+				$part_or_full=$data['part_or_full'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($part_or_full){
+										$q->where('part_or_full',$part_or_full);
+									}
+							);
+			}
+			if(isset($data['location']) && $data['location'] !=''){
+				$location=$data['location'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($location){
+										$q->where('location','LIKE', '%'.$location.'%');
+									}
+							);
+			}
+			if(isset($data['skill']) && $data['skill'] !=''){
+				  $skill=$data['skill'];
+				$user =$user->whereHas(
+									'Skills', function($q) use($skill){
+										$q->where('name',$skill);
+									}
+							);
+			}
+			if(isset($data['license_transport']) && $data['license_transport'] !=''){
+				  $license_transport=$data['license_transport'];
+				$user =$user->whereHas(
+									'EmployeeLicenseTransport', function($q) use($license_transport){
+										$q->where('licence_transport_id',$license_transport);
+									}
+							);
+			}
+			//General Availability filter
+		}
+		$user =$user->with('userProfile', 'EmployeeCategories');
 		
 		return $this->AjaxPagination(1,9,$user);
 	}
-	public function employeePagination($page){		
+	public function employeePagination($page,$data=NULl){
+
 		$role=$this->roles->where('slug','=','employee')->first();
-		//filter or pagination here
-		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1)->with('userProfile', 'EmployeeCategories');
+		$user = $this->model->where('role_id','=',$role->id)->where('email_confirmed','=',1)->where('status','=',1);
+				if($data!=NULL){
+			if(isset($data['category']) && $data['category'] !=''){
+			    $category=$data['category'];
+				$user =$user->whereHas(
+									'EmployeeCategories', function($q) use($category){
+										$q->where('category_id',$category);
+									}
+							);
+			}
+			if(isset($data['part_or_full']) && $data['part_or_full'] !=''){
+				$part_or_full=$data['part_or_full'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($part_or_full){
+										$q->where('part_or_full',$part_or_full);
+									}
+							);
+			}
+			if(isset($data['location']) && $data['location'] !=''){
+				$location=$data['location'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($location){
+										$q->where('location','LIKE', '%'.$location.'%');
+									}
+							);
+			}
+			if(isset($data['skill']) && $data['skill'] !=''){
+				  $skill=$data['skill'];
+				$user =$user->whereHas(
+									'Skills', function($q) use($skill){
+										$q->where('name',$skill);
+									}
+							);
+			}
+			if(isset($data['license_transport']) && $data['license_transport'] !=''){
+				  $license_transport=$data['license_transport'];
+				$user =$user->whereHas(
+									'EmployeeLicenseTransport', function($q) use($license_transport){
+										$q->where('licence_transport_id',$license_transport);
+									}
+							);
+			}
+			//General Availability filter
+		}
+		$user=$user->with('userProfile', 'EmployeeCategories');
 		
 		echo  $this->AjaxPagination($page,9,$user)->toJson();
 	}
@@ -1162,6 +1267,74 @@ class UserClass extends BaseClass {
 	 public function employeedetails($id){
 	    $role=$this->roles->where('slug','=','employee')->first();
 		return $user=$this->model->where('id','=',$id)->where('role_id','=',$role->id)->first();
+	}
+	
+	public function employeeDetailsAjax($id,$type){
+		
+		$employeee=$this->employeedetails($id);
+		if($employeee){
+			$categories='';
+			foreach($employeee->EmployeeCategories as $cat){
+			    $categories.=$cat->category->name.',';
+			}
+			$categories=trim($categories,',');
+			$licenses='';
+			foreach($employeee->EmployeeLicenseTransport as $obj){
+			    $licenses.=$obj->licenseTransport->name.',';
+			}
+			$licenses=trim($licenses,',');
+
+			$experiences='';
+			 foreach($employeee->Experiences as $experience){
+			 $experiences.='<div class="all-dtl"><h4>'.$experience->employer.'</h4> <address>'.$experience->location.'<br> '.$experience->job_title.'<br> '.$experience->start_date.' - '.$experience->end_date.'<br></address> <p>'.$experience->job_description.'</p></div>';
+			 }
+			 $days=$this->weekDays();
+
+			$availabity=$employeee->Availability;
+
+			$availability='';
+		
+			foreach($days as $key=>$day){ 
+				$avail=explode(',',$availabity->{strtolower($day)} );
+			
+			$availability.='<ul class="week">';
+				$availability.='<li class="a-title day"><?php echo $day; ?></li>';
+				$morning='';
+				$noon='';
+				$night='';
+				if (in_array('morning', $avail)){
+					
+					$morning='prsnt';
+				}
+				if (in_array('noon', $avail)){
+					
+					$noon='prsnt';
+				}
+				if (in_array('night', $avail)){
+					
+					$night='prsnt';
+				}
+				$availability.='<li><p class="'.$morning.'">morning</p></li>';
+				$availability.='<li><p class="'.$noon.'">noon</p></li>';
+				$availability.='<li><p class="'.$night.'">night</p></li>';
+			
+				
+
+			$availability.='</ul>';
+					 }
+			 
+			 if($type=='shortlist'){
+				 $removebtn='<a onclick="removeShortlist($(this),'.$id.')">remove</a>';
+				 
+				}else{
+				$removebtn='';
+				
+				}
+		$str='<div class="profile-cover"> <div class="close"></div><div class="container"> <div class="row"> <div class="pro-detail-cover"> <div class="f-info"><h2 class="pro-name">'.$employeee->userProfile->first_name.' '.$employeee->userProfile->last_name.'</h2><div class="active-status"><h2>Interested</h2></div><div class="work"><p>'.$categories.'</p></div> <div class="info"> <address> <p class="location">Auckland</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds </span></address> </div> </div> <div class="f-profile"> <div class="profile-pic" style="background-image: url('.BASEURL.'/uploads/profile/'.$employeee->userProfile->profile.');"> <img class="pro-sts" src="assets/images/crown.png" alt=""></div> <div class="sec-btn-pos pro-btn disabled-btn">'.$removebtn.'</div> </div> </div> </div></div> <!--contact-info--><div class="container h3-bot"><div class="row "> <div class="con-bot"><h3>contact info</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Phone</p> <span>'.$employeee->phone.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Email</p> <span>'.$employeee->email.'</span></div></div><div class="col-sm-offset-4"></div></div> <div class="about-padd"><div class="row"> <div class="about-bot"><h3>about</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Hours Required</p> <span> '.$employeee->userProfile->part_or_full.'-Time</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Current Situation</p> <span> '.$employeee->userProfile->current_status.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>License & Transport</p> <span>'.$licenses.'</span> </div></div></div></div><div class="about-me-text"><div class="row"><h4>about me</h4><p>'.$employeee->userProfile->about.'</p></div></div><!----><div class="shifts"> <div class="row"><h3 class="ava-bot">availability</h3><div class="schedule">'.$availability.'</div> </div></div><!----><div class=""><div class="row"><div class="full-pro-work"><h3 class="work-bot">Work Experience</h3>'.$experiences.'</div></div></div></div></div>';
+		
+		echo $str;
+		}
+		
 	}
 
 }

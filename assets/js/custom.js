@@ -12,13 +12,42 @@ $(document).ready(function(){
 
 $(document).ready(function(){
 
-	$(".view-more").click(function(){
-	$(".full-pro").show();
+	$(".view-more").click(function(){ 
+	   var user_id=$(this).attr('user_id');
+	  
+	   if($(this).attr('action')=='shortlist'){
+		    var action=$(this).attr('action');
+		   
+	         }else{
+			 
+			 action='';
+			 }
+	   
+	   
+	   	 $.ajax({
+			   url: 'ajaxrequest.php?action=get_employee_details&user_id='+user_id+"&type="+action,
+			   type: 'GET',
+			   success: function(response){
+					
+					  if(response){
+					   $(".full-pro").show();
+					      $(".full-pro").html(response);
+						  
+					   }else{
+						 
+						   
+					   }
+					   
+					   $(".close").click(function(){
+							$(".full-pro,.product-info").hide();
+							});
+					 }
+	         });
+	
+	 
 
 	});
-	$(".close").click(function(){
-	$(".full-pro,.product-info").hide();
-	}); 
+	 
 	$(".tog-fil").click(function(){
 	$(".job-drop-up").toggle();
 	$(".fa-caret-down").toggle();
@@ -230,7 +259,7 @@ if ($(".interested:checked").length ==0){
                               window.location.href= "dashboard.php";
 							}else{
 
-                               window.location.href= "index.php";
+                               window.location.href= "jobseekers.php";
 							}
                        
 						}
@@ -262,10 +291,11 @@ if ($(".interested:checked").length ==0){
 	
  var page=2;
  $(document).on('click','.loadseekers',function () {
+ var params=$(this).attr('params');
    $(this).find('p').text('Loading...');
    var loader= $(this).find('p');
 		 $.ajax({
-	   url: 'ajaxrequest.php?action=get_employees&page='+page,
+	   url: 'ajaxrequest.php?action=get_employees&page='+page+'&'+params,
 	   type: 'GET',
 			success: function(response){
 				page++;
@@ -281,7 +311,7 @@ if ($(".interested:checked").length ==0){
 			   strcat+=cats[j].category.name+',';
 			 });
 			 var cats=strcat.trim(',');
-		 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].user_profile.first_name+' '+ response[i].user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more"><a href="">view more</a></div><div class="sec-btn-pos pro-btn"><a onclick="addShortlist($(this),'+response[i].id+')">shortlist</a></div></div></div></div>'; 
+		 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].user_profile.first_name+' '+ response[i].user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more" user_id="'+response[i].id+'"><a href="">view more</a></div><div class="sec-btn-pos pro-btn"><a onclick="addShortlist($(this),'+response[i].id+')">shortlist</a></div></div></div></div>'; 
 		 if (j % 3 == 0 ) {  str+='</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
 		j++;
 	 });
@@ -305,10 +335,12 @@ if ($(".interested:checked").length ==0){
 
  var shortpage=2;
  $(document).on('click','.loadshorted',function () {
+  var params=$(this).attr('params');
+
    $(this).find('p').text('Loading...');
    var loader= $(this).find('p');
 		 $.ajax({
-	   url: 'ajaxrequest.php?action=get_shorlists&page='+shortpage,
+	   url: 'ajaxrequest.php?action=get_shorlists&page='+shortpage+'&'+params,
 	   type: 'GET',
 			success: function(response){
 				shortpage++;
@@ -324,7 +356,7 @@ if ($(".interested:checked").length ==0){
 			   strcat+=cats[j].category.name+',';
 			 });
 			 var cats=strcat.trim(',');
-			 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].touser.user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].touser.user_profile.first_name+' '+ response[i].touser.user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].touser.user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more"><a href="">view more</a></div><div class="two-btn"><div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div><div class="tooltips"><p>Phone</p> <span>'+response[i].touser.phone+'</span> <p>Email</p> <span>'+response[i].touser.email+'</span><div class="nip"></div></div><div class="sec-btn-pos pro-btn disabled-btn"><a onclick="removeShortlist($(this),'+response[i].touser.id+')">remove</a></div></div></div></div></div>'; 
+			 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].touser.user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].touser.user_profile.first_name+' '+ response[i].touser.user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].touser.user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more" action="shortlist" user_id="'+response[i].to_id+'"><a href="">view more</a></div><div class="two-btn"><div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div><div class="tooltips"><p>Phone</p> <span>'+response[i].touser.phone+'</span> <p>Email</p> <span>'+response[i].touser.email+'</span><div class="nip"></div></div><div class="sec-btn-pos pro-btn disabled-btn"><a onclick="removeShortlist($(this),'+response[i].touser.id+')">remove</a></div></div></div></div></div>'; 
 			 if (j % 3 == 0 ) {  str+='</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
 			j++;
 		 });
@@ -411,17 +443,29 @@ function logout(){
 		   
 		   if(response==true){
 			   if(current.parents('.jobs').find('.col-sm-4').length<2){
-			      window.location.reload();
+			     // window.location.reload();
 		        }else{
-				current.parents('.col-sm-4').empty();
-		       current.parents('.col-sm-4').remove();
+				//current.parents('.col-sm-4').empty();
+				//current.parents('.col-sm-4').hide();
+		      // current.parents('.col-sm-4').remove();
+			   
 				}
 		
 			 swal(
 							'Shorted!',
 							'Employee shorted',
 							'success'
-							)	
+							).then(
+                        function() {
+							
+							if(response){
+                            
+                             //  window.location.href= "jobseekers.php#mainresult";
+							}
+                       
+						}
+
+					) 	
            							
 		   }else{
 			   

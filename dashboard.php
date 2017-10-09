@@ -1,15 +1,3 @@
-<?php
-include_once("dbconfig.php");
-$user=new App\Classes\UserClass();
-$user->isEmployee();
-$shortobj=new App\Classes\ShortlistedClass();
-$profile=$user->getloginProfile();
-$shortlists=$shortobj->whoShortlistedMe();
-
-if(isset($_POST) && !empty($_POST)){
-	$shortobj->interest($_POST);
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +10,14 @@ if(isset($_POST) && !empty($_POST)){
 <body class="jobseeker">
 <?php include_once("header.php"); 
 
+$user->isEmployee();
+$shortobj=new App\Classes\ShortlistedClass();
+$profile=$user->getloginProfile();
+$shortlists=$shortobj->whoShortlistedMe();
+
+if(isset($_POST) && !empty($_POST)){
+	$shortobj->interest($_POST);
+	}
 ?>
 <div class="job-menu-back">
 <div class="container">
