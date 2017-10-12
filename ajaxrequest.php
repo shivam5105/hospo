@@ -45,11 +45,11 @@ if(!empty($_GET) && $_GET['action']=='remove_shortlist'){
 }
 if(!empty($_GET) && $_GET['action']=='shortlist_user'){
 	$user=new App\Classes\UserClass();
-	//$user->isManager();
-	$obj=new App\Classes\ShortlistedClass();
-if($user->isManager(true)){
-   $obj->shortlistUser($_GET['touser']);
-}
+
+	if($user->isManager(true)){
+		$obj=new App\Classes\ShortlistedClass();
+	   $obj->shortlistUser($_GET['touser']);
+	}
 	
 }
 

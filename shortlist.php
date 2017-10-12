@@ -10,25 +10,24 @@
 <body class="jobseeker">
 <?php include_once("header.php"); 
 
-$user->isManager();
+$managerSubscription=$user->isManager();
 
-$categories=$user->categories();
-$licensetransport=$user->licenseTransport();
-$allskills=$user->allskills();
-$shortobj=new App\Classes\ShortlistedClass();
+if($managerSubscription=='Active'){
 
-if(isset($_REQUEST['submit']) && $_REQUEST['submit']=='search'){
-	$shortlisted=$shortobj->whomIshortlisted($_REQUEST);
+	$categories=$user->categories();
+	$licensetransport=$user->licenseTransport();
+	$allskills=$user->allskills();
+	$shortobj=new App\Classes\ShortlistedClass();
 
-}else{
+	if(isset($_REQUEST['submit']) && $_REQUEST['submit']=='search'){
+		$shortlisted=$shortobj->whomIshortlisted($_REQUEST);
 
-    $shortlisted=$shortobj->whomIshortlisted();
+	}else{
+
+		$shortlisted=$shortobj->whomIshortlisted();
+	}
+
 }
-
-
-
-
-
 ?>
 <!--head-->
 <div class="job-menu-back">
@@ -42,6 +41,7 @@ if(isset($_REQUEST['submit']) && $_REQUEST['submit']=='search'){
 </div>
 </div>
 </div>
+<?php if($managerSubscription=='Active'){ ?>
 
 <section class="job-head">
 	
@@ -245,7 +245,11 @@ $i++ ;
 
 </section>
 
-
+<?php }else{ ?>
+<section class="nosubscription">
+ <h3>Membership Expired</h3>
+</section>
+<?php } ?>
 
 <?php include_once("footer.php"); ?>
 

@@ -24,6 +24,8 @@
 			<li <?php if(@$HighLightedTab == 6){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/job_categories.php">Manage Job Categories</a></li>
 			<li <?php if(@$HighLightedTab == 8){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/license_transport.php">Manage License & Tansport</a></li>
 			<li <?php if(@$HighLightedTab == 7){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/employees.php">Manage Employees</a></li>
+			<li <?php if(@$HighLightedTab == 9){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/managers.php">Manage Managers</a></li>
+			<li <?php if(@$HighLightedTab == 10){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/packages.php">Manage Packages</a></li>
 
 			<li <?php if(@$HighLightedTab == 2){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/change_password.php">Change Password</a></li>
 			

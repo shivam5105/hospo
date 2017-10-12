@@ -11,6 +11,16 @@
 
 	include_once("header.php");
 
+if(isset($_REQUEST['action']) && $_REQUEST['action']=='cancel'){
+	$user->flashFancy('Payment Failure' , 'We are really sorry for this inconvenience but there was an error when processing your payment! ', 'error');
+
+}	
+if(isset($_REQUEST['action']) && $_REQUEST['action']=='success'){
+	//$user->flashFancy('Payment Successful' , 'Payment Successful! Thank you for subscribing our service !', 'success');
+$this->flashFancy('Signup | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+}	
+	
+
 
 $user->withoutLoginOnly();
 $roles=$user->roles();
@@ -50,9 +60,9 @@ $days=$user->weekDays();
             }
         }
 </script>
-		  	<form class="account-dtls signupform" method="post" action="" enctype="multipart/form-data">
+		  	<form class="account-dtls signupform" method="post" action="" enctype="multipart/form-data" >
 
-<section class="contact-cover">
+<section class="contact-cover firstsignup">
 
 	<div class="container">
 	  <div class="row">
@@ -67,12 +77,12 @@ $days=$user->weekDays();
   
 		  	<h5>Account Details</h5>
 		  	<p class="half-prt">
-		  		<input  type="text" name="first_name" required placeholder="first name" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
-		  		<input  type="text" name="last_name" required placeholder="last name" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
+		  		<input  type="text" class="first_name" name="first_name" required placeholder="first name" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
+		  		<input  type="text"  class="" name="last_name" required placeholder="last name" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
 		  	</p>
 		  	<p class="full-prt">	
-		  		<input type="text" name="phone" required placeholder="Phone" pattern="^[0-9]{9,}" title="Invalid Input">
-		  		<input type="email" name="email" required  placeholder="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+		  		<input type="text" class="phone" name="phone" required placeholder="Phone" pattern="^[0-9]{9,}" title="Invalid Input">
+		  		<input type="email" class="email" name="email" required  placeholder="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
 		  	</p>
 		  	<p class="half-prt">	
 		  		<input type="password"  class="password" name="password" required value="" placeholder="password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
@@ -80,7 +90,7 @@ $days=$user->weekDays();
 		  	</p>
 		  	<p class="full-prt">
 				  <select name="account" id="account" required pattern="^[A-Za-z]{1,}" title="Invalid Input">
-                                 <option selected disabled hidden value="">Account type</option>
+                                 <option value="">Account type</option>
 								 <?php foreach($roles as $role){ ?>
 								      <option value="<?php echo $role->slug; ?>"><?php echo $role->title; ?></option>
 																  
@@ -90,18 +100,7 @@ $days=$user->weekDays();
 		  	</p>
 		  		
 
-		  	<div class="payment ">
-		  		<h5>Payment Details</h5>
-		  		<p class="full-prt">
-		  		<input type="text" name="card num" value="" placeholder="card number*">
-		  		</p>
-		  		<p class="crd-dtl">
-		  		<input type="text" name="card" value="" placeholder="'Name On Card*">
-		  		<input type="text" name="card" value="" placeholder="mm/yy*">
-		  		<input type="text" name="card" value="" placeholder="mm/yy*">
-		  		</p>
-		    </div>
-		  	
+		
 		  	
 		  </div>
 		</div> 
@@ -140,7 +139,7 @@ $days=$user->weekDays();
 			</div>
 		  </div>
 <!--***************************************-->		
-				<div class="sin-btn "><button type="submit" name="submitmember" value="submitmember" class="paymentbtn sbmt" >save & update profile</button></div>
+				<div class="sin-btn "><button type="submit" value="submit" name="submit"  name="submitmember" value="submitmember" class="paymentbtn sbmt submitmember" >save & update profile</button></div>
 
 		</div> 
 
@@ -154,13 +153,13 @@ $days=$user->weekDays();
 </section>
 
 <!--uploading part-->
-<div class="uploading employee">
+<div class="uploading employee secondsignup">
 	<div class="container">
 	<div class="uplod-img">
 	<p>Upload <br> Profile Photo</p>
 	    <img id="profileimage" src="#"  />
 
-	<input type="file" class="custom-upld" accept="image/*" name="profile" onchange="readURL(this);"  required>
+	<input type="file" class="custom-upld" accept="image/*" name="profile" onchange="readURL(this);"  required="true">
 	</div>	
 	</div>
 
@@ -194,9 +193,9 @@ $days=$user->weekDays();
              I am currently...
 		</h5>
 				<ul>
-					<li><input type="radio" required name="current_status"  value="Employed" >Employed</li>
-					<li><input type="radio"  required name="current_status" value="Unemployed" >Unemployed</li>
-					<li><input type="radio" required name="current_status" value="Studying">Studying</li>
+					<li><input type="radio" required="true" name="current_status"  value="Employed" >Employed</li>
+					<li><input type="radio"  required="true" name="current_status" value="Unemployed" >Unemployed</li>
+					<li><input type="radio" required="true" name="current_status" value="Studying">Studying</li>
 
 				</ul>
 
@@ -224,7 +223,7 @@ $days=$user->weekDays();
 		     		
 		     		<ul>
 		     			<li><div class="sin-d-h"><p>Part-time or full-time?</p></div>
-		     				<select name="part_or_full" required>
+		     				<select name="part_or_full" required="true">
 		     				
                                  <option selected disabled hidden value="">select..</option>
                                  <option value="Part">Part-time</option>
@@ -233,7 +232,7 @@ $days=$user->weekDays();
 		     			</li>
 		     			<li>
 		     			<div class="sin-d-h"> <p>Where do you live?</p> </div>
-						 <input type="text" name="location" required value="" placeholder="Where do you live?">
+						 <input type="text" name="location" required="true" value="" placeholder="Where do you live?">
 						 
 		     			</li>
 		     		</ul>
@@ -256,12 +255,12 @@ $days=$user->weekDays();
 		     		<ul>
 		     			<li class="blk">
 		     			<div class="sin-d-h"><p>Any special skills?</p></div>
-						 <input type="text" required name="skills" value=""  placeholder="Enter Skills as comma seperated" pattern="^[A-Za-z -,.]{1,}" title="Skills as comma seperated only">
+						 <input type="text" required="true" name="skills" value=""  placeholder="Enter Skills as comma seperated" pattern="^[A-Za-z -,.]{1,}" title="Skills as comma seperated only">
 						 
 		     			</li>
 		     			<li>
 		     			<div class="sin-d-h"> <p>License & Transport</p> </div>
-		     				<select name="license_transport[]" class="multiple" multiple required>
+		     				<select name="license_transport[]" class="multiple" multiple required="true">
 								 <?php foreach($licensetransport as $obj){ ?>
 								        <option value="<?=$obj->id;?>"><?=$obj->name;?></option>
 
@@ -283,7 +282,7 @@ $days=$user->weekDays();
 		<div class="about-u">
 
 		<p>About You:</p>
-		<textarea placeholder="Add a short blurb to your profile" minlength="50"    title="Should be atleast 50 characters"  required name="about"></textarea>
+		<textarea placeholder="Add a short blurb to your profile" minlength="50"    title="Should be atleast 50 characters"  required="true" name="about"></textarea>
 			
 		</div>
 	</div>
@@ -340,20 +339,20 @@ $days=$user->weekDays();
 		<div class="experiences">
                 <div class="experience">
 		 		<p class="half-prt blk">	
-		  		<input type="text" name="employer[]" value="" required placeholder="Employer" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
-		  		<input type="text" name="job_location[]" value="" required placeholder="Location"   pattern="^[a-zA-Z0-9\s,'-]*$"   title="Invalid Input" >
+		  		<input type="text" name="employer[]" value="" required="true" placeholder="Employer" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
+		  		<input type="text" name="job_location[]" value="" required="true" placeholder="Location"   pattern="^[a-zA-Z0-9\s,'-]*$"   title="Invalid Input" >
 		  	    </p>
 		  		<p class="crd-dtl blk">
-		  		<input type="text" name="job_title[]" value=""  required placeholder="job title" pattern="^[a-zA-Z0-9\s,'-]*$"   title="Invalid Input">
-		  		<input type="text" name="start_date[]" value="" required placeholder="mm/yy" pattern="^[0-9]{2,}/[0-9]{2,}$"   title="Invalid format">
-		  		<input type="text" name="end_date[]" value="" required placeholder="mm/yy" pattern="^[0-9]{2,}/[0-9]{2,}$"   title="Invalid format" >
+		  		<input type="text" name="job_title[]" value=""  required="true" placeholder="job title" pattern="^[a-zA-Z0-9\s,'-]*$"   title="Invalid Input">
+		  		<input type="text" name="start_date[]" value="" required="true" placeholder="mm/yy" pattern="^[0-9]{2,}/[0-9]{2,}$"   title="Invalid format">
+		  		<input type="text" name="end_date[]" value="" required="true" placeholder="mm/yy" pattern="^[0-9]{2,}/[0-9]{2,}$"   title="Invalid format" >
 		  		</p>
 
 
 		  		<div class="about-u">
 
 		        
-		        <textarea placeholder="Tell us about the position..." required name="job_description[]" minlength="50"    title="Please write atleast 50 characters" ></textarea>
+		        <textarea placeholder="Tell us about the position..." required="true" name="job_description[]" minlength="50"    title="Please write atleast 50 characters" ></textarea>
 			
 		        </div>
 		        </div>

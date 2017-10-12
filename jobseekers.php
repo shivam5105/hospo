@@ -15,17 +15,20 @@
 <body class="jobseeker">
 <?php include_once("header.php");
 	
-$user->isManager();
+$managerSubscription=$user->isManager();
 
-$categories=$user->categories();
-$licensetransport=$user->licenseTransport();
-$allskills=$user->allskills();
-if(isset($_REQUEST['submit']) && $_REQUEST['submit']=='search'){
-$jobseekers=$user->employees($_REQUEST);
+if($managerSubscription=='Active'){
 	
-}else{
+	$categories=$user->categories();
+	$licensetransport=$user->licenseTransport();
+	$allskills=$user->allskills();
+	if(isset($_REQUEST['submit']) && $_REQUEST['submit']=='search'){
+	$jobseekers=$user->employees($_REQUEST);
+		
+	}else{
 
-$jobseekers=$user->employees();
+	$jobseekers=$user->employees();
+	}
 }
 
 ?>
@@ -41,6 +44,8 @@ $jobseekers=$user->employees();
 </div>
 </div>
 
+
+<?php if($managerSubscription=='Active'){ ?>
 
 <!--top-sec-->
 
@@ -222,6 +227,11 @@ $i++ ;
  
 </section>
 
+<?php }else{ ?>
+<section class="nosubscription">
+ <h3>Membership Expired</h3>
+</section>
+<?php } ?>
 
 <?php include_once("footer.php"); ?>
 

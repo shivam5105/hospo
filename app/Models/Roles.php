@@ -15,5 +15,8 @@ class Roles extends Eloquent{
 	{
 	  return $this->hasMany('App\Models\User','role_id');
 	}
-
+    public function packages() 
+	{
+	  return $this->hasOne('App\Models\Packages','role_id');
+	}
 }

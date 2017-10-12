@@ -19,7 +19,7 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo PROJECT_NAME; ?> - Add Job Category</title>
+	<title><?php echo PROJECT_NAME; ?> - Edit Job Category</title>
 	<?php include_once('common-head.php'); ?>
 
 </head>
@@ -27,13 +27,13 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 	<?php include_once('header.php'); ?>
 	<div class="title-row">
 		<a href="<?php echo BASEURL; ?>/manage_pages.php" class="button fancy title-btn primary">Manage Job Categories</a>
-		<h1 class="title">Add New Category</h1>
+		<h1 class="title">Edit Job Category</h1>
 	</div>
 
 	<form action="" method="post" name="add_page_form" id="add_page_form">
 		<input type="hidden" name="submitted" id="submitted" value="1" />
 		<fieldset>
-			<legend>Add Job Category</legend>
+			<legend>Edit Job Category</legend>
 			
 			<div class="row">
 				<div class="col-8">

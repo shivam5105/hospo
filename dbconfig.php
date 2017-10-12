@@ -10,6 +10,9 @@ else
 	define("BASEURL", "http://".DOMAIN."/hospo");
 	define("BASEPATH", "/home1/thelabel/public_html/hospo");
 }
+
+
+
 require_once("functions.php");
 
 

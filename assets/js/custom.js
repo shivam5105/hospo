@@ -130,11 +130,15 @@ if ($(".interested:checked").length ==0){
 			$(".employee").show();      
 			$(".payment").hide();
 			$(".paymentbtn").hide();
+			$(".employee").find('input:text,input:file,input:radio,textarea,select').attr('required',true)
 
 		}else{
 			$(".employee").hide();
 			$(".payment").show();
 			$(".paymentbtn").show();
+			
+			$(".employee").find(':hidden').attr('required',false)
+			
 
 
 		}
@@ -143,19 +147,37 @@ if ($(".interested:checked").length ==0){
 	    $('.addnewemp').click(function(){
 			$('.experiences').find('.experience:last').after('<div class="experience experienceextra"> <p class="half-prt blk"> <input type="text" name="employer[]" class="employer" value="" placeholder="Employer" required pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input"> <input type="text" name="job_location[]" class="job_location" value="" placeholder="Location" required pattern="^[a-zA-Z0-9\s,\'-]*$"   title="Invalid Input"> </p> <p class="crd-dtl blk"> <input type="text" name="job_title[]" value="" class="job_title" placeholder="job title" required  pattern="^[a-zA-Z0-9\s,\'-]*$"   title="Invalid Input"> <input type="text" name="start_date[]" class="start_date" value="" placeholder="mm/yy" required pattern="^[0-9]{2,}/[0-9]{2,}$"   title="Invalid format (mm/yy)"> <input type="text" name="end_date[]" value="" class="end_date" placeholder="mm/yy" required pattern="^[0-9]{2,}/[0-9]{2,}$"   title="Invalid format (mm/yy)"> </p> <div class="about-u"> <textarea placeholder="Tell us about the position..." name="job_description[]" required class="job_description" required minlength="50"    title="Please write atleast 50 characters" ></textarea> </div> </div>');
 		});
+$('.submitmember').click(function(e) {
 
+	if($("#account").val()==''){
+	
+			$(".employee").find(':hidden').attr('required',false);
+			
+
+		}
+});
 		var checkboxes = $(".categories"),
 		signupform = $(".signupform");
 
 		signupform.submit(function(e) {
-
-
-			if ($(".password").val()!=$(".confirm_password").val()){
+		
+		
+		
+		var account=$('#account').val();
+		if ($(".password").val()!=$(".confirm_password").val()){
               swal('Confirm Password','Confirm Password doesnot match.','error');
 				return false;
 				e.preventDefault();
 			}
-			else if ( $('.uploading').is(":visible") && $(".categories:checked").length ==0){
+			
+        if(account=='manager'){
+			if($(".first_name").val()!='' && $(".last_name").val()!='' && $(".email").val()!='' && $(".phone").val()!='' && $(".password").val()!='' && $(".confirm_password").val()!='' && $("#account").val()!=''){
+				return true;
+			}else{
+			
+			}
+		}else{
+		 if ( $('.uploading').is(":visible") && $(".categories:checked").length ==0){
 				swal('Required','select at least one looking for work in.','error');
 				return false;
 				e.preventDefault();
@@ -207,6 +229,10 @@ if ($(".interested:checked").length ==0){
 		       });
 
 		   }
+		
+		}
+         
+			
 
 
 			

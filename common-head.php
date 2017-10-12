@@ -24,3 +24,16 @@ $user=new App\Classes\UserClass();
 var BASEURL="<?php echo BASEURL;?>";
 
 </script>
+
+<style>
+	.nosubscription{
+	     min-height: 221px;
+	
+	}
+	.nosubscription h3{
+		margin: 0 auto;
+		width: 300px;
+		margin-top: 11%;
+	
+	}
+	</style>

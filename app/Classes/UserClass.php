@@ -12,6 +12,8 @@ use App\Models\EmployeeLicenceTransport;
 use App\Models\Availability;
 use App\Classes\MailClass;
 use App\Models\Skills;
+use App\Models\Subscription;
+use App\Models\Packages;
 use App\Models\LoginAttempts;
 use Paginator;
 use DB;
@@ -32,6 +34,8 @@ class UserClass extends BaseClass {
 		$this->licencetransport =new EmployeeLicenceTransport();
 		$this->availabitlity =new Availability();
 		$this->skills =new Skills();
+		$this->packages =new Packages();
+		$this->subcription =new Subscription();
 		$this->roles =new Roles();
 		$this->loginattempts =new LoginAttempts();
 		$this->categories =new Categories();
@@ -40,6 +44,42 @@ class UserClass extends BaseClass {
 		
 		
 	}
+	public function getPackagebyId($id){
+
+		return $this->packages->where('id','=',$id)->first();
+	}
+	
+	public function check_txnid($tnxid){
+		
+		$data=$this->subcription->where('txn_id','=',$tnxid)->first();
+		if(count($data)){
+			return false;
+		}else{
+		return true;
+		}
+	}
+	public function validatePaymentAmount($amount,$package_id){
+		
+		$data=$this->packages->where('id','=',$package_id)->where('price','=',$amount)->first();
+	   if(count($data)){
+			return true;
+		}else{
+		return false;
+		}
+	}
+	
+	public function PaymentUpdate($data){
+		
+		$usersubobj = Subscription::create([
+			'package_id' => $data['item_number'],
+			'txn_id' => $data['txn_id'],
+			'user_id' =>$data['custom'],
+			'payment_date' =>date("Y-m-d H:i:s"),
+			'status' =>'Paid',
+			]);	
+		$userobj =$this->model->where('id','=',$data['custom'])->update(['status' =>1,'membership_status' =>'Active']);
+    }
+
 	public function categories(){
 	   return $this->categories->where('status','=','1')->get();
 	
@@ -134,11 +174,14 @@ class UserClass extends BaseClass {
 		$userid=$this->loginUserId();
 		return $this->userprofile->where('user_id','=',$userid)->first();
 	}
+	
+	
+	
 	public function withoutLoginOnly(){
       if($this->login_check()){
 		   				header('Location: '.BASEURL .'/index.php');
            
-		}
+	}
 
 
 	}
@@ -164,6 +207,10 @@ class UserClass extends BaseClass {
 		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='manager'){
 			  if($ajax==true){
 				return true;
+				}else{
+				 return 	$_SESSION['logged_in_user']['membership_status'];
+
+				
 				}
 		}else{
 			 if($ajax==true){
@@ -301,7 +348,7 @@ class UserClass extends BaseClass {
 											
 										}else{
 											$user_browser = $_SERVER['HTTP_USER_AGENT'];
-								   $_SESSION['logged_in_user'] =array('email'=>$user->email,'user_id'=>$user->id,'role'=>$user->role->slug,'login_string'=>hash('sha512',$user->password.$user_browser));
+								   $_SESSION['logged_in_user'] =array('email'=>$user->email,'user_id'=>$user->id,'role'=>$user->role->slug,'login_string'=>hash('sha512',$user->password.$user_browser),'membership_status'=>$user->membership_status);
 											   echo json_encode(["status"=>true,'role'=>$user->role->slug,"message"=>"Successfully logged in !"]);	
 
 										}
@@ -324,6 +371,48 @@ class UserClass extends BaseClass {
 		}		
 	
 	}
+	
+	
+	public function payment($user_id,$package){
+		
+	$querystring = '';
+	
+	// Firstly Append paypal account to querystring
+	$querystring .= "?business=".urlencode(PAYPAL_ID)."&";
+	
+	// Append amount& currency (£) to quersytring so it cannot be edited in html
+	
+	//The item name and amount can be brought in dynamically by querying the $_POST['item_number'] variable.
+	$querystring .= "cmd=_xclick&";
+	//$querystring .= "no_note=1&";
+	$querystring .= "currency_code=".CURRENCY_CODE."&";
+	$querystring .= "item_number=".urlencode($package->id)."&";
+	$querystring .= "item_name=".urlencode($package->name)."&";
+	$querystring .= "amount=".urlencode($package->price)."&";
+	
+	//loop for posted values and append to querystring
+	/* 
+	foreach($_POST as $key => $value){
+		$value = urlencode(stripslashes($value));
+		$querystring .= "$key=$value&";
+	}
+	 */
+	 
+	// Append paypal return addresses
+	$querystring .= "return=".urlencode(stripslashes(PAYPAL_CANCEL_URL))."&";
+	$querystring .= "cancel_return=".urlencode(stripslashes(PAYPAL_CANCEL_URL))."&";
+	$querystring .= "notify_url=".urlencode(PAYPAL_NOTIFY_URL);
+	
+	// Append querystring with custom field
+	$querystring .= "&custom=".$user_id;
+	
+	// Redirect to paypal IPN
+	//echo PAYPAL_URL.$querystring;
+	header('location:'.PAYPAL_URL.$querystring);
+	exit();
+		
+	} 
+	
 	public function signup($data,$file){
 		
 
@@ -404,8 +493,62 @@ class UserClass extends BaseClass {
 				$this->flashFancy('Required', 'Account type is required', 'error');
 				
 			}
+		
+			 if($data['account']=='manager'){
+			 	$role_user = $this->roles->where('slug','manager')->first();
 
-		    if($data['account']=='employee'){
+			 	 
+						$user = $this->model->where('email','=',$data['email'])->first();
+							if(empty($user)){
+								 $userphone = $this->model->where('phone','=',$data['phone'])->first();
+								if(empty($userphone)){
+                              	$userobj = User::create([
+										'email' => $data['email'],
+										'phone' => $data['phone'],
+										'role_id' =>$role_user->id,
+										'phone_confirmed' =>0,
+										'email_confirmed' =>0,
+										'email_confirmation_code' =>password_hash(openssl_random_pseudo_bytes(32).time().$data['email'], PASSWORD_DEFAULT),
+										'password' =>password_hash($data['password'], PASSWORD_DEFAULT) ,
+										'status' =>1,
+										'membership_status' =>'Inactive',
+
+										]);
+										
+										$userprofileobj = UserProfile::create([
+										'first_name' => $data['first_name'],
+										'last_name' =>$data['last_name'],
+										'user_id' =>$userobj->id,
+										'prmo_code' => isset($data['prmo_code'])?$data['prmo_code']:NULL,
+										
+										]);
+										//print_r($userprofileobj);
+										//echo "<script type='text/javascript'>  window.location='index.php'; </script>";
+
+										//header('location:payment.php?user_id='.$userobj->id.'&package='.$role_user->packages->id);
+										
+										//$_SESSION['CURRENT_USER_ID']=$userobj->id;
+									//$this->payment($userobj->id,$role_user->packages);
+
+										$this->flashFancy('Signup | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+
+												
+								}else{
+									$this->flashFancy('Mobile Already exist' , 'User with this mobile is already exist ', 'error');
+
+								
+								}
+							   
+							}else{
+							
+								$this->flashFancy('Email Already exist' , 'User with this email is already exist ', 'error');
+
+							
+							
+							}
+
+			 }
+		     else if($data['account']=='employee'){
 		    
 					if($data['currently_looking_for_work']==''){
 						
@@ -679,8 +822,6 @@ class UserClass extends BaseClass {
 						
 						}
 
-		    }else{
-				
 		    }
 		}else{
 
@@ -1181,7 +1322,106 @@ class UserClass extends BaseClass {
 
 					
 	}
-	
+		public function editManager($currentuser,$data){
+			
+		  
+   		if(!empty($data)) {		
+
+			if(empty($data['first_name'])){
+				$this->flashFancy('Required', 'First Name is required', 'error');
+
+			}else if (!preg_match("/^[A-Za-z0-9 ]{1,}/",$data['first_name'])) {
+
+				$this->flashFancy('Invalid', 'Invalid input for first name', 'error');
+
+
+			}
+			else if(empty($data['last_name'])){
+				$this->flashFancy('Required', 'Last Name is required', 'error');
+				
+				
+			}
+			else if (!preg_match("/^[A-Za-z0-9 ]{1,}/",$data['last_name'])) {
+
+				$this->flashFancy('Invalid', 'Invalid input for last name', 'error');
+
+
+			}
+			else if(empty($data['phone'])){
+				$this->flashFancy('Required', 'Phone is required', 'error');
+				
+				
+			}
+			else if (!preg_match("/^[0-9]{9,}/",$data['phone'])) {
+
+				$this->flashFancy('Invalid', 'Invalid input for phone ', 'error');
+
+
+			}
+			else if(empty($data['email'])){
+				
+				$this->flashFancy('Required', 'Email is required', 'error');
+				
+			}
+			else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+
+				$this->flashFancy('Invalid', 'Invalid Email', 'error');
+
+
+			}
+			
+			else{
+						
+						$user = $this->model->where('email','=',$data['email'])->first();
+							if(empty($user) || trim($currentuser->email)==trim($data['email'])){
+								 $userphone = $this->model->where('phone','=',$data['phone'])->first();
+								if(empty($userphone)  || trim($currentuser->phone)==trim($data['phone'])){
+                                       
+									$userobj =$this->model->where('id','=',$currentuser->id)->update([
+										'email' => $data['email'],
+										'phone' => $data['phone'],
+										'email_confirmed' =>trim($data['email_confirmed']),
+										'status' =>$data['status']
+
+										]);
+								
+									$userprofiledata=[
+										'first_name' => $data['first_name'],
+										'last_name' =>$data['last_name'],
+										];
+                                 
+								 
+                                   $userprofileobj =$this->userprofile->where('user_id','=',$currentuser->id)->update($userprofiledata);
+								 	
+									
+										$this->flashFancy('Manager Updated' , 'Manager details udpated', 'success','managers.php');
+
+												
+								}else{
+									$this->flashFancy('Mobile Already exist' , 'User with this mobile is already exist ', 'error');
+
+								
+								}
+							   
+							}else{
+							
+								$this->flashFancy('Email Already exist' , 'User with this email is already exist ', 'error');
+
+							
+							
+							}
+						
+						}
+
+		   
+		}else{
+
+			$this->flashFancy('Empty Fields', 'Please fill all required fields', 'error');
+
+		  }
+
+					
+	}
 	public function deleteEmployee($id)	{		
 		$role=$this->roles->where('slug','=','employee')->first();
 		$user=$this->model->where('id','=',$id)->where('role_id','=',$role->id);
@@ -1192,6 +1432,16 @@ class UserClass extends BaseClass {
 		Skills::where('user_id','=',$id)->delete();
 		EmployeeCategories::where('user_id','=',$id)->delete();
 		Shortlisted::where('to_id','=',$id)->delete();
+        $user->delete();
+		return true;
+	}
+	public function deleteManager($id)	{		
+		$role=$this->roles->where('slug','=','manger')->first();
+		$user=$this->model->where('id','=',$id)->where('role_id','=',$role->id);
+		UserProfile::where('user_id','=',$id)->delete();
+		Subscription::where('user_id','=',$id)->delete();
+		
+		Shortlisted::where('by_id','=',$id)->delete();
         $user->delete();
 		return true;
 	}
@@ -1260,6 +1510,40 @@ class UserClass extends BaseClass {
 		
 		
 	}
+	
+	
+		public function allManagers(){
+		$role=$this->roles->where('slug','=','manager')->first();
+
+		$usermodel=$this->model->where('role_id','=',$role->id);
+		if(isset($_GET['email']) && $_GET['email']!=''){
+			$usermode=$usermodel->where('email','LIKE','%'.$_GET['email'].'%');
+		}
+			if(isset($_GET['phone']) && $_GET['phone']!=''){
+			$usermode=$usermodel->where('phone','LIKE','%'.$_GET['phone'].'%');
+		}
+		if(isset($_GET['status']) && $_GET['status']!=''){ 
+			$usermode=$usermodel->where('status','=',$_GET['status']);
+		}	
+		if(isset($_GET['email_confirmed']) && $_GET['email_confirmed']!=''){ 
+			$usermode=$usermodel->where('email_confirmed','=',$_GET['email_confirmed']);
+		}
+		if(isset($_GET['year']) && $_GET['year']!=''){ 
+			$usermode=$usermodel->whereYear('create_date','=',$_GET['year']);
+		}	
+		if(isset($_GET['month']) && $_GET['month']!=''){ 
+			$usermode=$usermodel->whereMonth('create_date','=',$_GET['month']);
+		}	
+	
+		return $data=$this->pagination(10,$usermodel);
+		
+		
+	}
+	
+	  public function getUserEmailByID($id){
+	    
+		return $user=$this->model->where('id','=',$id)->first(['email']);
+	}	
     public function getEmployeeEmailByUserid($id){
 	    $role=$this->roles->where('slug','=','employee')->first();
 		return $user=$this->model->where('id','=',$id)->where('role_id','=',$role->id)->first(['email']);
@@ -1268,7 +1552,10 @@ class UserClass extends BaseClass {
 	    $role=$this->roles->where('slug','=','employee')->first();
 		return $user=$this->model->where('id','=',$id)->where('role_id','=',$role->id)->first();
 	}
-	
+	 public function managerdetails($id){
+	    $role=$this->roles->where('slug','=','manager')->first();
+		return $user=$this->model->where('id','=',$id)->where('role_id','=',$role->id)->first();
+	}
 	public function employeeDetailsAjax($id,$type){
 		
 		$employeee=$this->employeedetails($id);
