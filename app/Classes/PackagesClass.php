@@ -21,14 +21,16 @@ class PackagesClass extends BaseClass {
 	
 	public function store($inputs){		
 		
-		$this->model->name = $inputs['name'];
-		$this->model->status = $inputs['status'];
+		   $this->model->name = $inputs['name'];
+	    $this->model->slug = $inputs['name'];
+		$this->model->price = $inputs['price'];
+		$this->model->type = $inputs['type'];
          if(isset($inputs['description']) && $inputs['description']!=''){
                $this->model->description =$inputs['description'];
          }
 		
 		$this->model->save();
-		$this->flashFancy('Success' , 'Category added successfully', 'success','job_categories.php');
+		$this->flashFancy('Success' , 'Package added successfully', 'success','packages.php');
 		
 	}
     public function delete($id){
@@ -44,13 +46,15 @@ class PackagesClass extends BaseClass {
 	public function update($currentCat, $inputs){
 
 	    $currentCat->name = $inputs['name'];
-		$currentCat->status = $inputs['status'];
+	    $currentCat->slug = $inputs['name'];
+		$currentCat->price = $inputs['price'];
+		$currentCat->type = $inputs['type'];
          if(isset($inputs['description']) && $inputs['description']!=''){
                $currentCat->description =$inputs['description'];
          }
 		
 		$currentCat->save();
-		$this->flashFancy('Success' , 'Category updated successfully', 'success','job_categories.php');
+		$this->flashFancy('Success' , 'Category updated successfully', 'success','packages.php');
 	}
 
 }
