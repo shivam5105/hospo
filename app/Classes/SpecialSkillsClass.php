@@ -1,18 +1,13 @@
 <?php  namespace App\Classes;
 
-use App\Models\LicenceTransport;
+use App\Models\SpecialSkills;
 
-class LicenseTransportClass extends BaseClass {
+class SpecialSkillsClass extends BaseClass {
 	
-	/**
-	 * Create a new ContactRepository instance.
-	 *
-	 * @param  App\Models\Contact $contact
-	 * @return void
-	 */
+
 	public function __construct()
 	{
-		$this->model =new LicenceTransport();
+		$this->model =new SpecialSkills();
 	}
 
 	public function get(){
@@ -23,7 +18,7 @@ class LicenseTransportClass extends BaseClass {
 		$this->model->name = $inputs['name'];
         
 		$this->model->save();
-		$this->flashFancy('Success' , 'Licence & Transport added successfully', 'success','license_transport.php');
+		$this->flashFancy('Success' , 'Special Skills added successfully', 'success','special_skills.php');
 		
 	}
     public function delete($id){
@@ -41,7 +36,7 @@ class LicenseTransportClass extends BaseClass {
 	    $currentCat->name = $inputs['name'];
        
 		$currentCat->save();
-		$this->flashFancy('Success' , 'Licence & Transport updated successfully', 'success','license_transport.php');
+		$this->flashFancy('Success' , 'Special Skills updated successfully', 'success','special_skills.php');
 	}
 
 }

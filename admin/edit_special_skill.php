@@ -1,8 +1,8 @@
 <?php
 include_once("dbconfig.php");
 loginCheck();
-$HighLightedTab =8;
-$obj=new App\Classes\LicenseTransportClass();
+$HighLightedTab =11;
+$obj=new App\Classes\SpecialSkillsClass();
 
 if(isset($_GET['id']) && (int)$_GET['id'] > 0){
 	   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) ? filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) : 0;
@@ -19,20 +19,20 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo PROJECT_NAME; ?> - Edit Licence & transport</title>
+	<title><?php echo PROJECT_NAME; ?> - Edit Special Skill</title>
 	<?php include_once('common-head.php'); ?>
 
 </head>
 <body>
 	<?php include_once('header.php'); ?>
 	<div class="title-row">
-		<a href="<?php echo BASEURL; ?>/license_transport.php" class="button fancy title-btn primary">Manage Licence & transport</a>
-		<h1 class="title">Edit New Licence & transport</h1>
+		<a href="<?php echo BASEURL; ?>/special_skills.php" class="button fancy title-btn primary">Manage Special Skills</a>
+		<h1 class="title">Edit New Special Skill</h1>
 	</div>
 
 	<form action="" method="post" name="add_page_form" id="add_page_form">
 		<fieldset>
-			<legend>Edit Licence & transport</legend>
+			<legend>Edit Special Skill</legend>
 			
 			<div class="row">
 				<div class="col-8">

@@ -10,7 +10,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 	
 	if($user->deleteEmployee($id))
 	{
-				flash('msg', 'Employee record deleted successfully.', 'success', '?');
+				flash('msg', 'Employee record deleted successfully.', 'success', 'employees.php');
 
 	}
 	

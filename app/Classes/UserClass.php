@@ -8,9 +8,12 @@ use App\Models\Roles;
 use App\Models\Shortlisted;
 use App\Models\Categories;
 use App\Models\LicenceTransport;
+use App\Models\TotalExperience;
+
 use App\Models\EmployeeLicenceTransport;
 use App\Models\Availability;
 use App\Classes\MailClass;
+use App\Models\SpecialSkills;
 use App\Models\Skills;
 use App\Models\Subscription;
 use App\Models\Packages;
@@ -34,6 +37,7 @@ class UserClass extends BaseClass {
 		$this->licencetransport =new EmployeeLicenceTransport();
 		$this->availabitlity =new Availability();
 		$this->skills =new Skills();
+		$this->specialskills =new SpecialSkills();
 		$this->packages =new Packages();
 		$this->subcription =new Subscription();
 		$this->roles =new Roles();
@@ -85,11 +89,17 @@ class UserClass extends BaseClass {
 	
 	}
 	public function allskills(){
-	   return $this->skills->groupBy('name')->get();
+	   return $this->specialskills->groupBy('name')->get();
 	
 	}
+	
 	public function licenseTransport(){
 	   return LicenceTransport::get();
+	
+	}
+	
+	public function totalExperience(){
+	   return TotalExperience::get();
 	
 	}
 	public function employeeLicenseTransport(){
@@ -164,26 +174,31 @@ class UserClass extends BaseClass {
 	
 	public function loginUserId(){
 
-		if($this->login_check()){
-		   return 	$_SESSION['logged_in_user']['user_id'];
-		}
+		//if($this->login_check()){
+			if(isset($_SESSION['logged_in_user'])){
+				return 	(int)trim($_SESSION['logged_in_user']['user_id']);
+			}
+		   
+		//}
 	}
 
 	public function getloginProfile(){
 
-		$userid=$this->loginUserId();
-		return $this->userprofile->where('user_id','=',$userid)->first();
+		 $userid=$this->loginUserId();
+		 
+		if($userid){
+			return $this->userprofile->where('user_id','=',$userid)->first();
+		}
+		
 	}
 	
 	
 	
 	public function withoutLoginOnly(){
       if($this->login_check()){
-		   				header('Location: '.BASEURL .'/index.php');
+		  header('Location: '.BASEURL .'/index.php');
            
-	}
-
-
+	   }
 	}
 	public function isEmployee($ajax=false){
 	
@@ -261,7 +276,7 @@ class UserClass extends BaseClass {
 			$this->flashFancy('Required', 'Confirm Password is required', 'error');
 				
 				
-			}
+				}
 			else if (!preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/",$data['confirm_password'])) {
 
 			 $this->flashFancy('Invalid', 'Confirm password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters', 'error');
@@ -389,6 +404,7 @@ class UserClass extends BaseClass {
 	$querystring .= "item_number=".urlencode($package->id)."&";
 	$querystring .= "item_name=".urlencode($package->name)."&";
 	$querystring .= "amount=".urlencode($package->price)."&";
+	$querystring .= "no_shipping=1&";
 	
 	//loop for posted values and append to querystring
 	/* 
@@ -595,16 +611,11 @@ class UserClass extends BaseClass {
 						$this->flashFancy('Required', 'Skills is required', 'error');
 						
 					}
-					else if (!preg_match("/^[A-Za-z -,.]{1,}/",$data['skills'])) {
-
-
-						$this->flashFancy('Invalid', 'Skills should be comma seperated only', 'error');
-
+					else if(empty($data['total_experience_id'])){
+						
+						$this->flashFancy('Required', 'Total Experience is required', 'error');
+						
 					}
-					// if(empty($data['license_transport'])){
-						
-						
-					// }
 					else if(empty($data['about'])){
 						
 						$this->flashFancy('Required', 'About yourself is required', 'error');
@@ -686,7 +697,7 @@ class UserClass extends BaseClass {
 					else{
                       
 
-					////profile pic validatio nwith multipart form data	   
+					////profile pic validation with multipart form data	   
 						$user = $this->model->where('email','=',$data['email'])->first();
 							if(empty($user)){
 								 $userphone = $this->model->where('phone','=',$data['phone'])->first();
@@ -751,6 +762,8 @@ class UserClass extends BaseClass {
 										'prmo_code' => isset($data['prmo_code'])?$data['prmo_code']:NULL,
 										'currently_looking_for_work' =>$data['currently_looking_for_work'],
 										'part_or_full' =>$data['part_or_full'],
+										'licence_transport_id' =>$data['license_transport'], //newly added as per client request
+										'total_experience_id' =>$data['total_experience_id'], //newly added as per client request
 										]);
 	                                }
 
@@ -765,19 +778,21 @@ class UserClass extends BaseClass {
 									}
 									$emplcategories = EmployeeCategories::insert($catsarray);
 
-									$skills=array_unique(explode(",",$data['skills'] ));
+									$skills=$data['skills'];
                                     $skillarray=[];
 
 									foreach($skills as $skill){
 									  array_push($skillarray,[
-										'name' => $skill,
+										'special_skill_id' => $skill,
 										'user_id' =>$userobj->id,									
 										]);
 									}
 
 									Skills::insert($skillarray);
 									
-                                       $license=[];
+									//newly removed as per client request
+									/*
+                                    $license=[];
 									foreach($data['license_transport'] as $data){
 										array_push($license,[
 										'licence_transport_id' => $data,
@@ -786,7 +801,7 @@ class UserClass extends BaseClass {
 
 									}
 									 EmployeeLicenceTransport::insert($license);									
-
+                                    */
 
 									
 									Experiences::insert($experiencearray);									
@@ -860,7 +875,8 @@ class UserClass extends BaseClass {
 				$location=$data['location'];
 				$user =$user->whereHas(
 									'userProfile', function($q) use($location){
-										$q->where('location','LIKE', '%'.$location.'%');
+									$q->where('location',$location);
+
 									}
 							);
 			}
@@ -868,7 +884,7 @@ class UserClass extends BaseClass {
 				  $skill=$data['skill'];
 				$user =$user->whereHas(
 									'Skills', function($q) use($skill){
-										$q->where('name',$skill);
+										$q->where('id',$skill);
 									}
 							);
 			}
@@ -882,7 +898,7 @@ class UserClass extends BaseClass {
 			}
 			//General Availability filter
 		}
-		$user =$user->with('userProfile', 'EmployeeCategories');
+		$user =$user->with('userProfile', 'EmployeeCategories','userProfile.joblocation','userProfile.totalexperience');
 		
 		return $this->AjaxPagination(1,9,$user);
 	}
@@ -911,7 +927,7 @@ class UserClass extends BaseClass {
 				$location=$data['location'];
 				$user =$user->whereHas(
 									'userProfile', function($q) use($location){
-										$q->where('location','LIKE', '%'.$location.'%');
+										$q->where('location',$location);
 									}
 							);
 			}
@@ -919,7 +935,7 @@ class UserClass extends BaseClass {
 				  $skill=$data['skill'];
 				$user =$user->whereHas(
 									'Skills', function($q) use($skill){
-										$q->where('name',$skill);
+										$q->where('id',$skill);
 									}
 							);
 			}
@@ -933,7 +949,7 @@ class UserClass extends BaseClass {
 			}
 			//General Availability filter
 		}
-		$user=$user->with('userProfile', 'EmployeeCategories');
+		$user=$user->with('userProfile', 'EmployeeCategories','userProfile.joblocation','userProfile.totalexperience');
 		
 		echo  $this->AjaxPagination($page,9,$user)->toJson();
 	}
@@ -1026,16 +1042,7 @@ class UserClass extends BaseClass {
 						$this->flashFancy('Required', 'Skills is required', 'error');
 						
 					}
-					else if (!preg_match("/^[A-Za-z -,.]{1,}/",$data['skills'])) {
-
-
-						$this->flashFancy('Invalid', 'Skills should be comma seperated only', 'error');
-
-					}
-					// if(empty($data['license_transport'])){
-						
-						
-					// }
+					
 					else if(empty($data['about'])){
 						
 						$this->flashFancy('Required', 'About yourself is required', 'error');
@@ -1139,6 +1146,8 @@ class UserClass extends BaseClass {
 										'prmo_code' => isset($data['prmo_code'])?$data['prmo_code']:NULL,
 										'currently_looking_for_work' =>$data['currently_looking_for_work'],
 										'part_or_full' =>$data['part_or_full'],
+										'licence_transport_id' =>$data['license_transport'],
+										'total_experience_id' =>$data['total_experience_id'],
 										];
                                      if(isset($file['profile']['name']) && !empty($file['profile']['name'])){
 										 if(getimagesize($file["profile"]["tmp_name"]) != false){
@@ -1184,25 +1193,32 @@ class UserClass extends BaseClass {
 									
 										
 
-									$skills=array_unique(explode(",",$data['skills'] ));
+										
+									$skills=$data['skills'];
 									
-									 $oldskills = array_column($currentuser->Skills->toArray(), 'name');	   
+									
+									 $oldskills = array_column($currentuser->Skills->toArray(), 'special_skill_id');	   
 
 									$result=array_diff($oldskills,$skills);
 									if(count($result)){
 										foreach($result as $val){
-										   $this->skills->where('user_id','=',$currentuser->id)->where('name','=',$val)->delete();
+										   $this->skills->where('user_id','=',$currentuser->id)->where('special_skill_id','=',$val)->delete();
 
 										}
 
 			                         }
-											
+										
+										
+										
+										
+										
+										
                                     $skillarray=[];
                                     $newskills=array_unique(array_diff($skills,$oldskills));
 
 									foreach($newskills as $skill){
 									  array_push($skillarray,[
-										'name' => $skill,
+										'special_skill_id' => $skill,
 										'user_id' =>$currentuser->id,									
 										]);
 									}
@@ -1210,7 +1226,7 @@ class UserClass extends BaseClass {
 									Skills::insert($skillarray);
 									
 									
-									
+									/*
 								   $oldlicenses = array_column($currentuser->EmployeeLicenseTransport->toArray(), 'licence_transport_id');	   
 
 									$result=array_diff($oldlicenses,$data['license_transport']);
@@ -1233,7 +1249,8 @@ class UserClass extends BaseClass {
 										]);
 
 									}
-									 EmployeeLicenceTransport::insert($license);	
+									 EmployeeLicenceTransport::insert($license);
+									 */
 
 									 
                                     $oldexp = array_column($currentuser->Experiences->toArray(), 'id');	   
@@ -1556,9 +1573,21 @@ class UserClass extends BaseClass {
 	    $role=$this->roles->where('slug','=','manager')->first();
 		return $user=$this->model->where('id','=',$id)->where('role_id','=',$role->id)->first();
 	}
+	
+	public function isShortlisted($id){
+	  return   Shortlisted::where('to_id','=',$id)->where('status','=',1)->where('is_interested', '=' , 1)->first();	
+	}
 	public function employeeDetailsAjax($id,$type){
 		
 		$employeee=$this->employeedetails($id);
+		
+		if($this->isShortlisted($id)){
+			$interested='<div class="active-status"><h2>Interested</h2></div>';
+		}else{
+		$interested='';
+		
+		}
+		
 		if($employeee){
 			$categories='';
 			foreach($employeee->EmployeeCategories as $cat){
@@ -1617,7 +1646,13 @@ class UserClass extends BaseClass {
 				$removebtn='';
 				
 				}
-		$str='<div class="profile-cover"> <div class="close"></div><div class="container"> <div class="row"> <div class="pro-detail-cover"> <div class="f-info"><h2 class="pro-name">'.$employeee->userProfile->first_name.' '.$employeee->userProfile->last_name.'</h2><div class="active-status"><h2>Interested</h2></div><div class="work"><p>'.$categories.'</p></div> <div class="info"> <address> <p class="location">Auckland</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds </span></address> </div> </div> <div class="f-profile"> <div class="profile-pic" style="background-image: url('.BASEURL.'/uploads/profile/'.$employeee->userProfile->profile.');"> <img class="pro-sts" src="assets/images/crown.png" alt=""></div> <div class="sec-btn-pos pro-btn disabled-btn">'.$removebtn.'</div> </div> </div> </div></div> <!--contact-info--><div class="container h3-bot"><div class="row "> <div class="con-bot"><h3>contact info</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Phone</p> <span>'.$employeee->phone.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Email</p> <span>'.$employeee->email.'</span></div></div><div class="col-sm-offset-4"></div></div> <div class="about-padd"><div class="row"> <div class="about-bot"><h3>about</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Hours Required</p> <span> '.$employeee->userProfile->part_or_full.'-Time</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Current Situation</p> <span> '.$employeee->userProfile->current_status.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>License & Transport</p> <span>'.$licenses.'</span> </div></div></div></div><div class="about-me-text"><div class="row"><h4>about me</h4><p>'.$employeee->userProfile->about.'</p></div></div><!----><div class="shifts"> <div class="row"><h3 class="ava-bot">availability</h3><div class="schedule">'.$availability.'</div> </div></div><!----><div class=""><div class="row"><div class="full-pro-work"><h3 class="work-bot">Work Experience</h3>'.$experiences.'</div></div></div></div></div>';
+				 if($seeker->userProfile->totalexperience->type){
+				 $experiencetxt=$seeker->userProfile->totalexperience->title.' '.ucfirst($seeker->userProfile->totalexperience->type).' Experience';
+					 }else{
+					 $experiencetxt= $seeker->userProfile->totalexperience->title;
+					 } 
+                     
+		$str='<div class="profile-cover"> <div class="close"></div><div class="container"> <div class="row"> <div class="pro-detail-cover"> <div class="f-info"><h2 class="pro-name">'.$employeee->userProfile->first_name.' '.$employeee->userProfile->last_name.'</h2>'.$interested.'<div class="work"><p>'.$categories.'</p></div> <div class="info"> <address> <p class="location">'.$employeee->userProfile->joblocation->name.'</p> <span>'.$experiencetxt.'<br> Shaky Isles, McDonalds </span></address> </div> </div> <div class="f-profile"> <div class="profile-pic" style="background-image: url('.BASEURL.'/uploads/profile/'.$employeee->userProfile->profile.');"> <img class="pro-sts" src="assets/images/crown.png" alt=""></div> <div class="sec-btn-pos pro-btn disabled-btn">'.$removebtn.'</div> </div> </div> </div></div> <!--contact-info--><div class="container h3-bot"><div class="row "> <div class="con-bot"><h3>contact info</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Phone</p> <span>'.$employeee->phone.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Email</p> <span>'.$employeee->email.'</span></div></div><div class="col-sm-offset-4"></div></div> <div class="about-padd"><div class="row"> <div class="about-bot"><h3>about</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Hours Required</p> <span> '.$employeee->userProfile->part_or_full.'-Time</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Current Situation</p> <span> '.$employeee->userProfile->current_status.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>License & Transport</p> <span>'.$licenses.'</span> </div></div></div></div><div class="about-me-text"><div class="row"><h4>about me</h4><p>'.$employeee->userProfile->about.'</p></div></div><!----><div class="shifts"> <div class="row"><h3 class="ava-bot">availability</h3><div class="schedule">'.$availability.'</div> </div></div><!----><div class=""><div class="row"><div class="full-pro-work"><h3 class="work-bot">Work Experience</h3>'.$experiences.'</div></div></div></div></div>';
 		
 		echo $str;
 		}

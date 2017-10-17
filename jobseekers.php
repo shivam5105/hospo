@@ -3,12 +3,21 @@
 <head>
 	<title>HOSPO</title>
 	<?php include_once("common-head.php"); ?>
-<style>
+	<style>
 	.job-drop-up{
 	
 	display:none;
 	}
-	</style>
+.optionGroup {
+    font-weight: bold;
+    font-style: italic;
+}
+    
+.optionChild {
+    padding-left: 18px!important;
+}	
+	
+</style>
 
 </head>
 
@@ -22,6 +31,10 @@ if($managerSubscription=='Active'){
 	$categories=$user->categories();
 	$licensetransport=$user->licenseTransport();
 	$allskills=$user->allskills();
+		$licenseobj=new App\Classes\JobLocationsClass();
+
+	 $locations=$licenseobj->getParentcats();
+
 	if(isset($_REQUEST['submit']) && $_REQUEST['submit']=='search'){
 	$jobseekers=$user->employees($_REQUEST);
 		
@@ -87,7 +100,19 @@ if($managerSubscription=='Active'){
                             <option value="2">Two</option>
                             </select>-->
                            
-                            <input value="<?php echo  @$_GET['location'];?>" type="text" name="location" placeholder="Location">
+                         
+						
+						<select name="location"  >
+						  <option selected disabled hidden value="">Town/City</option>
+                               <?php  foreach($locations as $location){ ?>
+									  <option value="<?php echo $location->id; ?>" class="optionGroup" <?php if(isset($_GET['location']) && ($location->id==$_GET['location'])){echo 'selected';} ?> ><?php echo $location->name; ?></option>
+									  <?php foreach($location->subLocation as $sublocation){ ?>
+										<option class="optionChild" <?php if(isset($_GET['location']) && ($sublocation->id==$_GET['location'])){echo 'selected';} ?>  value="<?php echo $sublocation->id; ?>">&nbsp;&nbsp;&nbsp;<?php echo $sublocation->name; ?></option>
+									<?php } ?>
+									  
+							   <?php } ?>
+						 
+						</select>
                           
 					</li>
 				</ul>
@@ -103,7 +128,7 @@ if($managerSubscription=='Active'){
                             <option value="">Special Skills</option>
 							
                             <?php foreach($allskills as $obj){ ?>
-								        <option <?php if($obj->name==@$_GET['skill']){echo 'selected';} ?> value="<?=$obj->name;?>"><?=$obj->name;?></option>
+								        <option <?php if($obj->id==@$_GET['skill']){echo 'selected';} ?> value="<?=$obj->id;?>"><?=$obj->name;?></option>
 
 								 <?php } ?>
                         </select>
@@ -152,15 +177,19 @@ $i=1;
 foreach($jobseekers as $seeker){
 ?>
 			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab">
+			<div class="job-tab <?php if($shorted->touser->role->slug=='employee'){ echo 'no-border'; }?>">
 				<div class="job-cover">
 
 					<div class="profile-pic" style="background-image: url(<?php echo BASEURL.'/uploads/profile/'.$seeker->userProfile->profile; ?>);">
 
-						 <img class="pro-sts" src="assets/images/crown.png" alt="">
+						   <?php if($shorted->touser->role->slug=='superemployee'){?>
+						   
+						    	<img class="pro-sts" src="assets/images/crown.png" alt="">
+
+						   <?php } ?>
 						
 					</div>
-					<div class="active-status"><h2>ative 2 days ago</h2></div>
+					<div class="active-status"><h2>active 2 days ago</h2></div>
 
 					<h2 class="pro-name"><?php echo $seeker->userProfile->first_name.' '.$seeker->userProfile->last_name; ?></h2>
 					<div class="work">
@@ -176,8 +205,8 @@ foreach($jobseekers as $seeker){
 					</div>
 
 					<div class="info">
-					<p class="location">	<?php echo $seeker->userProfile->location; ?></p>
-                      <span>2+ Years Experience<br>
+					<p class="location">	<?php echo @$seeker->userProfile->joblocation->name; ?></p>
+                      <span><?php if($seeker->userProfile->totalexperience->type){ echo $seeker->userProfile->totalexperience->title.' '.ucfirst($seeker->userProfile->totalexperience->type).' Experience';}else{ echo $seeker->userProfile->totalexperience->title;} ?><br>
                       Shaky Isles, McDonalds</span>
 					</div>
 					<div class="view-more" user_id="<?php echo $seeker->id;?>"><a >view more</a></div>

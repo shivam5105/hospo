@@ -13,4 +13,8 @@ class Skills extends Model  {
     {
         return $this->belongsTo('App\Models\User');
     }
+	 public function skillinfo()
+    {
+        return $this->belongsTo('App\Models\SpecialSkills','special_skill_id');
+    }
 }

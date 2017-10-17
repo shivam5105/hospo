@@ -9,7 +9,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 	
 	if($catobj->delete($id))
 	{
-				flash('msg', 'Category deleted successfully.', 'success', '?');
+				flash('msg', 'Category deleted successfully.', 'success', 'job_categories.php');
 
 	}
 	

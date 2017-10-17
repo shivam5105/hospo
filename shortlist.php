@@ -3,7 +3,18 @@
 <head>
 	<title>HOSPO</title>
 	<?php include_once("common-head.php"); ?>
+<style>
 
+.optionGroup {
+    font-weight: bold;
+    font-style: italic;
+}
+    
+.optionChild {
+    padding-left: 18px!important;
+}	
+	
+</style>
 
 </head>
 
@@ -18,11 +29,14 @@ if($managerSubscription=='Active'){
 	$licensetransport=$user->licenseTransport();
 	$allskills=$user->allskills();
 	$shortobj=new App\Classes\ShortlistedClass();
+	$licenseobj=new App\Classes\JobLocationsClass();
+
+	 $locations=$licenseobj->getParentcats();
 
 	if(isset($_REQUEST['submit']) && $_REQUEST['submit']=='search'){
 		$shortlisted=$shortobj->whomIshortlisted($_REQUEST);
 
-	}else{
+}else{
 
 		$shortlisted=$shortobj->whomIshortlisted();
 	}
@@ -81,6 +95,19 @@ if($managerSubscription=='Active'){
                             </select>-->
                            
                             <input value="<?php echo  @$_GET['location'];?>" type="text" name="location" placeholder="Location">
+							
+							
+                     <select name="location"  >
+						  <option selected disabled hidden value="">Town/City</option>
+                               <?php  foreach($locations as $location){ ?>
+									  <option value="<?php echo $location->id; ?>" class="optionGroup" <?php if(isset($_GET['location']) && ($location->id==$_GET['location'])){echo 'selected';} ?> ><?php echo $location->name; ?></option>
+									  <?php foreach($location->subLocation as $sublocation){ ?>
+										<option class="optionChild" <?php if(isset($_GET['location']) && ($sublocation->id==$_GET['location'])){echo 'selected';} ?>  value="<?php echo $sublocation->id; ?>">&nbsp;&nbsp;&nbsp;<?php echo $sublocation->name; ?></option>
+									<?php } ?>
+									  
+							   <?php  } ?>
+						 
+						</select>
                           
 					</li>
 				</ul>
@@ -96,7 +123,7 @@ if($managerSubscription=='Active'){
                             <option value="">Special Skills</option>
 							
                             <?php foreach($allskills as $obj){ ?>
-								        <option <?php if($obj->name==@$_GET['skill']){echo 'selected';} ?> value="<?=$obj->name;?>"><?=$obj->name;?></option>
+								        <option <?php if($obj->id==@$_GET['skill']){echo 'selected';} ?> value="<?=$obj->id;?>"><?=$obj->name;?></option>
 
 								 <?php } ?>
                         </select>
@@ -152,19 +179,22 @@ foreach($shortlisted as $shorted){
 	
 ?>
 			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab">
+			<div class="job-tab <?php if($shorted->touser->role->slug=='employee'){ echo 'no-border'; }?>">
 
 				<div class="job-cover">
 
 					<div class="profile-pic" style="background-image: url(<?php echo BASEURL.'/uploads/profile/'.$shorted->touser->userProfile->profile; ?>);">
+                       <?php if($shorted->touser->role->slug=='superemployee'){?>
+						   
+						    						 <img class="pro-sts" src="assets/images/crown.png" alt="">
 
-						 <img class="pro-sts" src="assets/images/crown.png" alt="">
+						   <?php } ?>
 						
 					</div>
-					<?php if(!empty($shorted->is_interested)){ ?>
+					<?php if($shorted->is_interested){ ?>
 					<div class="active-status"><h2>Interested</h2></div>
                        <?php } ?>
-					<h2 class="pro-name"><?php echo $shorted->touser->userProfile->first_name.''.$shorted->touser->userProfile->last_name; ?></h2>
+					<h2 class="pro-name"><?php echo $shorted->touser->userProfile->first_name.' '.$shorted->touser->userProfile->last_name; ?></h2>
 					<div class="work">
 
 						<p><?php 
@@ -178,8 +208,9 @@ foreach($shortlisted as $shorted){
 					</div>
 
 					<div class="info">
-					<p class="location">	<?php echo $shorted->touser->userProfile->location; ?></p>
-                      <span>2+ Years Experience<br>
+					<p class="location">	<?php echo @$shorted->touser->userProfile->joblocation->name; ?></p>
+					
+                    <span><?php if($seeker->userProfile->totalexperience->type){ echo $seeker->userProfile->totalexperience->title.' '.ucfirst($seeker->userProfile->totalexperience->type).' Experience';}else{ echo $seeker->userProfile->totalexperience->title;} ?><br>
                       Shaky Isles, McDonalds</span>
 					</div>
 					<div class="view-more" action="shortlist" user_id="<?php echo $shorted->to_id;?>">view more</div>

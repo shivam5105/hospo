@@ -177,6 +177,13 @@ $('.submitmember').click(function(e) {
 			
 			}
 		}else{
+		if ( $('.uploading').is(":visible") && $(".skills:checked").length ==0){
+				swal('Required','select at least one special skill.','error');
+				return false;
+				e.preventDefault();
+			}
+			
+			
 		 if ( $('.uploading').is(":visible") && $(".categories:checked").length ==0){
 				swal('Required','select at least one looking for work in.','error');
 				return false;
@@ -337,7 +344,26 @@ $('.submitmember').click(function(e) {
 			   strcat+=cats[j].category.name+',';
 			 });
 			 var cats=strcat.trim(',');
-		 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].user_profile.first_name+' '+ response[i].user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more" user_id="'+response[i].id+'"><a href="">view more</a></div><div class="sec-btn-pos pro-btn"><a onclick="addShortlist($(this),'+response[i].id+')">shortlist</a></div></div></div></div>'; 
+			 var borderbox='';
+			 if(response[i].touser.role.slug=='employee'){
+				borderbox='no-border';
+				 
+			 }
+			 var crown='';
+			 if(response[i].touser.role.slug=='superemployee'){
+				 
+				crown='<img class="pro-sts" src="images/crown.png" alt="">'; 
+			}
+			function ucfirst(string){
+					return string.charAt(0).toUpperCase() + string.slice(1);
+				}
+			var experiencetxt='';
+			if(response[i].user_profile.totalexperience.type){
+				experiencetxt=response[i].user_profile.totalexperience.title+' '+ucfirst(response[i].user_profile.totalexperience.type)+' Experience';
+				 }else{
+				experiencetxt= response[i].user_profile.totalexperience.title;
+				 } 
+		 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab   '+borderbox+'"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].user_profile.profile+');">'+crown+'</div><div class="active-status"><h2>active 2 days ago</h2></div><h2 class="pro-name">'+response[i].user_profile.first_name+' '+ response[i].user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].user_profile.joblocation.name+'</p> <span>'+experiencetxt+'<br> Shaky Isles, McDonalds</span></div><div class="view-more" user_id="'+response[i].id+'"><a href="">view more</a></div><div class="sec-btn-pos pro-btn"><a onclick="addShortlist($(this),'+response[i].id+')">shortlist</a></div></div></div></div>'; 
 		 if (j % 3 == 0 ) {  str+='</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
 		j++;
 	 });
@@ -382,7 +408,28 @@ $('.submitmember').click(function(e) {
 			   strcat+=cats[j].category.name+',';
 			 });
 			 var cats=strcat.trim(',');
-			 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].touser.user_profile.profile+');"> <img class="pro-sts" src="images/crown.png" alt=""></div><div class="active-status"><h2>ative 2 days ago</h2></div><h2 class="pro-name">'+response[i].touser.user_profile.first_name+' '+ response[i].touser.user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].touser.user_profile.location+'</p> <span>2+ Years Experience<br> Shaky Isles, McDonalds</span></div><div class="view-more" action="shortlist" user_id="'+response[i].to_id+'"><a href="">view more</a></div><div class="two-btn"><div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div><div class="tooltips"><p>Phone</p> <span>'+response[i].touser.phone+'</span> <p>Email</p> <span>'+response[i].touser.email+'</span><div class="nip"></div></div><div class="sec-btn-pos pro-btn disabled-btn"><a onclick="removeShortlist($(this),'+response[i].touser.id+')">remove</a></div></div></div></div></div>'; 
+			 var interestedstr='';
+			 if(response[i].is_interested){
+			  	interested='<div class="active-status"><h2>Interested</h2></div>';
+			 }
+			 var borderbox='';
+			 if(response[i].touser.role.slug=='employee'){
+				borderbox='no-border';
+				 
+			 }
+			  var crown='';
+			 if(response[i].touser.role.slug=='superemployee'){
+				 
+				crown='<img class="pro-sts" src="images/crown.png" alt="">'; 
+			}
+			 	var experiencetxt='';
+			if(response[i].user_profile.totalexperience.type){
+				experiencetxt=response[i].user_profile.totalexperience.title+' '+ucfirst(response[i].user_profile.totalexperience.type)+' Experience';
+				 }else{
+				experiencetxt= response[i].user_profile.totalexperience.title;
+				 } 
+			 
+			 str+='<div class="col-sm-4 hospo-cus-pad b-s"><div class="job-tab  '+borderbox+'"><div class="job-cover"><div class="profile-pic" style="background-image: url('+BASEURL+'/uploads/profile/'+response[i].touser.user_profile.profile+');">'+crown+'</div>'+interested+'<h2 class="pro-name">'+response[i].touser.user_profile.first_name+' '+ response[i].touser.user_profile.last_name+'</h2><div class="work"><p>'+cats+'</p></div><div class="info"><p class="location">'+response[i].touser.user_profile.joblocation.name+'</p> <span>'+experiencetxt+'<br> Shaky Isles, McDonalds</span></div><div class="view-more" action="shortlist" user_id="'+response[i].to_id+'"><a href="">view more</a></div><div class="two-btn"><div id="tooltip" class="sec-btn-pos pro-btn"><a>contact</a></div><div class="tooltips"><p>Phone</p> <span>'+response[i].touser.phone+'</span> <p>Email</p> <span>'+response[i].touser.email+'</span><div class="nip"></div></div><div class="sec-btn-pos pro-btn disabled-btn"><a onclick="removeShortlist($(this),'+response[i].touser.id+')">remove</a></div></div></div></div></div>'; 
 			 if (j % 3 == 0 ) {  str+='</div></div></div><div class="job-third"><div class="container w-con"><div class="row">'; } 
 			j++;
 		 });
@@ -456,8 +503,8 @@ function logout(){
   text: "",
   type: 'warning',
   showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
+  confirmButtonColor: '#fcc062',
+  cancelButtonColor: '#474440',
   confirmButtonText: 'Yes!'
 }).then(function () {
 	
@@ -478,8 +525,8 @@ function logout(){
 				}
 		
 			 swal(
-							'Shorted!',
-							'Employee shorted',
+							'Done!',
+							'Employee Shortlisted',
 							'success'
 							).then(
                         function() {

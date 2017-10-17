@@ -21,20 +21,14 @@ define("DOMAIN", $_SERVER['SERVER_NAME']);
 define("PROJECT_NAME", "Hospo");
 
 define("ROOT_DIR", __DIR__);
+define("CURRENCY_CODE", "USD");
 
 date_default_timezone_set('America/New_York');
 
 /* DB CONNECTION */
 $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
 
-define("PAYPAL_URL", "https://www.sandbox.paypal.com/cgi-bin/webscr");
-define("PAYPAL_SSL_URL", "ssl://www.sandbox.paypal.com");
-define("PAYPAL_ID", "raks.bisht-facilitator@gmail.com");
-define("CURRENCY_CODE", "USD");
 
-define("PAYPAL_NOTIFY_URL", BASEURL.'/notify.php?action=notify');
-define("PAYPAL_CANCEL_URL", BASEURL.'/signup.php?action=cancel');
-define("PAYPAL_RETURN_URL",BASEURL.'/signup.php?action=success');
 
 
 ?>

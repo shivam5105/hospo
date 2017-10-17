@@ -34,7 +34,7 @@ class PackagesClass extends BaseClass {
 		
 	}
     public function delete($id){
-		$this->model->where('id','=',$id)->delete();
+		return $this->model->where('id','=',$id)->delete();
 	
 	}
 

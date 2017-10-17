@@ -159,8 +159,13 @@
 	<div class="container job-log-out">
 		<div class="row">
 			<ul class="main-menu">
-				<li class="job-active-mnu"><a href="#">employees</a></li>
-				<li><a href="#">managers</a></li>
+			<?php 
+					if($user->isAuthMenu()){
+$profile=$user->getloginProfile();
+					?>
+				<li class="job-active-mnu"><a href="#">Welcome <?php echo $profile->first_name.' '.$profile->last_name; ?></a></li>
+				
+					<?php } ?>
 			</ul>
 			<div class="head-cover">
 				<div class="head-logo">

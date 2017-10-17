@@ -1,7 +1,7 @@
 <?php
 include_once("dbconfig.php");
 $user=new App\Classes\UserClass();
-
+mkdir('paypal');
 if(isset($_REQUEST['action']) && $_REQUEST['action']=='notify' && isset($_POST["txn_id"]) && isset($_POST["txn_type"])){
 
 	// Response from Paypal

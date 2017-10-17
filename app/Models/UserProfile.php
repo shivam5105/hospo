@@ -13,4 +13,14 @@ class UserProfile extends Model  {
     {
         return $this->belongsTo('App\Models\User');
     }
+	 public function joblocation()
+    {
+        return $this->hasOne('App\Models\JobLocations','id','location');
+	}
+	 public function totalexperience()
+    {
+        return $this->belongsTo('App\Models\TotalExperience','total_experience_id');
+    }
+	
+	
 }

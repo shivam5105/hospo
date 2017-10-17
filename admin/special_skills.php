@@ -1,15 +1,15 @@
 <?php
 include_once("dbconfig.php");
 loginCheck();
-$HighLightedTab =8;
-$obj=new App\Classes\LicenseTransportClass();
+$HighLightedTab =11;
+$obj=new App\Classes\SpecialSkillsClass();
 
 if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (int)$_GET['id'] > 0){
 	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) ? filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) : 0;
 	
 	if($obj->delete($id))
 	{
-				flash('msg', 'Licence & transport deleted successfully.', 'success', 'license_transport.php');
+				flash('msg', 'Special Skills deleted successfully.', 'success', 'special_skills.php');
 
 	}
 	
@@ -18,15 +18,15 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo PROJECT_NAME; ?> - Manage Licence & transport</title>
+	<title><?php echo PROJECT_NAME; ?> - Manage Special Skills</title>
 	<?php include_once('common-head.php'); ?>
 </head>
 <body>
 	<?php include_once('header.php'); ?>
 	<div class="title-row">
-			<a href="<?php echo BASEURL; ?>/license_transport.php" class="button fancy title-btn primary">Manage Licence & transport</a>
-		<a href="<?php echo BASEURL; ?>/add_license_transport.php" class="button fancy title-btn primary">Add Licence & transport</a>
-		<h1 class="title">Manage Licence & transport</h1>
+			<a href="<?php echo BASEURL; ?>/special_skills.php" class="button fancy title-btn primary">Manage Special Skills</a>
+		<a href="<?php echo BASEURL; ?>/add_special_skill.php" class="button fancy title-btn primary">Add Special Skills</a>
+		<h1 class="title">Manage Special Skills</h1>
 	</div>
 	<div class="row fiterouter">
 		<div class="col-4"></div>
@@ -35,10 +35,10 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 			</div>
 	</div>
 	<?php
-    $licenseobj=$obj->get();
-		if(count($licenseobj->data)){
+    $skillsobj=$obj->get();
+		if(count($skillsobj->data)){
 
-		       $licenseobj->pagination->render();
+		       $skillsobj->pagination->render();
 			}
 		?>	
 		<table class="dtable">
@@ -52,9 +52,9 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 			</thead>
 			<tbody>
 			<?php 
-			if(count($licenseobj->data)){
+			if(count($skillsobj->data)){
 				$i=1;
-				foreach($licenseobj->data as $val){
+				foreach($skillsobj->data as $val){
 			?>
 			<tr>
 						<td><?php echo  $i; ?></td>
@@ -64,7 +64,7 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 						<td>
 
 	
-							<a title="Edit" href="<?php echo BASEURL; ?>/edit_license_transport.php?id=<?php echo $val->id; ?>" class="edit">Edit</a>
+							<a title="Edit" href="<?php echo BASEURL; ?>/edit_special_skill.php?id=<?php echo $val->id; ?>" class="edit">Edit</a>
 							<a title="Delete" class="delete" href="javascript:confirmDelete('?mode=delete&id=<?php echo $val->id; ?>')">Delete</a>
 						</td>
 					</tr>
@@ -72,9 +72,9 @@ if(isset($_GET['mode']) && $_GET['mode'] == 'delete' && isset($_GET['id']) && (i
 			</tbody>
 		</table>
 		<?php
-			if(count($licenseobj->data)){
+			if(count($skillsobj->data)){
 
-		       $licenseobj->pagination->render();
+		       $skillsobj->pagination->render();
 			}
 
 	?>

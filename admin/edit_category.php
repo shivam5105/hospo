@@ -26,7 +26,7 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 <body>
 	<?php include_once('header.php'); ?>
 	<div class="title-row">
-		<a href="<?php echo BASEURL; ?>/manage_pages.php" class="button fancy title-btn primary">Manage Job Categories</a>
+		<a href="<?php echo BASEURL; ?>/job_categories.php" class="button fancy title-btn primary">Manage Job Categories</a>
 		<h1 class="title">Edit Job Category</h1>
 	</div>
 

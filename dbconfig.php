@@ -11,7 +11,13 @@ else
 	define("BASEPATH", "/home1/thelabel/public_html/hospo");
 }
 
+define("PAYPAL_URL", "https://www.sandbox.paypal.com/cgi-bin/webscr");
+define("PAYPAL_SSL_URL", "ssl://www.sandbox.paypal.com");
+define("PAYPAL_ID", "demo123@seller.com");
 
+define("PAYPAL_NOTIFY_URL", BASEURL.'/notify.php?action=notify');
+define("PAYPAL_CANCEL_URL", BASEURL.'/signup.php?action=success');
+define("PAYPAL_RETURN_URL",BASEURL.'/signup.php?action=cancel');
 
 require_once("functions.php");
 

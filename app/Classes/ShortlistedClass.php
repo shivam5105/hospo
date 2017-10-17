@@ -13,7 +13,7 @@ class ShortlistedClass extends BaseClass {
 		if($loggedInUserId=$this->userobj->loginUserId()){	
              
 			foreach($data as $key=>$val){
-		      $this->model->where('to_id','=',$loggedInUserId)->where('id','=',$key)->update(['is_interested' => $val,'status' =>$val]);;
+		      $this->model->where('to_id','=',$loggedInUserId)->where('id','=',$key)->update(['is_interested' => $val]);;
 		
 			}
 	
@@ -35,8 +35,9 @@ class ShortlistedClass extends BaseClass {
 
     public function whomIshortlisted($data=NULl){
 		//filter or pagination here
-		if($loggedInUserId=$this->userobj->loginUserId()){			
-		   $user=$this->model->where('by_id','=',$loggedInUserId);
+		if($loggedInUserId=$this->userobj->loginUserId()){		
+		
+		   $user=$this->model->where('by_id','=',$loggedInUserId)->where('is_interested', '=' , 1)->orWhereNull('is_interested')->where('status','=',1);
 		   
 		   if($data!=NULL){
 			if(isset($data['category']) && $data['category'] !=''){
@@ -59,7 +60,7 @@ class ShortlistedClass extends BaseClass {
 				$location=$data['location'];
 				$user =$user->whereHas(
 									'userProfile', function($q) use($location){
-										$q->where('location','LIKE', '%'.$location.'%');
+										$q->where('location',$location);
 									}
 							);
 			}
@@ -67,7 +68,7 @@ class ShortlistedClass extends BaseClass {
 				  $skill=$data['skill'];
 				$user =$user->whereHas(
 									'Skills', function($q) use($skill){
-										$q->where('name',$skill);
+										$q->where('id',$skill);
 									}
 							);
 			}
@@ -90,7 +91,8 @@ class ShortlistedClass extends BaseClass {
 	
 	public function whomIshortlistedAjax($page,$data=NULl){
 		if($loggedInUserId=$this->userobj->loginUserId()){			
-			$user=$this->model->where('by_id','=',$loggedInUserId);
+		   $user=$this->model->where('by_id','=',$loggedInUserId)->where('is_interested', '=' , 1)->orWhereNull('is_interested')->where('status','=',1);
+
 						if($data!=NULL){
 			if(isset($data['category']) && $data['category'] !=''){
 			    $category=$data['category'];
@@ -112,7 +114,7 @@ class ShortlistedClass extends BaseClass {
 				$location=$data['location'];
 				$user =$user->whereHas(
 									'userProfile', function($q) use($location){
-										$q->where('location','LIKE', '%'.$location.'%');
+										$q->where('location',$location);
 									}
 							);
 			}
@@ -120,7 +122,7 @@ class ShortlistedClass extends BaseClass {
 				  $skill=$data['skill'];
 				$user =$user->whereHas(
 									'Skills', function($q) use($skill){
-										$q->where('name',$skill);
+										$q->where('id',$skill);
 									}
 							);
 			}
@@ -136,7 +138,7 @@ class ShortlistedClass extends BaseClass {
 		}
 			
 			
-			$user=$user->with('touser', 'touser.userProfile','touser.EmployeeCategories.category');
+			$user=$user->with('touser', 'touser.userProfile','touser.EmployeeCategories.category', 'touser.joblocation','touser.totalexperience');
 			echo  $this->AjaxPagination($page,9,$user)->toJson();
 		}
 	}
@@ -145,8 +147,10 @@ class ShortlistedClass extends BaseClass {
 
 		if($loggedInUserId=$this->userobj->loginUserId()){
 		
-		$shorlist =$this->model->firstOrCreate(['to_id' => $to_id,'by_id' => $loggedInUserId],['to_id' => $to_id,'by_id' => $loggedInUserId,'status' =>1]);
-		if($shorlist){
+		$shorlist =$this->model->firstOrNew(['to_id' => $to_id,'by_id' => $loggedInUserId],['to_id' => $to_id,'by_id' => $loggedInUserId,'status' =>1]);
+		
+		
+		if($shorlist->save()){
 			echo true;
 		}else{
 		echo false;

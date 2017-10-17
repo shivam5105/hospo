@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>HOSPO | Signup</title>
+	<title>HOSPO | Register</title>
 	<?php include_once("common-head.php"); ?>
+	<style>
+.optionGroup {
+    font-weight: bold;
+    font-style: italic;
+}
+    
+.optionChild {
+    padding-left: 18px!important;
+}	
+	
+</style>
 </head>
 
 <body class="sign-up">
@@ -17,7 +28,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='cancel'){
 }	
 if(isset($_REQUEST['action']) && $_REQUEST['action']=='success'){
 	//$user->flashFancy('Payment Successful' , 'Payment Successful! Thank you for subscribing our service !', 'success');
-$this->flashFancy('Signup | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+$user->flashFancy('Register | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
 }	
 	
 
@@ -26,7 +37,10 @@ $user->withoutLoginOnly();
 $roles=$user->roles();
 $categories=$user->categories();
 $licensetransport=$user->licenseTransport();
+$totalExperience=$user->totalExperience();
+
 $days=$user->weekDays();
+$allskills=$user->allskills();
 
 	
 	
@@ -38,7 +52,9 @@ $days=$user->weekDays();
 		$response=$user->signup($_POST,$_FILES);
 
 	}
+	$licenseobj=new App\Classes\JobLocationsClass();
 
+	 $locations=$licenseobj->getParentcats();
 
 ?>
 <script type="text/javascript">
@@ -70,12 +86,12 @@ $days=$user->weekDays();
 	    <div class="col-sm-7">
 		  <div class="cont-head">
   
-		  	<h1>account</h1>
+		  	<h1>Register</h1>
 		  	
 		  </div>
 		  <div class="form-prt">
   
-		  	<h5>Account Details</h5>
+		  	<h5>Register Details</h5>
 		  	<p class="half-prt">
 		  		<input  type="text" class="first_name" name="first_name" required placeholder="first name" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
 		  		<input  type="text"  class="" name="last_name" required placeholder="last name" pattern="^[A-Za-z0-9 ]{1,}" title="Invalid Input">
@@ -231,9 +247,19 @@ $days=$user->weekDays();
                              </select>
 		     			</li>
 		     			<li>
-		     			<div class="sin-d-h"> <p>Where do you live?</p> </div>
-						 <input type="text" name="location" required="true" value="" placeholder="Where do you live?">
+		     			<div class="sin-d-h"> <p>Where are you looking for work?</p> </div>
+					
+						 <select name="location" required="true" >
+						  <option selected disabled hidden value="">Town/City</option>
+                               <?php  foreach($locations as $location){ ?>
+									  <option value="<?php echo $location->id; ?>" class="optionGroup" ><?php echo $location->name; ?></option>
+									  <?php foreach($location->subLocation as $sublocation){ ?>
+										<option class="optionChild"  value="<?php echo $sublocation->id; ?>">&nbsp;&nbsp;&nbsp;<?php echo $sublocation->name; ?></option>
+									<?php } ?>
+									  
+							   <?php } ?>
 						 
+						</select>
 		     			</li>
 		     		</ul>
 		     			
@@ -255,12 +281,36 @@ $days=$user->weekDays();
 		     		<ul>
 		     			<li class="blk">
 		     			<div class="sin-d-h"><p>Any special skills?</p></div>
-						 <input type="text" required="true" name="skills" value=""  placeholder="Enter Skills as comma seperated" pattern="^[A-Za-z -,.]{1,}" title="Skills as comma seperated only">
+						
+						    <?php foreach($allskills as $obj){ ?>
+                      <input type="checkbox" name="skills[]"  class="skills" value="<?php echo $obj->id ?>"> <?php echo $obj->name ?>
+								 <?php } ?>
+								 
+								 
+
+						 
+						 
 						 
 		     			</li>
+						<li>
+		     			<div class="sin-d-h"> <p>How many years experience do you have?</p> </div>
+		     				<select name="total_experience_id"  required="true">
+								<option selected disabled hidden value="">select..</option>
+
+								 <?php foreach($totalExperience as $obj){ ?>
+								             <option value="<?=$obj->id;?>" ><?=$obj->title.' '.$obj->type;?></option>
+
+								 <?php } ?>
+                             </select>
+		     			</li>
+						
+						
+					
 		     			<li>
 		     			<div class="sin-d-h"> <p>License & Transport</p> </div>
-		     				<select name="license_transport[]" class="multiple" multiple required="true">
+		     				<select name="license_transport"  required="true">
+							        <option selected disabled hidden value="">select..</option>
+
 								 <?php foreach($licensetransport as $obj){ ?>
 								        <option value="<?=$obj->id;?>"><?=$obj->name;?></option>
 

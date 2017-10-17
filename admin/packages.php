@@ -1,7 +1,7 @@
 <?php
 include_once("dbconfig.php");
 loginCheck();
-$HighLightedTab =6;
+$HighLightedTab =10;
 $obj=new App\Classes\PackagesClass();
 
 ?>
@@ -67,9 +67,9 @@ $obj=new App\Classes\PackagesClass();
 			</tbody>
 		</table>
 		<?php
-			if(count($categories->data)){
+			if(count($packages->data)){
 
-		       $categories->pagination->render();
+		       $packages->pagination->render();
 			}
 
 	?>

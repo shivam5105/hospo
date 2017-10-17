@@ -1,6 +1,6 @@
 <div>
 <header class="cf" id="header">
-	<div class="logo">		
+	<div class="logo">
 		<a href="<?php echo str_ireplace("/admin","/",BASEURL); ?>" target="Hospo"><img src="<?php echo BASEURL;?>/assets/images/logo-white.png" /></a>
 	</div>
 	<?php
@@ -23,12 +23,18 @@
 			<li <?php if(@$HighLightedTab == 5){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/manage_menu.php">Manage Menus</a></li>
 			<li <?php if(@$HighLightedTab == 6){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/job_categories.php">Manage Job Categories</a></li>
 			<li <?php if(@$HighLightedTab == 8){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/license_transport.php">Manage License & Tansport</a></li>
-			<li <?php if(@$HighLightedTab == 7){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/employees.php">Manage Employees</a></li>
-			<li <?php if(@$HighLightedTab == 9){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/managers.php">Manage Managers</a></li>
+			<li <?php if(@$HighLightedTab == 11){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/special_skills.php">Manage Special Skills</a></li>
+			<li <?php if(@$HighLightedTab == 12){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/experiences.php">Manage Experiences</a></li>
+			<li <?php if(@$HighLightedTab == 13){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/job_locations.php">Manage Job Locations</a></li>
+
 			<li <?php if(@$HighLightedTab == 10){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/packages.php">Manage Packages</a></li>
 
+			<li <?php if(@$HighLightedTab == 7){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/employees.php">Manage Employees</a></li>
+			<li <?php if(@$HighLightedTab == 9){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/managers.php">Manage Managers</a></li>
+
+
 			<li <?php if(@$HighLightedTab == 2){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/change_password.php">Change Password</a></li>
-			
+
 			<li><a href="<?php echo BASEURL; ?>/logout.php">Logout</a></li>
 		</ul>
 	</nav>

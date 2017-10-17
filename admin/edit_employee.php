@@ -6,8 +6,12 @@ $user=new App\Classes\UserClass();
 
 $categories=$user->categories();
 $licensetransport=$user->licenseTransport();
+$totalExperience=$user->totalExperience();
 $days=$user->weekDays();
+$allskills=$user->allskills();
+	$licenseobj=new App\Classes\JobLocationsClass();
 
+	 $locations=$licenseobj->getParentcats();
 
 if(isset($_GET['id']) && (int)$_GET['id'] > 0){
 	   $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) ? filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT) : 0;
@@ -15,8 +19,9 @@ if(isset($_GET['id']) && (int)$_GET['id'] > 0){
 	   $currentuser=$user->employeedetails($id);
 	   
 	  $empcats = array_column($currentuser->EmployeeCategories->toArray(), 'category_id');
+	  $empskills = array_column($currentuser->Skills->toArray(), 'special_skill_id');
 	  
-	  $emplicence = array_column($currentuser->EmployeeLicenseTransport->toArray(), 'licence_transport_id');	   
+	  //$emplicence = array_column($currentuser->EmployeeLicenseTransport->toArray(), 'licence_transport_id');	   
 	   
 	   $availabity=$currentuser->Availability;
 	   
@@ -56,7 +61,17 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
             }
         }
 </script>
-
+<style>
+.optionGroup {
+    font-weight: bold;
+    font-style: italic;
+}
+    
+.optionChild {
+    padding-left: 18px!important;
+}	
+	
+</style>
 </head>
 <body>
 	<?php include_once('header.php'); ?>
@@ -134,31 +149,50 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 					      </div>	
 	                    <div class="row">
 							<div class="col-6">
-							<?php field_start("Where do you live?","location"); ?>
-							<input type="text" required name="location" id="location" value="<?php echo $currentuser->userProfile->location; ?>"  />
+							<?php field_start("Where are you looking for work?","location"); ?>
+							
+							<select name="location" required="true" >
+						  <option selected disabled hidden value="">Town/City</option>
+                               <?php  foreach($locations as $location){?>
+									  <option value="<?php echo $location->id; ?>" class="optionGroup" <?php if($currentuser->userProfile->location==$location->id){ echo 'selected';} ?>><?php echo $location->name; ?></option>
+									  <?php foreach($location->subLocation as $sublocation){ ?>
+										<option class="optionChild" <?php if($currentuser->userProfile->location==$sublocation->id){ echo 'selected';} ?> value="<?php echo $sublocation->id; ?>">&nbsp;&nbsp;&nbsp;<?php echo $sublocation->name; ?></option>
+									<?php } ?>
+									  
+							   <?php  } ?>
+						 
+						</select>
 						<?php field_end(); ?>
 							</div>		
-							 <div class="col-6">
-							 <?php field_start("Any special skills?","skills"); ?>
-							 <?php 
-							$skills='';
-							foreach ($currentuser->Skills as $skill) {
-							$skills.=$skill->name.',';
-
-							}
-
-							 ?>
-							<input type="text" required name="skills" id="skills" value="<?php echo trim( $skills,',') ?>"   placeholder="Enter Skills as comma seperated" pattern="^[A-Za-z -,.]{1,}" title="Skills as comma seperated only"/>
-						<?php field_end(); ?>
-							</div>	
-					</div>	
-					 <div class="row">
 							<div class="col-6">
 							<?php field_start("License & Transport","title"); ?>
-								<select class="multiple" name="license_transport[]" multiple required>
+								<select  name="license_transport"  required>
                                  <option selected disabled hidden>select..</option>
 								 <?php foreach($licensetransport as $obj){ ?>
-								        <option value="<?=$obj->id;?>"  <?php if (in_array($obj->id, $emplicence)){echo 'selected';} ?> ><?=$obj->name;?></option>
+								        <option value="<?=$obj->id;?>"  <?php if ($obj->id==$currentuser->userProfile->licence_transport_id){echo 'selected';} ?> ><?=$obj->name;?></option>
+
+								 <?php } ?>
+                             </select>
+						<?php field_end(); ?>
+							</div>		
+					</div>	
+					 <div class="row">
+					  <div class="col-6">
+							 <?php field_start("Any special skills?","skills"); ?>
+							 
+							    <?php foreach($allskills as $obj){ ?>
+                                       <input type="checkbox" name="skills[]" <?php if (in_array($obj->id, $empskills)){echo 'checked';} ?>  class="skills" value="<?php echo $obj->id ?>"> <?php echo $obj->name ?>
+					             <?php } ?>
+							
+							
+						<?php field_end(); ?>
+							</div>
+							<div class="col-6">
+							<?php field_start("How many years experience do you have?","title"); ?>
+								<select  name="total_experience_id"  required>
+                                 <option selected disabled hidden>select..</option>
+								 <?php foreach($totalExperience as $obj){ ?>
+								        <option value="<?=$obj->id;?>"  <?php if ($obj->id==$currentuser->userProfile->total_experience_id){echo 'selected';} ?> ><?=$obj->title.' '.$obj->type;?></option>
 
 								 <?php } ?>
                              </select>
