@@ -1,0 +1,138 @@
+
+
+
+@media screen and (max-width: 768px) {
+.container {
+    width: 750px;
+}
+.two-btn {
+    padding:0 10px;
+}
+}
+
+@media screen and (max-width: 767px) {
+.col-sm-4.job-tab {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+.filter-first {
+    text-align: center;
+}
+.filter-first ul li {
+    margin-right: 0px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.sec-btn-pos.job a {
+    margin: auto;
+}
+.filter-reset h4 {
+    margin: 0;
+    text-align: center;
+}
+.filter-reset.r-all {
+    position: absolute;
+    bottom: -59px;
+    width: 100%;
+    text-align: center;
+    left: 80px;
+    right: 0;
+}
+.job-menu-back {
+    display: none;
+}
+.job-log-out .top-btn {
+    display: none;
+}
+ul.main-menu {
+    position: absolute;
+    left: 0;
+    top: 36px;
+    margin: 0;
+    padding: 0;
+    z-index: 9;
+    display: none;
+}
+.select-op span {
+    padding: 12px 29px 7px 20px;
+}
+.filter-first ul li select {
+    width: 100%;
+}
+.filter-reset {
+    
+    margin: 0 0 26px 0;
+}
+.pro-detail-cover {
+    display: block;
+    width: 100%;
+}
+section.full-pro .profile-pic {
+    margin: 0;
+}
+.f-profile {
+    width: 100%;
+}
+.full-pro .disabled-btn a {
+    background: #fdd9a1;
+    box-shadow: none;
+    margin: 26px 0;
+}
+.profile-cover {
+    width: 100%;
+}
+.full-pro .container{
+
+width: 100%;
+
+}
+ul.week {
+    width: 100%;
+}
+ul.week li {
+    display: inline-block;
+    text-align: left;
+    width: 120px;
+}
+.profile-cover {
+    padding: 57px 35px 0;
+}
+.f-info {
+    width: 100%;
+}
+}
+
+@media screen and (max-width: 600px) {
+
+	ul.week li {
+    width: 90px;
+}
+}
+@media screen and (max-width: 480px) {
+
+	ul.week li {
+    width: 66px;
+}
+}
+
+@media screen and (max-width: 375px) {
+
+ul.week li {
+    display: inline-block;
+    text-align: left;
+    width: 62px;
+}
+}
+
+
+@media screen and (max-width: 320px) {
+
+ul.week li {
+    width: 58px;
+}
+}
+

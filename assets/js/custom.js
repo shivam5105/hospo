@@ -126,21 +126,29 @@ if ($(".interested:checked").length ==0){
 
     $('#account').change(function(){
 	    	console.log($(this).val());
-		if($(this).val()=='employee'){
+		if($(this).val()=='employee' || $(this).val()=='superemployee' ){
 			$(".employee").show();      
 			$(".payment").hide();
 			$(".paymentbtn").hide();
-			$(".employee").find('input:text,input:file,input:radio,textarea,select').attr('required',true)
+			$(".managerprofile").hide();
+			$(".employee").find('input:text,input:file,input:radio,textarea,select').attr('required',true);
+			$("#aboutcompany").attr('required',false);
 
-		}else{
+
+		}else if($(this).val()=='manager'){
+			
 			$(".employee").hide();
 			$(".payment").show();
 			$(".paymentbtn").show();
-			
-			$(".employee").find(':hidden').attr('required',false)
+			$(".managerprofile").show();
+			$("#aboutcompany").attr('required',true);
+			$(".employee").find(':hidden').attr('required',false);
 			
 
 
+		}else{
+			
+			$(".managerprofile").hide();
 		}
     });
 	//<a title="Delete" class="delete" >Delete</a>
@@ -164,6 +172,7 @@ $('.submitmember').click(function(e) {
 		
 		
 		var account=$('#account').val();
+		
 		if ($(".password").val()!=$(".confirm_password").val()){
               swal('Confirm Password','Confirm Password doesnot match.','error');
 				return false;
@@ -171,45 +180,32 @@ $('.submitmember').click(function(e) {
 			}
 			
         if(account=='manager'){
-			if($(".first_name").val()!='' && $(".last_name").val()!='' && $(".email").val()!='' && $(".phone").val()!='' && $(".password").val()!='' && $(".confirm_password").val()!='' && $("#account").val()!=''){
+			if($(".first_name").val()!='' && $(".last_name").val()!='' && $(".email").val()!='' && $(".phone").val()!='' && $(".password").val()!='' && $(".confirm_password").val()!='' && $("#account").val()!='' && $("#aboutcompany").val()!=''){
 				return true;
 			}else{
 			
 			}
 		}else{
+		
+		/*	
 		if ( $('.uploading').is(":visible") && $(".skills:checked").length ==0){
 				swal('Required','select at least one special skill.','error');
 				return false;
 				e.preventDefault();
-			}
-			
-			
+			}			
+		*/	
 		 if ( $('.uploading').is(":visible") && $(".categories:checked").length ==0){
 				swal('Required','select at least one looking for work in.','error');
 				return false;
 				e.preventDefault();
 			}
-
+         if ( $('.uploading').is(":visible") && $(".availability:checked").length ==0){
+				swal('Required','General Availability field is required.','error');
+				return false;
+				e.preventDefault();
+			}
 			 if($('.uploading').is(":visible")){
 
-
-		       $('.day').each(function () {
-		     			var name=$(this).text();
-		     			console.log(name);
-				
-			       if($('.uploading').is(":visible") && $("."+name+":checked").length ==0){
-                       e.preventDefault();
-					
-						
-				        swal('Required','Select at least one Availibility option for '+name+'','error');
-
-						exit();
-
-
-
-			       }
-
-		       });
 
 		         $('.experienceextra').each(function () {
 		     			var employer=$(this).find('.employer').val();
@@ -345,12 +341,12 @@ $('.submitmember').click(function(e) {
 			 });
 			 var cats=strcat.trim(',');
 			 var borderbox='';
-			 if(response[i].touser.role.slug=='employee'){
+			 if(response[i].role.slug=='employee'){
 				borderbox='no-border';
 				 
 			 }
 			 var crown='';
-			 if(response[i].touser.role.slug=='superemployee'){
+			 if(response[i].role.slug=='superemployee'){
 				 
 				crown='<img class="pro-sts" src="images/crown.png" alt="">'; 
 			}
@@ -613,10 +609,18 @@ function logout(){
 
      var doc_height = $(window).height();
      $(".section.full-pro").css({ "height": doc_height });
+	 $('.clk').click(function(event) {
+		/* Act on the event */
+		$(this).parent().parent().parent().find('.job-download-wrap').toggle();
+		$('crt-closed').toggle();
+		$('crt-open').toggle();
+	});
 
  });
 
  $(window).resize(function() {
      var doc_height1 = $(window).height();
      $(".section.full-pro").css({ "height": doc_height1 });
+	 
+	 
  });

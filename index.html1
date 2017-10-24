@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>HOSPO</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/media.css">
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/custom.js"></script>
+
+</head>
+
+<body class="home">
+
+<!--*****HEADER****-->
+<header class="">
+
+	 
+
+		 
+	 
+	   <div class="container log-in">
+	   <div class="row">
+		<div class="head-cover">
+		    <div class="head-logo">
+		    	<h2>hospo</h2>
+		    </div>
+
+			<div class="head-right-prt">
+
+			<ul class="list-inline text-right">
+
+				      <li> <button class="top-btn" type="submit">log in</button></li>
+				      <li>
+				       <div class="dropdown">
+				       	<div class="select-op"><span>en</span>
+       
+				       	<div class="drop-op">
+				       	<form>
+				       		<input type="radio" name="gender" value="english" checked> english<br>
+				       		<input type="radio" name="gender" value="chinese" checked> chinese<br>
+				       		<input type="radio" name="gender" value="hindi" checked> hindi<br>
+				       		<input type="radio" name="gender" value="korean" checked> korean<br>
+				       		<input type="radio" name="gender" value="thai" checked> thai<br>
+				       		</form>
+				       	</div>
+				       	</div>			 
+                       </div>
+                       </li>
+
+            </ul>
+			</div>
+		</div>
+		</div>
+	  </div>
+
+
+		<!--logout-->
+			   <div class="container log-out">
+			   <div class="row">
+			   	 			<ul class="main-menu">
+	 				<li><a href="#">recruit</a></li>
+	 				<li><a href="#">learn</a></li>
+	 				<li><a href="#">shop</a></li>
+	 			</ul>
+		<div class="head-cover">
+		    <div class="head-logo">
+		    	<h2>hospo</h2>
+		    </div>
+
+			<div class="head-right-prt">
+
+			<ul class="list-inline text-right">
+
+				      <li> <button class="top-btn" type="submit">log in</button></li>
+				      <li>
+				       <div class="dropdown">
+				       	<div class="select-op"><span>en</span>
+       
+				       	<div class="drop-op">
+				       	<form>
+				       		<input type="radio" name="gender" value="english" checked> english<br>
+				       		<input type="radio" name="gender" value="chinese" checked> chinese<br>
+				       		<input type="radio" name="gender" value="hindi" checked> hindi<br>
+				       		<input type="radio" name="gender" value="korean" checked> korean<br>
+				       		<input type="radio" name="gender" value="thai" checked> thai<br>
+				       		</form>
+				       	</div>
+				       	</div>			 
+                       </div>
+                       </li>
+
+            </ul>
+			</div>
+		</div>
+		</div>
+	  </div>
+
+
+
+
+
+		<!--logout-->		
+ 
+
+			   <div class="container job-log-out">
+			   <div class="row">
+			   <ul class="main-menu">
+	 				<li class="job-active-mnu"><a href="#">employees</a></li>
+	 				<li><a href="#">managers</a></li>
+	 				
+	 			</ul>
+		<div class="head-cover">
+		    <div class="head-logo">
+		    	<h2>hospo</h2>
+		    </div>
+
+			<div class="head-right-prt">
+
+			<ul class="list-inline text-right">
+
+				      <li> <button class="top-btn" type="submit">log out</button></li>
+				      <li>
+				       <div class="dropdown">
+				       	<div class="select-op"><span>en</span>
+       
+				       	<div class="drop-op">
+				       	<form>
+				       		<input type="radio" name="gender" value="english" checked> english<br>
+				       		<input type="radio" name="gender" value="chinese" checked> chinese<br>
+				       		<input type="radio" name="gender" value="hindi" checked> hindi<br>
+				       		<input type="radio" name="gender" value="korean" checked> korean<br>
+				       		<input type="radio" name="gender" value="thai" checked> thai<br>
+				       		</form>
+				       	</div>
+				       	</div>			 
+                       </div>
+                       </li>
+
+            </ul>
+			</div>
+		</div>
+		</div>
+	  </div>
+
+	 	<!---->
+
+	 	
+</header>
+<!---->
+	<div class="top-back-img pos-rel">
+
+		<div class="">
+
+			<img src="images/crew.jpg" alt="">		
+
+		</div>	
+
+		
+	</div>
+
+
+<!--*************second-part******-->
+
+<section class=" mov-top bottom-spc">
+
+	 
+	<div class="container mar-gin-center heading-title">
+	<h1 class="home-head">Say hello to Hospo.</h1>
+    <div class="row">
+	
+
+
+	<div class="hospo-cov-pad hos-bc-color">
+
+	<div class="">
+		   <div class="col-sm-4 both-pad-none">
+		   <div class="hospo-yellow">
+		   <div class="tile">   		
+           <div class="sec-row-title" > <h2>Recruit</h2></div>
+
+           <div class="sec-row-hd">
+            <p class="main-heading">Hospitality recruitment  made easy for Managers and Employees.</p>
+           	<p class="sec-cont">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
+           </div>
+   			<div class="sec-btn-pos"><a href="">Launch Recruitment</a></div>
+           </div>
+           </div>
+           </div>
+
+           <div class="col-sm-4 both-pad-none">  
+           <div class="hospo-blue">
+           <div class="tile"> 		
+             <div class="sec-row-title" > <h2>Recruit</h2></div>
+           <div class="sec-row-hd">
+            <p class="main-heading">Hospitality recruitment  made easy for Managers and Employees.</p>
+           	<p class="sec-cont">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
+           </div>
+           <div class="sec-btn-pos btn-blue"><a href="">Launch Recruitment</a></div>
+           </div>
+           </div>
+           </div>
+
+
+
+           <div class="col-sm-4 both-pad-none">  
+           <div class="hospo-orange">
+           <div class="tile">       
+           <div class="sec-row-title" > <h2>Recruit</h2></div>
+           <div class="sec-row-hd">
+            <p class="main-heading">Hospitality recruitment  made easy for Managers and Employees.</p>
+           	<p class="sec-cont">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
+           </div>
+           <div class="sec-btn-pos btn-orange"><a href="">Launch Recruitment</a></div>
+           </div>
+           </div>
+           </div>
+           </div>
+
+    </div>
+    </div>
+	</div>
+     
+
+     	
+
+</section>
+<!--*****************third section**-->
+
+
+<div class="third-sec bottom-spc">
+
+ 
+
+		<div class="container mar-gin-center">
+
+		<div class="row third-pos">
+		<div class="hospo-cus-pad">
+			<div class="col-sm-4 hospo-cus-pad">
+				<div class="back-clr">
+				<h2>""</h2>
+				<div class="third-aria">
+					<p class="third-cont">
+						I can’t believe nobody thought of this sooner! Hiring staff has always been such an expensive and time-consuming process. Hospo changes all that!
+
+					</p>
+					<p class="author">
+						
+						Jane Smtih<br>
+						HR Manager
+					</p>
+					<h4>coco's catina</h4>
+				</div>
+
+				</div>
+			</div>
+			<div class="col-sm-4 hospo-cus-pad">
+				<div class="back-clr">
+				<h2>""</h2>
+				<div class="third-aria">
+					<p class="third-cont">
+						I can’t believe nobody thought of this sooner! Hiring staff has always been such an expensive and time-consuming process. Hospo changes all that!
+
+					</p>
+					<p class="author">
+						
+						Jane Smtih<br>
+						HR Manager
+					</p>
+					<h4>coco's catina</h4>
+				</div>
+
+				</div>
+			</div>
+			<div class="col-sm-4 hospo-cus-pad">
+				<div class="back-clr">
+				<h2>""</h2>
+				<div class="third-aria">
+					<p class="third-cont">
+						I can’t believe nobody thought of this sooner! Hiring staff has always been such an expensive and time-consuming process. Hospo changes all that!
+
+					</p>
+					<p class="author">
+						
+						Jane Smtih<br>
+						HR Manager
+					</p>
+					<h4>coco's catina</h4>
+				</div>
+
+				</div>
+			</div>
+			
+		</div>
+
+			
+		</div>
+
+	 
+	
+</div>
+</div>
+<!--*************fourth-part******-->
+
+<section class=" bottom-spc-ftr">
+ 
+	 
+	<div class="container mar-gin-center heading-title">
+
+
+	<div class="row">
+	<div class="hospo-cov-pad hos-bc-color">
+
+		   <div class="col-sm-4 both-pad-none">
+		   <div class=" hospo-yellow">
+		   <div class="tile">   		
+           <div class="sec-row-title" > <h2>Manager</h2></div>
+           <div class="price">$ 280/yr</div>
+           <div class="sec-row-hd">
+           <p class="main-heading">Free for employees. Sign up for free and create your profile so managers can search for people with your skills</p>
+           </div>
+   			<div class="sec-btn-pos"><a href="">Launch Recruitment</a></div>
+           </div>
+           </div>
+           </div>
+
+
+
+		   <div class="col-sm-4 both-pad-none">
+		   <div class=" hospo-blue">
+           <div class="tile"> 		
+             <div class="sec-row-title" > <h2>Employee</h2></div>
+             <div class="price">free !</div>
+           <div class="sec-row-hd">
+            <p class="main-heading">Free for employees. Sign up for free and create your profile so managers can search for people with your skills</p>
+           </div>
+           <div class="sec-btn-pos btn-blue"><a href="">Launch Recruitment</a></div>
+           </div>
+           </div>
+           </div>
+
+
+
+		   <div class="col-sm-4 both-pad-none">
+		   <div class=" hospo-orange">
+           <div class="tile">       
+           <div class="sec-row-title" > <h2>Super Employee</h2></div>
+           <div class="price">$ 15/mo</div>
+           <div class="sec-row-hd">
+            <p class="main-heading">Free for employees. Sign up for free and create your profile so managers can search for people with your skills</p>
+           	 
+           </div>
+           <div class="sec-btn-pos btn-orange"><a href="">Launch Recruitment</a></div>
+           </div>
+           </div>
+           </div>
+
+
+    </div>
+    </div>
+	</div>
+     
+
+     	
+ 
+</section>
+
+<!--FOOTER-->
+
+<footer>
+
+    <div class="">
+    	 
+
+    		<div class="container mar-gin-center">
+
+    			<div class="row">
+    			 <div class="hospo-cus-pad">
+    				<div class="col-sm-3 hospo-cus-pad">
+
+    				<div class="footer-menu-title">service</div>
+    				<ul class="footer-li">
+    				
+    					<li><a href=""> recruitment</a></li>
+    					<li><a href=""> Training</a></li>
+    					<li><a href=""> Shop</a></li>
+    					<li><a href=""> Plans & Pricing</a></li>
+    				</ul>
+    				
+    			    </div>
+
+
+    			    <div class="col-sm-3 hospo-cus-pad">
+    			    <div class="footer-menu-title">company</div>
+    				<ul class="footer-li">
+    				
+    					<li><a href=""> About Us</a></li>
+    					<li><a href=""> Contact</a></li>
+    				</ul>
+    			    </div>
+    			    <div class="col-sm-3 hospo-cus-pad">
+    			    <div class="footer-menu-title">legal</div>
+    				<ul class="footer-li">
+    			
+    					<li><a href=""> Privacy Policy</a></li>
+    					<li><a href=""> Terms & Conditions</a></li>
+    				</ul> 	
+    			    </div>
+    				<div class="copyright"><p>©2017 The Learning Place Ltd</p></div>
+    			</div>
+    			 </div>
+    		</div>
+    		
+    	</div>
+	
+   
+
+	
+</footer>
+
+
+
+
+</body>
+</html>

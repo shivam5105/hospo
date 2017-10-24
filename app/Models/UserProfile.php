@@ -17,6 +17,11 @@ class UserProfile extends Model  {
     {
         return $this->hasOne('App\Models\JobLocations','id','location');
 	}
+	
+	 public function employeelicense()
+    {
+        return $this->hasOne('App\Models\LicenceTransport','id','licence_transport_id');
+	}
 	 public function totalexperience()
     {
         return $this->belongsTo('App\Models\TotalExperience','total_experience_id');

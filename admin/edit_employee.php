@@ -7,7 +7,7 @@ $user=new App\Classes\UserClass();
 $categories=$user->categories();
 $licensetransport=$user->licenseTransport();
 $totalExperience=$user->totalExperience();
-$days=$user->weekDays();
+//$days=$user->weekDays();
 $allskills=$user->allskills();
 	$licenseobj=new App\Classes\JobLocationsClass();
 
@@ -212,16 +212,13 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 
 							<p class="gen-avlbl">General Availability – Select all that apply</p>
 							<div class="schedule">
-						 <?php foreach($days as $key=>$day){ ?>
-							<ul class="week">
-								<li class="a-title day"><?php echo $day; ?></li>
-								<?php  $avail=explode(',',$availabity->{strtolower($day)} );?>
-								<li><p> <input <?php if (in_array('morning', $avail)){echo 'checked';} ?>  id="morning<?php echo $day.'_'.$key; ?>" class="hidden <?php echo $day; ?>" type="checkbox" name="<?php echo strtolower($day); ?>[]" value="morning"><label for="morning<?php echo $day.'_'.$key; ?>">morning</label></p></li>
-								<li><p><input <?php if (in_array('noon', $avail)){echo 'checked';} ?> id="noon<?php echo $day.'_'.$key; ?>" class="hidden <?php echo $day; ?>"  type="checkbox" name="<?php echo strtolower($day); ?>[]" value="noon"><label for="noon<?php echo $day.'_'.$key; ?>">noon</label></p></li>
-								<li><p><input  <?php if (in_array('night', $avail)){echo 'checked';} ?> id="night<?php echo $day.'_'.$key; ?>" class="hidden <?php echo $day; ?>"  type="checkbox" name="<?php echo strtolower($day); ?>[]" value="night"><label for="night<?php echo $day.'_'.$key; ?>">night</label></p></li>
-
-							</ul>
-							<?php } ?>
+						     <ul>
+									<li><input type="checkbox" name="availability[]" <?php if (in_array('Anytime',explode(",",$currentuser->userProfile->availability))){echo 'checked';} ?> class="availability" value="Anytime"> Anytime</li>
+				 					<li><input type="checkbox" name="availability[]"  <?php if (in_array('Weekdays',explode(",",$currentuser->userProfile->availability))){echo 'checked';} ?> class="availability" value="Weekdays"> Weekdays</li>
+				 					<li><input type="checkbox" name="availability[]"   <?php if (in_array('Weeknights',explode(",",$currentuser->userProfile->availability))){echo 'checked';} ?> class="availability" value="Weeknights"> Weeknights</li>
+				 					<li><input type="checkbox" name="availability[]"  <?php if (in_array('Weekends',explode(",",$currentuser->userProfile->availability))){echo 'checked';} ?> class="availability" value="Weekends"> Weekends</li>
+				 			
+				 				</ul>
 						   </div>
 
 						  

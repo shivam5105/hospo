@@ -138,10 +138,12 @@ if($managerSubscription=='Active'){
                         </select>
 					</li>
 					<li>
-						<select>
+							<select name="availability">
                             <option selected disabled hidden>General Availability</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
+                                 <option <?php if('Anytime'==@$_GET['availability']){echo 'selected';} ?> value="Anytime">Anytime</option>
+                            <option <?php if('Weekdays'==@$_GET['availability']){echo 'selected';} ?> value="Weekdays">Weekdays</option>
+                            <option <?php if('Weekends'==@$_GET['availability']){echo 'selected';} ?> value="Weeknights">Weekends</option>
+                            <option <?php if('Weekends'==@$_GET['availability']){echo 'selected';} ?> value="Weekends">Weekends</option>
                         </select>
 					</li>
 				</ul>

@@ -1,9 +1,11 @@
 <?php
+
 include_once("dbconfig.php");
 $user=new App\Classes\UserClass();
-mkdir('paypal');
-if(isset($_REQUEST['action']) && $_REQUEST['action']=='notify' && isset($_POST["txn_id"]) && isset($_POST["txn_type"])){
 
+
+if(isset($_POST["txn_id"]) && isset($_POST["txn_type"])){
+			mail('raks.bisht@gmail.com', 'PAYPAL POST - VERIFIED RESPONSE', print_r($_POST, true));
 	// Response from Paypal
 
 	// read the post from PayPal system and add 'cmd'
@@ -31,7 +33,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='notify' && isset($_POST["
 	$header .= "Content-Length: " . strlen($req) . "\r\n\r\n";
 	
 	$fp = fsockopen (PAYPAL_SSL_URL, 443, $errno, $errstr, 30);
-	
+	/*
 	if (!$fp) {
 		// HTTP ERROR
 		
@@ -39,12 +41,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='notify' && isset($_POST["
 		fputs($fp, $header . $req);
 		while (!feof($fp)) {
 			$res = fgets ($fp, 1024);
+			mail('raks.bisht@gmail.com', 'VERIFIED', $res);
+			
 			if (strcmp($res, "VERIFIED") == 0) {
+			
+			*/
 				 if($_POST['payment_status']=='Completed'){
-				   
+				   	mail('raks.bisht@gmail.com', 'PAYPAL POST - VERIFIED RESPONSE Completed', print_r($_POST, true));
+
 				
-				// Used for debugging
-				mail('raks.bisht@gmail.com', 'PAYPAL POST - VERIFIED RESPONSE', print_r($post, true));
+				
 				
 				// Validate payment (Check unique txnid & correct price)
 				$valid_txnid = $user->check_txnid($data['txn_id']);
@@ -68,6 +74,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='notify' && isset($_POST["
 			
 			 
 			    }
+				
+				
+			/*	
 			} else if (strcmp ($res, "INVALID") == 0) {
 			
 				// PAYMENT INVALID & INVESTIGATE MANUALY!
@@ -78,7 +87,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='notify' && isset($_POST["
 			}
 		}
 	fclose ($fp);
-	}
+	}*/
 	
 }
 ?>

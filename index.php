@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +44,7 @@ $home_page_row 	= $home_query->fetch_array();
 	?>
 	<!--*************second-part******-->
 	<section class="<?php if($has_bg_image){ echo "mov-top"; } ?> bottom-spc">
-		<div class="container mar-gin-center heading-title">
+		<div class="container mar-gin-center heading-title over-header">
 			<h1 class="home-head"><?php echo $home_page_row['title']; ?></h1>
 			<div class="row">
 				<div class="hospo-cov-pad hos-bc-color">
@@ -117,7 +116,7 @@ $home_page_row 	= $home_query->fetch_array();
 		</div>
 	</section>
 	<!--*****************third section**-->
-	<div class="third-sec bottom-spc">
+	<!--<div class="third-sec bottom-spc">
 		<div class="container mar-gin-center">
 			<div class="row third-pos">
 				<div class="hospo-cus-pad">
@@ -144,12 +143,30 @@ $home_page_row 	= $home_query->fetch_array();
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
+<div class="third-sec bottom-spc">
+		<div class="container mar-gin-center">
+			<div class="row third-pos">
+				<div class="hospo-cus-pad hospo-cov-pad">
+					<div class="video-hospo-wrapper">
+						<div class="video-hospo-title sec-row-title">
+							<h2>
+								how it work
+							</h2>
+						</div>
+						<div class="video-hospo-frame">
+							<iframe width="700" height="396" src="https://www.youtube.com/embed/K4wEI5zhHB0" frameborder="0" allowfullscreen></iframe>
+						</div>
+					</div>			
+				</div>			
+			</div>		
+		</div>
+</div>
 	<!--*************fourth-part******-->
 	<section class=" bottom-spc-ftr">
 		<div class="container mar-gin-center heading-title">
 			<div class="row">
-				<div class="hospo-cov-pad hos-bc-color">
+				<div class="hospo-cov-pad hos-bc-color prices">
 					<?php
 					$tab_colors = array("yellow","blue","orange");
 					$loop = 0;

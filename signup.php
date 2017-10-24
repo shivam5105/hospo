@@ -19,7 +19,6 @@
 <body class="sign-up">
 
 <?php 
-
 	include_once("header.php");
 
 if(isset($_REQUEST['action']) && $_REQUEST['action']=='cancel'){
@@ -28,7 +27,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='cancel'){
 }	
 if(isset($_REQUEST['action']) && $_REQUEST['action']=='success'){
 	//$user->flashFancy('Payment Successful' , 'Payment Successful! Thank you for subscribing our service !', 'success');
-$user->flashFancy('Register | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+//$user->flashFancy('Register | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+
+$user->flashFancy('Signup Success' , 'Your account has been made, <br /> please login to your account!', 'success');
+
 }	
 	
 
@@ -39,7 +41,7 @@ $categories=$user->categories();
 $licensetransport=$user->licenseTransport();
 $totalExperience=$user->totalExperience();
 
-$days=$user->weekDays();
+//$days=$user->weekDays();
 $allskills=$user->allskills();
 
 	
@@ -104,18 +106,23 @@ $allskills=$user->allskills();
 		  		<input type="password"  class="password" name="password" required value="" placeholder="password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
 		  		<input type="password"  class="confirm_password" name="confirm_password" required value="" placeholder="confirm password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
 		  	</p>
-		  	<p class="full-prt">
+		  	<p class="full-prt"><div class="drop-down">
 				  <select name="account" id="account" required pattern="^[A-Za-z]{1,}" title="Invalid Input">
                                  <option value="">Account type</option>
 								 <?php foreach($roles as $role){ ?>
 								      <option value="<?php echo $role->slug; ?>"><?php echo $role->title; ?></option>
 																  
 								 <?php } ?>
-                             </select>
-		  		<input type="text" name="promocode" value="" placeholder="prmocode(Optional)" title="Invalid Input">
+                             </select></div>
+		  		<input type="text" name="promocode" value="" placeholder="prmo code (Optional)" title="Invalid Input">
 		  	</p>
 		  		
+ 	<p class="full-prt managerprofile">
 
+				<textarea placeholder="Add a short blurb about your company for potential employees" minlength="50"    title="Should be atleast 50 characters"  required="true" name="aboutcompany" id="aboutcompany"></textarea>
+			
+
+			</p>
 		
 		  	
 		  </div>
@@ -239,17 +246,17 @@ $allskills=$user->allskills();
 		     		
 		     		<ul>
 		     			<li><div class="sin-d-h"><p>Part-time or full-time?</p></div>
-		     				<select name="part_or_full" required="true">
+		     				<div class="drop-down1"><select name="part_or_full" required="true">
 		     				
                                  <option selected disabled hidden value="">select..</option>
                                  <option value="Part">Part-time</option>
                                  <option value="Full">Full-time</option>
-                             </select>
+                             </select></div>
 		     			</li>
 		     			<li>
 		     			<div class="sin-d-h"> <p>Where are you looking for work?</p> </div>
 					
-						 <select name="location" required="true" >
+						<div class="drop-down"> <select name="location" required="true" >
 						  <option selected disabled hidden value="">Town/City</option>
                                <?php  foreach($locations as $location){ ?>
 									  <option value="<?php echo $location->id; ?>" class="optionGroup" ><?php echo $location->name; ?></option>
@@ -259,7 +266,7 @@ $allskills=$user->allskills();
 									  
 							   <?php } ?>
 						 
-						</select>
+						</select></div>
 		     			</li>
 		     		</ul>
 		     			
@@ -283,7 +290,7 @@ $allskills=$user->allskills();
 		     			<div class="sin-d-h"><p>Any special skills?</p></div>
 						
 						    <?php foreach($allskills as $obj){ ?>
-                      <input type="checkbox" name="skills[]"  class="skills" value="<?php echo $obj->id ?>"> <?php echo $obj->name ?>
+                      <input type="checkbox" name="skills[]"  class="skills" value="<?php echo $obj->id ?>"> <?php echo $obj->name ?></br>
 								 <?php } ?>
 								 
 								 
@@ -294,28 +301,28 @@ $allskills=$user->allskills();
 		     			</li>
 						<li>
 		     			<div class="sin-d-h"> <p>How many years experience do you have?</p> </div>
-		     				<select name="total_experience_id"  required="true">
+		     				<div class="drop-down1"><select name="total_experience_id"  required="true">
 								<option selected disabled hidden value="">select..</option>
 
 								 <?php foreach($totalExperience as $obj){ ?>
 								             <option value="<?=$obj->id;?>" ><?=$obj->title.' '.$obj->type;?></option>
 
 								 <?php } ?>
-                             </select>
+                             </select></div>
 		     			</li>
 						
 						
 					
 		     			<li>
 		     			<div class="sin-d-h"> <p>License & Transport</p> </div>
-		     				<select name="license_transport"  required="true">
+		     				<div class="drop-down1"><select name="license_transport"  required="true">
 							        <option selected disabled hidden value="">select..</option>
 
 								 <?php foreach($licensetransport as $obj){ ?>
 								        <option value="<?=$obj->id;?>"><?=$obj->name;?></option>
 
 								 <?php } ?>
-                             </select>
+                             </select></div>
 		     			</li>
 		     		</ul>
 		     			
@@ -356,15 +363,14 @@ $allskills=$user->allskills();
 		<p class="gen-avlbl">General Availability – Select all that apply</p>
 		
 		<div class="schedule">
-         <?php foreach($days as $key=>$day){ ?>
-			<ul class="week">
-			    <li class="a-title day"><?php echo $day; ?></li>
-				<li><p> <input id="morning<?php echo $day.'_'.$key; ?>" class="hidden <?php echo $day; ?>" type="checkbox" name="<?php echo strtolower($day); ?>[]" value="morning"><label for="morning<?php echo $day.'_'.$key; ?>">morning</label></p></li>
-				<li><p><input id="noon<?php echo $day.'_'.$key; ?>" class="hidden <?php echo $day; ?>"  type="checkbox" name="<?php echo strtolower($day); ?>[]" value="noon"><label for="noon<?php echo $day.'_'.$key; ?>">noon</label></p></li>
-				<li><p><input id="night<?php echo $day.'_'.$key; ?>" class="hidden <?php echo $day; ?>"  type="checkbox" name="<?php echo strtolower($day); ?>[]" value="night"><label for="night<?php echo $day.'_'.$key; ?>">night</label></p></li>
-
-			</ul>
-			<?php } ?>
+        
+			                           <ul>
+									<li><input type="checkbox" name="availability[]" class="availability" value="Anytime"> Anytime</li>
+				 					<li><input type="checkbox" name="availability[]" class="availability" value="Weekdays"> Weekdays</li>
+				 					<li><input type="checkbox" name="availability[]" class="availability" value="Weeknights"> Weeknights</li>
+				 					<li><input type="checkbox" name="availability[]" class="availability" value="Weekends"> Weekends</li>
+				 			
+				 				</ul>
 		</div>
       
 	</div>

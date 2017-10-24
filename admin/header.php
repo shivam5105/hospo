@@ -21,6 +21,8 @@
 			<li <?php if(@$HighLightedTab == 4){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/manage_home_page.php">Home Page</a></li>
 
 			<li <?php if(@$HighLightedTab == 5){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/manage_menu.php">Manage Menus</a></li>
+			<li <?php if(@$HighLightedTab == 14){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/template_toolbox_category.php">Template Toolbox Categories</a></li>
+	<li <?php if(@$HighLightedTab == 15){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/template_toolbox.php">Manage Template Toolbox </a></li>
 			<li <?php if(@$HighLightedTab == 6){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/job_categories.php">Manage Job Categories</a></li>
 			<li <?php if(@$HighLightedTab == 8){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/license_transport.php">Manage License & Tansport</a></li>
 			<li <?php if(@$HighLightedTab == 11){ echo 'class="Selected"';}?>><a href="<?php echo BASEURL; ?>/special_skills.php">Manage Special Skills</a></li>

@@ -56,6 +56,14 @@ class ShortlistedClass extends BaseClass {
 									}
 							);
 			}
+			if(isset($data['availability']) && $data['availability'] !=''){
+				$availability=$data['availability'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($availability){
+										$q->whereRaw('FIND_IN_SET("'.$availability.'",availability)> 0');
+									}
+							);
+			}
 			if(isset($data['location']) && $data['location'] !=''){
 				$location=$data['location'];
 				$user =$user->whereHas(
@@ -107,6 +115,14 @@ class ShortlistedClass extends BaseClass {
 				$user =$user->whereHas(
 									'userProfile', function($q) use($part_or_full){
 										$q->where('part_or_full',$part_or_full);
+									}
+							);
+			}
+			if(isset($data['availability']) && $data['availability'] !=''){
+				$availability=$data['availability'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($availability){
+										$q->whereRaw('FIND_IN_SET("'.$availability.'",availability)> 0');
 									}
 							);
 			}

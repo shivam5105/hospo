@@ -143,11 +143,14 @@ if($managerSubscription=='Active'){
                         </select>
 					</li>
 					<li>
-						<select>
+						<select name="availability">
                             <option selected disabled hidden>General Availability</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
+                            <option <?php if('Anytime'==@$_GET['availability']){echo 'selected';} ?> value="Anytime">Anytime</option>
+                            <option <?php if('Weekdays'==@$_GET['availability']){echo 'selected';} ?> value="Weekdays">Weekdays</option>
+                            <option <?php if('Weekends'==@$_GET['availability']){echo 'selected';} ?> value="Weeknights">Weekends</option>
+                            <option <?php if('Weekends'==@$_GET['availability']){echo 'selected';} ?> value="Weekends">Weekends</option>
                         </select>
+						
 					</li>
 				</ul>
 					
@@ -177,12 +180,12 @@ $i=1;
 foreach($jobseekers as $seeker){
 ?>
 			<div class="col-sm-4 hospo-cus-pad b-s">
-			<div class="job-tab <?php if($shorted->touser->role->slug=='employee'){ echo 'no-border'; }?>">
+			<div class="job-tab <?php if($seeker->role->slug=='employee'){ echo 'no-border'; }?>">
 				<div class="job-cover">
 
 					<div class="profile-pic" style="background-image: url(<?php echo BASEURL.'/uploads/profile/'.$seeker->userProfile->profile; ?>);">
 
-						   <?php if($shorted->touser->role->slug=='superemployee'){?>
+						   <?php if($seeker->role->slug=='superemployee'){?>
 						   
 						    	<img class="pro-sts" src="assets/images/crown.png" alt="">
 

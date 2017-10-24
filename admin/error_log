@@ -1,0 +1,185 @@
+[08-Sep-2017 08:54:01 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/manage_home_page.php on line 205
+[21-Sep-2017 08:57:34 America/New_York] PHP Warning:  require_once(/usr/local/apache/htdocs/hospo/vendor/autoload.php): failed to open stream: No such file or directory in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 08:57:34 America/New_York] PHP Fatal error:  require_once(): Failed opening required '/usr/local/apache/htdocs/hospo/vendor/autoload.php' (include_path='.:/usr/php/56/usr/lib64:/usr/php/56/usr/share/pear') in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 08:58:09 America/New_York] PHP Warning:  require_once(/usr/local/apache/htdocs/hospo/vendor/autoload.php): failed to open stream: No such file or directory in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 08:58:09 America/New_York] PHP Fatal error:  require_once(): Failed opening required '/usr/local/apache/htdocs/hospo/vendor/autoload.php' (include_path='.:/usr/php/56/usr/lib64:/usr/php/56/usr/share/pear') in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 08:58:13 America/New_York] PHP Warning:  require_once(/usr/local/apache/htdocs/hospo/vendor/autoload.php): failed to open stream: No such file or directory in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 08:58:13 America/New_York] PHP Fatal error:  require_once(): Failed opening required '/usr/local/apache/htdocs/hospo/vendor/autoload.php' (include_path='.:/usr/php/56/usr/lib64:/usr/php/56/usr/share/pear') in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 09:01:24 America/New_York] PHP Warning:  require_once(/usr/local/apache/htdocs/hospo/vendor/autoload.php): failed to open stream: No such file or directory in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 09:01:24 America/New_York] PHP Fatal error:  require_once(): Failed opening required '/usr/local/apache/htdocs/hospo/vendor/autoload.php' (include_path='.:/usr/php/56/usr/lib64:/usr/php/56/usr/share/pear') in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 09:01:58 America/New_York] PHP Warning:  require_once(/usr/local/apache/htdocs/hospo/vendor/autoload.php): failed to open stream: No such file or directory in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[21-Sep-2017 09:01:58 America/New_York] PHP Fatal error:  require_once(): Failed opening required '/usr/local/apache/htdocs/hospo/vendor/autoload.php' (include_path='.:/usr/php/56/usr/lib64:/usr/php/56/usr/share/pear') in /home1/thelabel/public_html/hospo/admin/dbconfig.php on line 32
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'experiencid' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1100
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  array_diff(): Argument #2 is not an array in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1100
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'employer' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1111
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Invalid argument supplied for foreach() in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1111
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'mon' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1146
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1146
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'tue' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1147
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1147
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'wed' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1148
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1148
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'thu' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1149
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1149
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'fri' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1150
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1150
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'sat' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1151
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1151
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  Illegal string offset 'sun' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1152
+[08-Oct-2017 18:31:51 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1152
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'experiencid' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1100
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  array_diff(): Argument #2 is not an array in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1100
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'employer' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1111
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Invalid argument supplied for foreach() in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1111
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'mon' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1146
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1146
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'tue' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1147
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1147
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'wed' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1148
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1148
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'thu' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1149
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1149
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'fri' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1150
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1150
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'sat' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1151
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1151
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  Illegal string offset 'sun' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1152
+[08-Oct-2017 18:57:18 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1152
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'experiencid' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1100
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  array_diff(): Argument #2 is not an array in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1100
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'employer' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1111
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Invalid argument supplied for foreach() in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1111
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'mon' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1146
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1146
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'tue' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1147
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1147
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'wed' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1148
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1148
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'thu' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1149
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1149
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'fri' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1150
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1150
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'sat' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1151
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1151
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  Illegal string offset 'sun' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1152
+[08-Oct-2017 19:15:08 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1152
+[10-Oct-2017 17:14:39 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/managers.php on line 115
+[10-Oct-2017 17:16:55 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/password_change.php on line 47
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'experiencid' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1234
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  array_diff(): Argument #2 is not an array in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1234
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'employer' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1245
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Invalid argument supplied for foreach() in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1245
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'mon' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1280
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1280
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'tue' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1281
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1281
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'wed' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1282
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1282
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'thu' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1283
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1283
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'fri' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1284
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1284
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'sat' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1285
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1285
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  Illegal string offset 'sun' in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1286
+[11-Oct-2017 05:17:02 America/New_York] PHP Warning:  implode(): Invalid arguments passed in /home1/thelabel/public_html/hospo/app/Classes/UserClass.php on line 1286
+[11-Oct-2017 16:06:31 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/edit_manager.php on line 72
+[12-Oct-2017 13:39:01 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:39:05 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:39:05 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:39:08 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:39:08 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 13:39:08 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 13:39:10 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:39:15 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:39:15 America/New_York] PHP Notice:  Undefined index: status in /home1/thelabel/public_html/hospo/app/Classes/PackagesClass.php on line 47
+[12-Oct-2017 13:39:15 America/New_York] PHP Fatal error:  Uncaught exception 'PDOException' with message 'SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'field list'' in /home1/thelabel/public_html/hospo/vendor/illuminate/database/Connection.php:470
+Stack trace:
+#0 /home1/thelabel/public_html/hospo/vendor/illuminate/database/Connection.php(470): PDO->prepare('update `package...')
+#1 /home1/thelabel/public_html/hospo/vendor/illuminate/database/Connection.php(640): Illuminate\Database\Connection->Illuminate\Database\{closure}('update `package...', Array)
+#2 /home1/thelabel/public_html/hospo/vendor/illuminate/database/Connection.php(607): Illuminate\Database\Connection->runQueryCallback('update `package...', Array, Object(Closure))
+#3 /home1/thelabel/public_html/hospo/vendor/illuminate/database/Connection.php(477): Illuminate\Database\Connection->run('update `package...', Array, Object(Closure))
+#4 /home1/thelabel/public_html/hospo/vendor/illuminate/database/Connection.php(416): Illuminate\Database\Connection->affectingStatement('update `package...' in /home1/thelabel/public_html/hospo/vendor/illuminate/database/Connection.php on line 647
+[12-Oct-2017 13:39:16 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:44:15 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:44:19 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:44:21 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:44:21 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 13:44:21 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 13:44:23 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:44:26 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:44:28 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:44:28 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 13:44:28 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 13:44:29 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:45:24 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:45:25 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:45:43 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 13:45:45 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 15:02:05 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 15:02:08 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 15:02:08 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:35:53 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:35:55 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:35:55 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:02 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:02 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:36:02 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:36:10 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:30 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:32 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:32 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:36:32 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:36:39 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:39 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:36:39 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:36:51 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:53 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:54 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:56 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:36:58 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:37:05 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:37:05 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:37:05 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:37:08 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:37:11 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:37:12 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:37:14 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:37:28 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:47:42 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:47:42 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:47:42 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:47:45 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:47:45 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:47:45 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:47:53 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:48:04 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:48:04 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:48:04 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[12-Oct-2017 17:48:12 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[12-Oct-2017 17:48:19 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:07:36 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:07:38 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:07:39 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:07:45 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:07:45 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[13-Oct-2017 08:07:45 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[13-Oct-2017 08:07:49 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:07:52 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:07:54 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:08:00 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:08:03 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 08:08:05 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 15:22:01 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 15:22:04 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 15:22:05 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 15:22:13 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[13-Oct-2017 15:22:13 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[13-Oct-2017 15:22:13 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[13-Oct-2017 15:22:15 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[14-Oct-2017 06:27:10 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[14-Oct-2017 06:27:12 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[14-Oct-2017 06:27:13 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[14-Oct-2017 06:27:20 America/New_York] PHP Notice:  Use of undefined constant BASEURL - assumed 'BASEURL' in /home1/thelabel/public_html/hospo/settings.php on line 35
+[14-Oct-2017 06:27:20 America/New_York] PHP Notice:  Undefined variable: categories in /home1/thelabel/public_html/hospo/admin/packages.php on line 70
+[14-Oct-2017 06:27:20 America/New_York] PHP Notice:  Trying to get property of non-object in /home1/thelabel/public_html/hospo/admin/packages.php on line 70

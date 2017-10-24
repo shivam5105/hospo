@@ -181,7 +181,13 @@ class UserClass extends BaseClass {
 		   
 		//}
 	}
-
+	public function loginRole(){
+		
+		if(isset($_SESSION['logged_in_user'])){
+			return $_SESSION['logged_in_user']['role'];
+		}
+		
+	}
 	public function getloginProfile(){
 
 		 $userid=$this->loginUserId();
@@ -202,7 +208,7 @@ class UserClass extends BaseClass {
 	}
 	public function isEmployee($ajax=false){
 	
-		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && $_SESSION['logged_in_user']['role']=='employee'){
+		if($this->login_check()==true && isset($_SESSION['logged_in_user']) && ($_SESSION['logged_in_user']['role']=='employee' ||  $_SESSION['logged_in_user']['role']=='superemployee')){
 		     if($ajax==true){
 				return true;
 				}
@@ -387,7 +393,15 @@ class UserClass extends BaseClass {
 	
 	}
 	
-	
+	public function renewPayment($user_id,$package){
+
+		$user_id=$this->loginUserId();
+		$role=$this->loginRole();
+		$role_user = $this->roles->where('slug',$role)->first();
+		
+		$this->payment($user_id,$role_user->packages);
+		
+	}	
 	public function payment($user_id,$package){
 		
 	$querystring = '';
@@ -511,7 +525,19 @@ class UserClass extends BaseClass {
 			}
 		
 			 if($data['account']=='manager'){
-			 	$role_user = $this->roles->where('slug','manager')->first();
+				 
+				 if(empty($data['aboutcompany'])){
+						
+						$this->flashFancy('Required', 'About the Company is required', 'error');
+						
+					}
+                   else if (strlen($data['aboutcompany'])<50) {
+
+						$this->flashFancy('Required', 'About the Company should atleast 50 character long', 'error');
+
+
+					}else{
+			 	    $role_user = $this->roles->where('slug','manager')->first();
 
 			 	 
 						$user = $this->model->where('email','=',$data['email'])->first();
@@ -522,8 +548,8 @@ class UserClass extends BaseClass {
 										'email' => $data['email'],
 										'phone' => $data['phone'],
 										'role_id' =>$role_user->id,
-										'phone_confirmed' =>0,
-										'email_confirmed' =>0,
+										'phone_confirmed' =>1,
+										'email_confirmed' =>1,
 										'email_confirmation_code' =>password_hash(openssl_random_pseudo_bytes(32).time().$data['email'], PASSWORD_DEFAULT),
 										'password' =>password_hash($data['password'], PASSWORD_DEFAULT) ,
 										'status' =>1,
@@ -534,6 +560,7 @@ class UserClass extends BaseClass {
 										$userprofileobj = UserProfile::create([
 										'first_name' => $data['first_name'],
 										'last_name' =>$data['last_name'],
+										'about' =>$data['aboutcompany'],
 										'user_id' =>$userobj->id,
 										'prmo_code' => isset($data['prmo_code'])?$data['prmo_code']:NULL,
 										
@@ -544,9 +571,9 @@ class UserClass extends BaseClass {
 										//header('location:payment.php?user_id='.$userobj->id.'&package='.$role_user->packages->id);
 										
 										//$_SESSION['CURRENT_USER_ID']=$userobj->id;
-									//$this->payment($userobj->id,$role_user->packages);
+									$this->payment($userobj->id,$role_user->packages);
 
-										$this->flashFancy('Signup | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+									//$this->flashFancy('Signup | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
 
 												
 								}else{
@@ -562,9 +589,11 @@ class UserClass extends BaseClass {
 							
 							
 							}
+							
+			 }
 
 			 }
-		     else if($data['account']=='employee'){
+		     else if($data['account']=='employee' || $data['account']=='superemployee'){
 		    
 					if($data['currently_looking_for_work']==''){
 						
@@ -606,11 +635,13 @@ class UserClass extends BaseClass {
 						
 						
 					}
+					/*
 					else if(empty($data['skills'])){
 						
 						$this->flashFancy('Required', 'Skills is required', 'error');
 						
 					}
+					*/
 					else if(empty($data['total_experience_id'])){
 						
 						$this->flashFancy('Required', 'Total Experience is required', 'error');
@@ -627,41 +658,9 @@ class UserClass extends BaseClass {
 
 
 					}
-					
-					else if(empty($data['mon'])){
-						$this->flashFancy('Required', 'Availability monday  is required', 'error');
+					else if(empty($data['availability'])){
 						
-						
-					}
-					else if(empty($data['tue'])){
-						
-						$this->flashFancy('Required', 'Availability tuesday  is required', 'error');
-						
-					}
-					else if(empty($data['wed'])){
-						
-						$this->flashFancy('Required', 'Availability wednesday  is required', 'error');
-						
-					}
-					else if(empty($data['thu'])){
-						$this->flashFancy('Required', 'Availability thursday  is required', 'error');
-						
-						
-					}
-					else if(empty($data['fri'])){
-						
-						$this->flashFancy('Required', 'Availability friday  is required', 'error');
-						
-					}
-					else if(empty($data['sat'])){
-						
-						$this->flashFancy('Required', 'Availability saturday is required', 'error');
-						
-					}
-
-					else if(empty($data['sun'])){
-						
-						$this->flashFancy('Required', 'Availability sunday is required', 'error');
+						$this->flashFancy('Required', 'General Availability  is required', 'error');
 						
 					}
 					else if(empty($data['employer'])){
@@ -702,21 +701,31 @@ class UserClass extends BaseClass {
 							if(empty($user)){
 								 $userphone = $this->model->where('phone','=',$data['phone'])->first();
 								if(empty($userphone)){
-								$role_user = $this->roles->where('slug','employee')->first();
+                                        if($data['account']=='employee'){
+
+                                         $roletype='employee';
+										}else{
+											$roletype='superemployee';
+
+										}
+
+
+								$role_user = $this->roles->where('slug',$roletype)->first();
 
 									$userobj = User::create([
 										'email' => $data['email'],
 										'phone' => $data['phone'],
 										'role_id' =>$role_user->id,
-										'phone_confirmed' =>0,
-										'email_confirmed' =>0,
+										'phone_confirmed' =>1,
+										'email_confirmed' =>1,
 										'email_confirmation_code' =>password_hash(openssl_random_pseudo_bytes(32).time().$data['email'], PASSWORD_DEFAULT),
 										'password' =>password_hash($data['password'], PASSWORD_DEFAULT) ,
 										'status' => 1,
+										'membership_status' =>'Inactive'
 
 										]);
 
-                               	
+                               	/*
 									$mon= implode(",",$data['mon']);
 									$tue=implode(",",$data['tue']);
 									$wed=implode(",",$data['wed']);
@@ -724,6 +733,7 @@ class UserClass extends BaseClass {
 									$fri=implode(",",$data['fri']);
 									$sat=implode(",",$data['sat']);
 									$sun=implode(",",$data['sun']);
+								*/	
 
 									$experiencearray=[];
 									
@@ -764,6 +774,8 @@ class UserClass extends BaseClass {
 										'part_or_full' =>$data['part_or_full'],
 										'licence_transport_id' =>$data['license_transport'], //newly added as per client request
 										'total_experience_id' =>$data['total_experience_id'], //newly added as per client request
+										'availability' =>implode(",",$data['availability']) //newly added as per client request
+										
 										]);
 	                                }
 
@@ -777,18 +789,22 @@ class UserClass extends BaseClass {
 
 									}
 									$emplcategories = EmployeeCategories::insert($catsarray);
+                                    if(!empty($data['skills'])){
+											
+										$skills=$data['skills'];
+										$skillarray=[];
 
-									$skills=$data['skills'];
-                                    $skillarray=[];
+										foreach($skills as $skill){
+										  array_push($skillarray,[
+											'special_skill_id' => $skill,
+											'user_id' =>$userobj->id,									
+											]);
+										}
 
-									foreach($skills as $skill){
-									  array_push($skillarray,[
-										'special_skill_id' => $skill,
-										'user_id' =>$userobj->id,									
-										]);
+										Skills::insert($skillarray);
+											
 									}
-
-									Skills::insert($skillarray);
+									
 									
 									//newly removed as per client request
 									/*
@@ -805,7 +821,7 @@ class UserClass extends BaseClass {
 
 									
 									Experiences::insert($experiencearray);									
-								
+								    /*
 									 Availability::create([
 											'user_id' =>  $userobj->id,
 											'mon' =>"$mon",
@@ -817,8 +833,18 @@ class UserClass extends BaseClass {
 											'sun' =>"$sun",
 										
 									]);
+									*/
+									if($data['account']=='employee'){
+										//$this->flashFancy('Signup | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+										
+										$this->flashFancy('Signup Success' , 'Your account has been made, <br /> please login to your account!', 'success');
+										
+									}else{
+										$this->payment($userobj->id,$role_user->packages);
+
+									}
 									
-										$this->flashFancy('Signup | Email Verify' , 'Your account has been made, <br /> please verify it by clicking the activation link that has been send to your email.', 'success');
+									
 
 												
 								}else{
@@ -871,6 +897,14 @@ class UserClass extends BaseClass {
 									}
 							);
 			}
+			if(isset($data['availability']) && $data['availability'] !=''){
+				$availability=$data['availability'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($availability){
+										$q->whereRaw('FIND_IN_SET("'.$availability.'",availability)> 0');
+									}
+							);
+			}
 			if(isset($data['location']) && $data['location'] !=''){
 				$location=$data['location'];
 				$user =$user->whereHas(
@@ -920,6 +954,14 @@ class UserClass extends BaseClass {
 				$user =$user->whereHas(
 									'userProfile', function($q) use($part_or_full){
 										$q->where('part_or_full',$part_or_full);
+									}
+							);
+			}
+			if(isset($data['availability']) && $data['availability'] !=''){
+				$availability=$data['availability'];
+				$user =$user->whereHas(
+									'userProfile', function($q) use($availability){
+										$q->whereRaw('FIND_IN_SET("'.$availability.'",availability)> 0');
 									}
 							);
 			}
@@ -1055,40 +1097,9 @@ class UserClass extends BaseClass {
 
 					}
 					
-					else if(empty($data['mon'])){
-						$this->flashFancy('Required', 'Availability monday  is required', 'error');
+					else if(empty($data['availability'])){
 						
-						
-					}
-					else if(empty($data['tue'])){
-						
-						$this->flashFancy('Required', 'Availability tuesday  is required', 'error');
-						
-					}
-					else if(empty($data['wed'])){
-						
-						$this->flashFancy('Required', 'Availability wednesday  is required', 'error');
-						
-					}
-					else if(empty($data['thu'])){
-						$this->flashFancy('Required', 'Availability thursday  is required', 'error');
-						
-						
-					}
-					else if(empty($data['fri'])){
-						
-						$this->flashFancy('Required', 'Availability friday  is required', 'error');
-						
-					}
-					else if(empty($data['sat'])){
-						
-						$this->flashFancy('Required', 'Availability saturday is required', 'error');
-						
-					}
-
-					else if(empty($data['sun'])){
-						
-						$this->flashFancy('Required', 'Availability sunday is required', 'error');
+						$this->flashFancy('Required', 'General Availability  is required', 'error');
 						
 					}
 					else if(empty($data['employer'])){
@@ -1148,6 +1159,8 @@ class UserClass extends BaseClass {
 										'part_or_full' =>$data['part_or_full'],
 										'licence_transport_id' =>$data['license_transport'],
 										'total_experience_id' =>$data['total_experience_id'],
+										'availability' =>implode(",",$data['availability']) //newly added as per client request
+
 										];
                                      if(isset($file['profile']['name']) && !empty($file['profile']['name'])){
 										 if(getimagesize($file["profile"]["tmp_name"]) != false){
@@ -1155,7 +1168,7 @@ class UserClass extends BaseClass {
 										$filename=md5($data['email'].date("Y-m-d H:i:s")).'.'.$extension;
 										$target_file =SITEBASEPATH."/uploads/profile/".$filename;
 										$old_file =SITEBASEPATH."/uploads/profile/".$currentuser->userProfile->profile;
-										if(file_exists($old_file)){
+										if(file_exists($old_file)  && is_file($old_file)){
 											unlink($old_file);
 										}
 										
@@ -1299,7 +1312,7 @@ class UserClass extends BaseClass {
 										Experiences::insert($experiencearray);									
 
 									}	
-									
+									/*
 									 $this->availabitlity->where('user_id','=', $currentuser->id)->update([
 											'mon' => implode(",",$data['mon']),
 											'tue' =>implode(",",$data['tue']),
@@ -1310,6 +1323,7 @@ class UserClass extends BaseClass {
 											'sun' =>implode(",",$data['sun']),
 										
 									]);
+									*/
 									
 										$this->flashFancy('Empoyee Updated' , 'Employee details udpated', 'success','employees.php');
 
@@ -1594,22 +1608,60 @@ class UserClass extends BaseClass {
 			    $categories.=$cat->category->name.',';
 			}
 			$categories=trim($categories,',');
+			
+			/*
 			$licenses='';
 			foreach($employeee->EmployeeLicenseTransport as $obj){
 			    $licenses.=$obj->licenseTransport->name.',';
 			}
 			$licenses=trim($licenses,',');
+			*/
+			
+			$licenses=$employeee->userProfile->employeelicense->name;
 
 			$experiences='';
 			 foreach($employeee->Experiences as $experience){
 			 $experiences.='<div class="all-dtl"><h4>'.$experience->employer.'</h4> <address>'.$experience->location.'<br> '.$experience->job_title.'<br> '.$experience->start_date.' - '.$experience->end_date.'<br></address> <p>'.$experience->job_description.'</p></div>';
 			 }
-			 $days=$this->weekDays();
+			
+          $availability='<ul class="week">';
+		   $availab=explode(',',$employeee->userProfile->availability);
+		   	foreach($availab as $key=>$val){ 
+			
+				$Anytime='';
+				$Weekdays='';
+				$Weeknights='';
+				$Weekends='';
+				if (in_array('Anytime', $availab)){
+					
+					$Anytime='prsnt';
+				}
+				if (in_array('Weekdays', $availab)){
+					
+					$Weekdays='prsnt';
+				}
+				if (in_array('Weeknights', $availab)){
+					
+					$Weeknights='prsnt';
+				}
+			    if (in_array('Weekends', $availab)){
+					
+					$Weekends='prsnt';
+				}
+				$availability.='<li><p class="'.$Anytime.'">Anytime</p></li>';
+				$availability.='<li><p class="'.$Weekdays.'"> Weekdays</p></li>';
+				$availability.='<li><p class="'.$Weeknights.'">Weeknights</p></li>';
+				$availability.='<li><p class="'.$Weekends.'"> Weekends</p></li>';
 
+			}
+			
+			$availability.='</ul>';
+		   
+		   /*
+		    $days=$this->weekDays();
 			$availabity=$employeee->Availability;
 
-			$availability='';
-		
+			
 			foreach($days as $key=>$day){ 
 				$avail=explode(',',$availabity->{strtolower($day)} );
 			
@@ -1638,6 +1690,8 @@ class UserClass extends BaseClass {
 
 			$availability.='</ul>';
 					 }
+					 
+					 */
 			 
 			 if($type=='shortlist'){
 				 $removebtn='<a onclick="removeShortlist($(this),'.$id.')">remove</a>';
@@ -1646,13 +1700,16 @@ class UserClass extends BaseClass {
 				$removebtn='';
 				
 				}
-				 if($seeker->userProfile->totalexperience->type){
-				 $experiencetxt=$seeker->userProfile->totalexperience->title.' '.ucfirst($seeker->userProfile->totalexperience->type).' Experience';
+				 if($employeee->userProfile->totalexperience->type){
+				 $experiencetxt=$employeee->userProfile->totalexperience->title.' '.ucfirst($employeee->userProfile->totalexperience->type).' Experience';
 					 }else{
-					 $experiencetxt= $seeker->userProfile->totalexperience->title;
+					 $experiencetxt= $employeee->userProfile->totalexperience->title;
 					 } 
-                     
-		$str='<div class="profile-cover"> <div class="close"></div><div class="container"> <div class="row"> <div class="pro-detail-cover"> <div class="f-info"><h2 class="pro-name">'.$employeee->userProfile->first_name.' '.$employeee->userProfile->last_name.'</h2>'.$interested.'<div class="work"><p>'.$categories.'</p></div> <div class="info"> <address> <p class="location">'.$employeee->userProfile->joblocation->name.'</p> <span>'.$experiencetxt.'<br> Shaky Isles, McDonalds </span></address> </div> </div> <div class="f-profile"> <div class="profile-pic" style="background-image: url('.BASEURL.'/uploads/profile/'.$employeee->userProfile->profile.');"> <img class="pro-sts" src="assets/images/crown.png" alt=""></div> <div class="sec-btn-pos pro-btn disabled-btn">'.$removebtn.'</div> </div> </div> </div></div> <!--contact-info--><div class="container h3-bot"><div class="row "> <div class="con-bot"><h3>contact info</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Phone</p> <span>'.$employeee->phone.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Email</p> <span>'.$employeee->email.'</span></div></div><div class="col-sm-offset-4"></div></div> <div class="about-padd"><div class="row"> <div class="about-bot"><h3>about</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Hours Required</p> <span> '.$employeee->userProfile->part_or_full.'-Time</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Current Situation</p> <span> '.$employeee->userProfile->current_status.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>License & Transport</p> <span>'.$licenses.'</span> </div></div></div></div><div class="about-me-text"><div class="row"><h4>about me</h4><p>'.$employeee->userProfile->about.'</p></div></div><!----><div class="shifts"> <div class="row"><h3 class="ava-bot">availability</h3><div class="schedule">'.$availability.'</div> </div></div><!----><div class=""><div class="row"><div class="full-pro-work"><h3 class="work-bot">Work Experience</h3>'.$experiences.'</div></div></div></div></div>';
+              $crontext='';
+			  if($employeee->role->slug=='superemployee'){
+			   $crontext='<img class="pro-sts" src="assets/images/crown.png" alt="">';
+			  }
+		$str='<div class="profile-cover"> <div class="close"></div><div class="container"> <div class="row"> <div class="pro-detail-cover"> <div class="f-info"><h2 class="pro-name">'.$employeee->userProfile->first_name.' '.$employeee->userProfile->last_name.'</h2>'.$interested.'<div class="work"><p>'.$categories.'</p></div> <div class="info"> <address> <p class="location">'.$employeee->userProfile->joblocation->name.'</p> <span>'.$experiencetxt.'<br> Shaky Isles, McDonalds </span></address> </div> </div> <div class="f-profile"> <div class="profile-pic" style="background-image: url('.BASEURL.'/uploads/profile/'.$employeee->userProfile->profile.');">'.$crontext.'</div> <div class="sec-btn-pos pro-btn disabled-btn">'.$removebtn.'</div> </div> </div> </div></div> <!--contact-info--><div class="container h3-bot"><div class="row "> <div class="con-bot"><h3>contact info</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Phone</p> <span>'.$employeee->phone.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Email</p> <span>'.$employeee->email.'</span></div></div><div class="col-sm-offset-4"></div></div> <div class="about-padd"><div class="row"> <div class="about-bot"><h3>about</h3></div><div class="col-sm-4"><div class="con-det-info"><p>Hours Required</p> <span> '.$employeee->userProfile->part_or_full.'-Time</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>Current Situation</p> <span> '.$employeee->userProfile->current_status.'</span></div></div><div class="col-sm-4"><div class="con-det-info"><p>License & Transport</p> <span>'.$licenses.'</span> </div></div></div></div><div class="about-me-text"><div class="row"><h4>about me</h4><p>'.$employeee->userProfile->about.'</p></div></div><!----><div class="shifts"> <div class="row"><h3 class="ava-bot">availability</h3><div class="schedule">'.$availability.'</div> </div></div><!----><div class=""><div class="row"><div class="full-pro-work"><h3 class="work-bot">Work Experience</h3>'.$experiences.'</div></div></div></div></div>';
 		
 		echo $str;
 		}

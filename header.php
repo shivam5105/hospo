@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="head-cover">
 				<div class="head-logo">
-					<h2>hospo</h2>
+					<h2><a href="<?php echo BASEURL;?>">hospo</a></h2>
 				</div>
 				<div class="head-right-prt">
 					<ul class="list-inline text-right">
@@ -88,7 +88,7 @@
 			</ul>
 			<div class="head-cover">
 				<div class="head-logo">
-					<h2>hospo</h2>
+					<h2><a href="<?php echo BASEURL;?>">hospo</a></h2>
 				</div>
 				<div class="head-right-prt">
 					<ul class="list-inline text-right">
@@ -169,7 +169,7 @@ $profile=$user->getloginProfile();
 			</ul>
 			<div class="head-cover">
 				<div class="head-logo">
-					<h2>hospo</h2>
+					<h2><a href="<?php echo BASEURL;?>">hospo</a></h2>
 				</div>
 				<div class="head-right-prt">
 					<ul class="list-inline text-right">
