@@ -2,8 +2,8 @@
 require_once("settings.php");
 if(strtolower(trim($_SERVER['SERVER_NAME'])) == 'localhost')
 {
-	define("BASEURL", "http://localhost/github/hospo");
-	define("BASEPATH", getenv("DOCUMENT_ROOT")."/github/hospo");
+	define("BASEURL", "http://localhost/github/gitcode/hospo");
+	define("BASEPATH", getenv("DOCUMENT_ROOT")."/github/gitcode/hospo");
 }
 else
 {
@@ -18,6 +18,12 @@ define("PAYPAL_ID", "demo123@seller.com");
 define("PAYPAL_NOTIFY_URL", BASEURL.'/notify.php?action=notify');
 define("PAYPAL_CANCEL_URL", BASEURL.'/signup.php?action=success');
 define("PAYPAL_RETURN_URL",BASEURL.'/signup.php?action=cancel');
+
+
+
+define("LEARNCOACH_API",'https://tlp.learncoach.co.nz/api/');
+define("LEARNCOACH_EMAIL",'vinesh@studiosix.nz');
+define("LEARNCOACH_PASSWORD",'Hospo12345');
 
 require_once("functions.php");
 

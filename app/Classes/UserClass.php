@@ -159,7 +159,7 @@ class UserClass extends BaseClass {
         
 				if(!empty($user)){
 					
-					$login_check = hash('sha512', $user->password . $user_browser);
+					$login_check = hash('sha512', $user->email . $user_browser);
 	 
 					if($login_check == $login_string)
 					{
@@ -321,7 +321,73 @@ class UserClass extends BaseClass {
 
 		  }
 
-    }	
+    }
+	public function createLearnCoachUser(){
+		
+		 $response=$this->getCurl(LEARNCOACH_API.'auth/login',array('email'=>LEARNCOACH_EMAIL,'pwd'=>LEARNCOACH_PASSWORD));
+		 if( $response->result==true){
+			 //$response->token
+		 }
+		
+	}
+	public function learnCoachCreateHospoProfile($profile){
+		
+		$role_user = $this->roles->where('slug','manager')->first();
+		$userobj = User::create([
+				'email' =>$profile->email,
+				'role_id' =>$role_user->id,
+				'phone_confirmed' =>1,
+				'email_confirmed' =>1,									
+				'status' =>1,
+				'account_source' =>'learncoach',
+				'membership_status' =>'Active'
+
+				]);
+				
+				$userprofileobj = UserProfile::create([
+				'first_name' =>$profile->FirstName,
+				'last_name' =>$profile->SurName,
+				'user_id' =>$userobj->id,
+				]);
+			
+
+			return $userobj;
+
+								
+						
+		
+	}
+	
+	public function learnCoachMemberInfo($userid,$token){
+		
+    	return $response=$this->getCurl(LEARNCOACH_API.'Member/'.$userid,array(),array('X-Silverstripe-Apitoken: '.$token));
+
+		
+	}
+    public function learnCoachLogin($email,$password){
+	  	   
+		 $response=$this->getCurl(LEARNCOACH_API.'auth/login',array('email'=>$email,'pwd'=>$password));
+		 if( $response->result==true){
+			 
+			 $profile=$this->learnCoachMemberInfo($response->userID,$response->token);
+			 if(!empty($profile)){
+				 
+				$user=$this->learnCoachCreateHospoProfile($profile); 
+				
+				$user_browser = $_SERVER['HTTP_USER_AGENT'];
+			    $_SESSION['logged_in_user'] =array('email'=>$user->email,'user_id'=>$user->id,'role'=>$user->role->slug,'login_string'=>hash('sha512',$user->email.$user_browser),'membership_status'=>$user->membership_status,'account_source'=>$user->account_source);
+				echo json_encode(["status"=>true,'role'=>$user->role->slug,"message"=>"Successfully logged in !"]);
+				 
+			 }
+			 
+		 }else{
+			 
+			 echo json_encode(["status"=>false,"message"=>"Invalid login"]);
+			 
+		 }
+		
+	}
+	
 	public function login($data){
 
 		if(!empty($data)) {
@@ -343,6 +409,8 @@ class UserClass extends BaseClass {
 			}else{
 				$user = $this->model->where('email','=',$data['email'])->first();
                 if(empty($user)){
+					
+					//$this->learnCoachLogin($data['email'],$data['password']);
 
 				echo json_encode(["status"=>false,"message"=>"Invalid login"]);
 				
@@ -357,23 +425,41 @@ class UserClass extends BaseClass {
 							
 							
 						}else{
-							if (password_verify($data['password'], $user->password)) {
+							if ($user->account_source=='hospo' && password_verify($data['password'], $user->password)) {
 								
-										if($user->email_confirmed==0){
-											$this->trackLoginAttempt($user->id);
-											   echo json_encode(["status"=>false,"message"=>"Email not verified"]);	
-											
-										}else if($user->status==0){
-											$this->trackLoginAttempt($user->id);
-											   echo json_encode(["status"=>false,"message"=>"Your account is Inactive now"]);	
-											
-										}else{
-											$user_browser = $_SERVER['HTTP_USER_AGENT'];
-								   $_SESSION['logged_in_user'] =array('email'=>$user->email,'user_id'=>$user->id,'role'=>$user->role->slug,'login_string'=>hash('sha512',$user->password.$user_browser),'membership_status'=>$user->membership_status);
-											   echo json_encode(["status"=>true,'role'=>$user->role->slug,"message"=>"Successfully logged in !"]);	
+								if($user->email_confirmed==0){
+									$this->trackLoginAttempt($user->id);
+									   echo json_encode(["status"=>false,"message"=>"Email not verified"]);	
+									
+								}else if($user->status==0){
+									$this->trackLoginAttempt($user->id);
+									   echo json_encode(["status"=>false,"message"=>"Your account is Inactive now"]);	
+									
+								}else{
+									$user_browser = $_SERVER['HTTP_USER_AGENT'];
+									$_SESSION['logged_in_user'] =array('email'=>$user->email,'user_id'=>$user->id,'role'=>$user->role->slug,'login_string'=>hash('sha512',$user->email.$user_browser),'membership_status'=>$user->membership_status,'account_source'=>$user->account_source);
+									echo json_encode(["status"=>true,'role'=>$user->role->slug,"message"=>"Successfully logged in !"]);	
 
-										}
-							} else {
+								}
+							}
+							/*
+							elseif ($user->account_source=='learncoach'){
+								 $response=$this->getCurl(LEARNCOACH_API.'auth/login',array('email'=>$data['email'],'pwd'=>$data['password']));
+								 if( $response->result==true){
+									 	$user_browser = $_SERVER['HTTP_USER_AGENT'];
+									$_SESSION['logged_in_user'] =array('email'=>$user->email,'user_id'=>$user->id,'role'=>$user->role->slug,'login_string'=>hash('sha512',$user->email.$user_browser),'membership_status'=>$user->membership_status,'account_source'=>$user->account_source);
+									echo json_encode(["status"=>true,'role'=>$user->role->slug,"message"=>"Successfully logged in !"]);	
+									 
+								 }else{
+									 
+									$this->trackLoginAttempt($user->id);
+									echo json_encode(["status"=>false,"message"=>"Invalid login details"]);
+								 }
+								
+							} 
+							*/
+							
+							else {
 								$this->trackLoginAttempt($user->id);
 								echo json_encode(["status"=>false,"message"=>"Invalid login details"]);
 								
@@ -1400,6 +1486,17 @@ class UserClass extends BaseClass {
 
 
 			}
+			else if(empty($data['about'])){
+						
+						$this->flashFancy('Required', 'About the Company is required', 'error');
+						
+			}
+		   else if (strlen($data['about'])<50) {
+
+				$this->flashFancy('Required', 'About the Company should atleast 50 character long', 'error');
+
+
+			}
 			
 			else{
 						
@@ -1419,6 +1516,7 @@ class UserClass extends BaseClass {
 									$userprofiledata=[
 										'first_name' => $data['first_name'],
 										'last_name' =>$data['last_name'],
+										'about' =>$data['about']
 										];
                                  
 								 

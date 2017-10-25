@@ -90,6 +90,20 @@ if(isset($_POST['submit']) && $_POST['submit']=='Update'){
 						<?php field_end(); ?>
 							</div>	
 					</div>	
+					<div class="row">
+					<div class="col-12">
+						<?php field_start("About Company","about"); ?>
+						<?php
+						if(empty($_POST["about"]))
+						{
+							$_POST["about"] = "";
+						}
+						?>
+						<textarea  name="about" required placeholder="Add a short blurb about your company for potential employees" minlength="50"    title="Should be atleast 50 characters"> <?php echo $currentuser->userProfile->about; ?></textarea>
+					<?php field_end(); ?>
+					
+					</div>
+					</div>
 				
 					
 				

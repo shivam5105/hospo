@@ -10,7 +10,62 @@ abstract class BaseClass {
 
 	protected $model;
 
+	public function getCurl($url,$data,$headers=array()){
+		
+		if(count($data)){
+			$querystring='?';
+			foreach($data as $key=>$val){
+				
+			$querystring.=$key.'='.$val.'&';	
+			} 
+			
+			$querystring=trim($querystring,"&");
+			$url=$url.$querystring; 
+			
+		}
+		
+		 
+		// Get cURL resource
+		$curl = curl_init();
+		// Set some options - we are passing in a useragent too here
+		curl_setopt_array($curl, array(
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_URL =>$url,
+		));
+		if(count($headers)){
+		 curl_setopt($curl,CURLOPT_HTTPHEADER,$headers);
+        }
+		// Send the request & save response to $resp
+		$resp = curl_exec($curl);
+		// Close request to clear up some resources
+		curl_close($curl);
+		
+		return json_decode($resp);
+		
+	}
+	public function postCurl($url,$data,$headers=array()){				
+				// Get cURL resource
+		$curl = curl_init();
+		// Set some options - we are passing in a useragent too here
+		curl_setopt_array($curl, array(
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_URL => $url,
+			CURLOPT_POST => 1,
+			CURLOPT_POSTFIELDS => array(
+				item1 => 'value',
+				item2 => 'value2'
+			)
+		));
+		
+		if(count($headers)){
+		 curl_setopt($curl,CURLOPT_HTTPHEADER,$headers);
+        }
+		// Send the request & save response to $resp
+		$resp = curl_exec($curl);
+		// Close request to clear up some resources
+		curl_close($curl);
 	
+	}
 	public function getNumber()
 	{
 		$total = $this->model->count();

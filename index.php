@@ -8,6 +8,8 @@
 	<?php include_once("header.php");
 
 $faq=new App\Classes\FaqsClass();
+
+
 $faqs=$faq->index();
 
 $home_query 	= $mysqli->query("SELECT * FROM home_page");

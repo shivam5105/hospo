@@ -2,11 +2,11 @@
 require_once("../settings.php");
 if(strtolower(trim($_SERVER['SERVER_NAME'])) == 'localhost')
 {
-	define("BASEURL", "http://localhost/github/hospo/admin");
-	define("BASEPATH", getenv("DOCUMENT_ROOT")."/github/hospo/admin");
-	define("SITEBASEPATH", getenv("DOCUMENT_ROOT")."/github/hospo");
+	define("BASEURL", "http://localhost/github/gitcode/hospo/admin");
+	define("BASEPATH", getenv("DOCUMENT_ROOT")."/github/gitcode/hospo/admin");
+	define("SITEBASEPATH", getenv("DOCUMENT_ROOT")."/github/gitcode/hospo");
 
-	define("SITEBASEURL", "http://localhost/github/hospo");
+	define("SITEBASEURL", "http://localhost/github/gitcode/hospo");
 
 }
 else

@@ -5,7 +5,7 @@ global $mysqli;
 $query = "SELECT users.id as userid, packages.price,packages.type,subscriptions.* ,
 if(packages.type='year', DATE_ADD(subscriptions.created_at, INTERVAL 1 YEAR), DATE_ADD(subscriptions.created_at, INTERVAL 1 MONTH)) as expired
 
-FROM users join subscriptions on subscriptions.user_id=users.id join packages on packages.id=subscriptions.package_id where users.role_id=2 AND users.email_confirmed=1 AND users.membership_status='Active' 
+FROM users join subscriptions on subscriptions.user_id=users.id join packages on packages.id=subscriptions.package_id where users.role_id=2 AND users.email_confirmed=1 AND users.membership_status='Active' AND users.account_source='hospo' 
 AND packages.type!='free' 
 AND subscriptions.id=(SELECT t2.id
                  FROM subscriptions t2
